@@ -346,8 +346,9 @@ def assign_students_to_sections(students: List[Student], sections: List[Section]
 
 def main():
     # Load the CSV files
-    students = load_student_csv('students.csv')
-    instructors = load_instructor_csv('instructors.csv')
+    students = load_student_csv('data/students.csv')
+
+    instructors = load_instructor_csv('data/instructors.csv')
     
     # Create buckets for each subject
     buckets = make_buckets(students)
@@ -427,12 +428,13 @@ def main():
     print("Students assigned to sections:")
     for student in students:
         print(student)
+        print(student.get_schedule())
     print("\nOverflow students:")
     for student in overflow_students:
         print(student)
 
     # Write student schedules to CSV
-    with open('student_schedules.csv', 'w') as file:
+    with open('data/student_schedules.csv', 'w') as file:
         file.write("Student Name, Class Name, Teacher Name, Start Time, End Time\n")
         for student in set(students + overflow_students):
             for section in student.get_schedule():

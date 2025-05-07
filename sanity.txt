@@ -1,5 +1,4 @@
-From CSV - creat
- students for each line (dictionary)
+students for each line (dictionary)
 Weighted graph, keeping the order Reading, math, then asl (lowest to highest)
 
 Schedule: 
@@ -31,4 +30,5 @@ begining intermediate high
 2. math
 3. ASL
 listed in priorty order. 
+
 

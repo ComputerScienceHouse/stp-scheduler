@@ -1,6 +1,0 @@
-How do we block them into the different levels?
-- How many levels?
-- Assuming three:
-    - Beginner: 1 - 4
-    - Intermediate: 5-7
-    - Advanced: 8-10

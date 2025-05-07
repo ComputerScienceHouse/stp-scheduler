@@ -1,0 +1,125 @@
+TYPE,LEVEL,TIMES,CAPACITY,TEACHER
+ASL, Beginner, MWF 8,20,Tyler
+ASL, Intermediate, MWF 8,20,Alex
+ASL, Advanced, MWF 8,20,Alethea
+
+ASL, Beginner, MWF 9:15,20,Tyler
+ASL, Intermediate, MWF 9:15,20,Alex
+ASL, Advanced, MWF 9:15,20,Alethea
+
+ASL, Beginner, TR 8,20,Tyler
+ASL, Intermediate, TR 8,20,Alex
+ASL, Advanced, TR 8,20,Alethea
+
+ASL, Beginner, TR 9:15,20,Tyler
+ASL, Intermediate, TR 9:15,20,Alex
+ASL, Advanced, TR 9:15,20,Alethea
+
+ASL, Beginner, MWF 12:45,20,Christine
+ASL, Intermediate, MWF 12:45,20,Alex
+ASL, Advanced, MWF 12:45,20,Alethea
+
+ASL, Beginner, TR 12:45,20,Christine
+ASL, Intermediate, TR 12:45,20,Alex
+ASL, Advanced, TR 12:45,20,Alethea
+
+
+ESSENTIAL COMMS, Beginner, MWF 8,20,Jeanne
+ESSENTIAL COMMS, Intermediate, MWF 8,20,Jim
+ESSENTIAL COMMS, Advanced, MWF 8,20,Colton
+
+ESSENTIAL COMMS, Beginner, MWF 9:15,20,Jeanne
+ESSENTIAL COMMS, Intermediate, MWF 9:15,20,Jim
+ESSENTIAL COMMS, Advanced, MWF 9:15,20,Colton
+
+ESSENTIAL COMMS, Beginner, TR 8,20,Jeanne
+ESSENTIAL COMMS, Intermediate, TR 8,20,Jim
+ESSENTIAL COMMS, Advanced, TR 8,20,Colton
+
+ESSENTIAL COMMS, Beginner, TR 9:15,20,Jeanne
+ESSENTIAL COMMS, Intermediate, TR 9:15,20,Jim
+ESSENTIAL COMMS, Advanced, TR 9:15,20,Colton
+
+ESSENTIAL COMMS, Beginner, MWF 12:45,20,Jeanne
+ESSENTIAL COMMS, Intermediate, MWF 12:45,20,Jim
+ESSENTIAL COMMS, Advanced, MWF 12:45,20,Colton
+
+ESSENTIAL COMMS, Beginner, TR 12:45,20,Jeanne
+ESSENTIAL COMMS, Intermediate, TR 12:45,20,Jim
+ESSENTIAL COMMS, Advanced, TR 12:45,20,Colton
+
+SEL, NA, MWF 10:45, 20, Matt
+SEL, NA, MWF 10:45, 20, Maddie
+SEL, NA, MWF 10:45, 20, Christine
+
+SEL, NA, MWF 2:00, 20, Matt
+SEL, NA, MWF 2:00, 20, Maddie
+SEL, NA, MWF 2:00, 20, Christine
+
+SEL, NA, MWF 3:30, 20, Matt
+SEL, NA, MWF 3:30, 20, Maddie
+SEL, NA, MWF 3:30, 20, Christine
+
+Presentations, NA, MWF 10:45, 60, Tommy Paulina TJ Mike ETC
+Presentations, NA, MWF 2:00, 60, Colton Jeanne TJ Mike ETC
+Presentations, NA, MWF 3:30, 60, Colton Jeanne TJ Mike ETC
+
+MATH, Beginner, MWF 10:45, 20, Kris
+MATH, Intermediate, MWF 10:45, 20, Melissa
+MATH, Advanced, MWF 10:45, 20, Meg
+
+MATH, Beginner, MWF 2:00, 20, Kris
+MATH, Intermediate, MWF 2:00, 20, Melissa
+MATH, Advanced, MWF 2:00, 20, Meg
+
+MATH, Beginner, MWF 3:30, 20, Kris
+MATH, Intermediate, MWF 3:30, 20, Melissa
+MATH, Advanced, MWF 3:30, 20, Meg
+
+MATH, Beginner, TR 10:45, 20, Kris
+MATH, Intermediate, TR 10:45, 20, Melissa
+MATH, Advanced, TR 10:45, 20, Meg
+
+MATH, Beginner, TR 2:00, 20, Kris
+MATH, Intermediate, TR 2:00, 20, Melissa
+MATH, Advanced, TR 2:00, 20, Meg
+
+MATH, Beginner, TR 3:30, 20, Kris
+MATH, Intermediate, TR 3:30, 20, Melissa
+MATH, Advanced, TR 3:30, 20, Meg
+
+MENTOR, NA,TR 8:00,20,Mike & Matt
+MENTOR, NA,TR 8:00,20,Pauline & Kris
+MENTOR, NA,TR 8:00,20,TJ & Melissa
+
+MENTOR, NA,TR 9:15,20,Mike & Matt
+MENTOR, NA,TR 9:15,20,Pauline & Kris
+MENTOR, NA,TR 9:15,20,TJ & Melissa
+
+MENTOR, NA,TR 12:45,20,Mike & Matt
+MENTOR, NA,TR 12:45,20,Pauline & Kris
+MENTOR, NA,TR 12:45,20,TJ & Melissa
+
+CR, NA, TR 10:45, 20, Maddie
+CR, NA, TR 10:45, 20, Tommy
+CR, NA, TR 10:45, 20, Matt
+
+CR, NA, TR 2:00, 20, Maddie
+CR, NA, TR 2:00, 20, Tommy
+CR, NA, TR 2:00, 20, Matt
+
+CR, NA, TR 3:30, 20, Maddie
+CR, NA, TR 3:30, 20, Tommy
+CR, NA, TR 3:30, 20, Matt
+
+First Year, NA, TR 3:30, 20, Christine
+First Year, NA, TR 3:30, 20, Alex
+First Year, NA, TR 3:30, 20, Alethea
+
+First Year, NA, TR 2:00, 20, Christine
+First Year, NA, TR 2:00, 20, Alex
+First Year, NA, TR 2:00, 20, Alethea
+
+First Year, NA, TR 10:45, 20, Christine
+First Year, NA, TR 10:45, 20, Paulina
+First Year, NA, TR 10:45, 20, Mike
