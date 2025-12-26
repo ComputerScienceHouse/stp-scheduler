@@ -1,0 +1,324 @@
+[
+  {
+    "id": "1aeefe9d-4908-4ed5-bd63-0041a6b8cb53",
+    "name": "Jackie Abbott",
+    "subject_rankings": {
+      "math": 4,
+      "english": 5,
+      "asl": 7
+    },
+    "sectionIds": [
+      "a2fa8d88-5b1a-4bad-976f-d07d4238ffb2",
+      "1fdef444-4c18-492a-8972-eab4f6dc6b5a",
+      "cc8711d1-b0fa-42c2-9c3d-8b3903c55d86"
+    ]
+  },
+  {
+    "id": "f9535f67-edaf-4901-b6a7-33fdc99aea14",
+    "name": "Diana Lemke",
+    "subject_rankings": {
+      "math": 7,
+      "english": 9,
+      "asl": 8
+    },
+    "sectionIds": [
+      "27340a2c-4a89-4df9-bb48-f26e5ce6fef2",
+      "decae3dd-eab8-4561-a137-2907897dee9c",
+      "cc8711d1-b0fa-42c2-9c3d-8b3903c55d86"
+    ]
+  },
+  {
+    "id": "79081200-777a-4917-86e9-9f490de14282",
+    "name": "Odell Padberg",
+    "subject_rankings": {
+      "math": 6,
+      "english": 6,
+      "asl": 5
+    },
+    "sectionIds": [
+      "a2fa8d88-5b1a-4bad-976f-d07d4238ffb2",
+      "1fdef444-4c18-492a-8972-eab4f6dc6b5a",
+      "a73cf7b4-407d-47f8-a052-8d0f319f278a"
+    ]
+  },
+  {
+    "id": "296598f5-26cf-4c9a-bd38-ac5b8d725e5f",
+    "name": "Jadon Gleason",
+    "subject_rankings": {
+      "math": 2,
+      "english": 5,
+      "asl": 7
+    },
+    "sectionIds": [
+      "a2fa8d88-5b1a-4bad-976f-d07d4238ffb2",
+      "918b31f9-f59d-4687-b09a-b682ac875b5b",
+      "cc8711d1-b0fa-42c2-9c3d-8b3903c55d86"
+    ]
+  },
+  {
+    "id": "6efcf289-d8d4-4e9b-bf6d-fa9cdd1dbb8d",
+    "name": "Skye Braun",
+    "subject_rankings": {
+      "math": 9,
+      "english": 9,
+      "asl": 2
+    },
+    "sectionIds": [
+      "27340a2c-4a89-4df9-bb48-f26e5ce6fef2",
+      "decae3dd-eab8-4561-a137-2907897dee9c",
+      "8c680514-6d2f-4667-bded-89dfc5efaa52"
+    ]
+  },
+  {
+    "id": "860da037-006b-4de4-9233-9e0b060649e0",
+    "name": "Lea Wolff",
+    "subject_rankings": {
+      "math": 7,
+      "english": 1,
+      "asl": 3
+    },
+    "sectionIds": [
+      "f1cdc6d2-f61f-4eee-a559-d7c252ea3dc3",
+      "decae3dd-eab8-4561-a137-2907897dee9c",
+      "8c680514-6d2f-4667-bded-89dfc5efaa52"
+    ]
+  },
+  {
+    "id": "6ebaba4f-0450-4a01-af7a-ba70a0a8d9b5",
+    "name": "Brionna Blick",
+    "subject_rankings": {
+      "math": 9,
+      "english": 7,
+      "asl": 1
+    },
+    "sectionIds": [
+      "27340a2c-4a89-4df9-bb48-f26e5ce6fef2",
+      "decae3dd-eab8-4561-a137-2907897dee9c",
+      "8c680514-6d2f-4667-bded-89dfc5efaa52"
+    ]
+  },
+  {
+    "id": "a2ce4ee8-a332-4095-8ee8-addecb7749bc",
+    "name": "Frances Reynolds",
+    "subject_rankings": {
+      "math": 1,
+      "english": 5,
+      "asl": 9
+    },
+    "sectionIds": [
+      "a2fa8d88-5b1a-4bad-976f-d07d4238ffb2",
+      "918b31f9-f59d-4687-b09a-b682ac875b5b",
+      "cc8711d1-b0fa-42c2-9c3d-8b3903c55d86"
+    ]
+  },
+  {
+    "id": "6846f162-407e-46e4-b104-034433dc52a0",
+    "name": "Neha O'Hara",
+    "subject_rankings": {
+      "math": 5,
+      "english": 3,
+      "asl": 5
+    },
+    "sectionIds": [
+      "f1cdc6d2-f61f-4eee-a559-d7c252ea3dc3",
+      "1fdef444-4c18-492a-8972-eab4f6dc6b5a",
+      "a73cf7b4-407d-47f8-a052-8d0f319f278a"
+    ]
+  },
+  {
+    "id": "8f71bd3f-d24c-479e-ae9e-f8ef3c5f473d",
+    "name": "Kyleigh Lebsack",
+    "subject_rankings": {
+      "math": 5,
+      "english": 7,
+      "asl": 8
+    },
+    "sectionIds": [
+      "27340a2c-4a89-4df9-bb48-f26e5ce6fef2",
+      "1fdef444-4c18-492a-8972-eab4f6dc6b5a",
+      "ab985b4d-00fb-4153-b8de-7ace6ba1491b"
+    ]
+  },
+  {
+    "id": "b181fba9-2a4a-4c8d-8f49-e420ac068520",
+    "name": "Rowena Swaniawski",
+    "subject_rankings": {
+      "math": 4,
+      "english": 4,
+      "asl": 7
+    },
+    "sectionIds": [
+      "1ac71468-1405-4c2a-84ad-3609cc88ad81",
+      "eff214d8-4d9f-44d7-b7e6-6879c99eb5b2",
+      "ab985b4d-00fb-4153-b8de-7ace6ba1491b"
+    ]
+  },
+  {
+    "id": "6feffc37-f5f7-4aa0-9f0a-5cd7ef8fa74e",
+    "name": "Antonina Harris",
+    "subject_rankings": {
+      "math": 8,
+      "english": 6,
+      "asl": 2
+    },
+    "sectionIds": [
+      "1ac71468-1405-4c2a-84ad-3609cc88ad81",
+      "decae3dd-eab8-4561-a137-2907897dee9c",
+      "8c680514-6d2f-4667-bded-89dfc5efaa52"
+    ]
+  },
+  {
+    "id": "760f7acc-fd43-42e6-92f4-2c3667d57f12",
+    "name": "Wilfred Russel",
+    "subject_rankings": {
+      "math": 6,
+      "english": 6,
+      "asl": 8
+    },
+    "sectionIds": [
+      "1ac71468-1405-4c2a-84ad-3609cc88ad81",
+      "eff214d8-4d9f-44d7-b7e6-6879c99eb5b2",
+      "ab985b4d-00fb-4153-b8de-7ace6ba1491b"
+    ]
+  },
+  {
+    "id": "99837854-df0b-40c7-9840-d3c23be805e8",
+    "name": "Eleanora Nikolaus",
+    "subject_rankings": {
+      "math": 7,
+      "english": 5,
+      "asl": 6
+    },
+    "sectionIds": [
+      "1ac71468-1405-4c2a-84ad-3609cc88ad81",
+      "decae3dd-eab8-4561-a137-2907897dee9c",
+      "a73cf7b4-407d-47f8-a052-8d0f319f278a"
+    ]
+  },
+  {
+    "id": "258b3f18-5954-43a4-b471-dbbc0b94e6f9",
+    "name": "Kevon Smitham",
+    "subject_rankings": {
+      "math": 5,
+      "english": 9,
+      "asl": 2
+    },
+    "sectionIds": [
+      "ec3b4975-1948-4e68-b7a2-31c88a2effed",
+      "eff214d8-4d9f-44d7-b7e6-6879c99eb5b2",
+      "76a50423-35f3-4362-8cad-406c472c9e28"
+    ]
+  },
+  {
+    "id": "319f21e3-5a93-4b74-8cfc-cec10e64597a",
+    "name": "Audie Schulist",
+    "subject_rankings": {
+      "math": 8,
+      "english": 1,
+      "asl": 3
+    },
+    "sectionIds": [
+      "f1cdc6d2-f61f-4eee-a559-d7c252ea3dc3",
+      "8a1f70ad-adc2-488b-90b2-d131d3ade50b",
+      "76a50423-35f3-4362-8cad-406c472c9e28"
+    ]
+  },
+  {
+    "id": "f04d2891-8ba3-4ec4-b81a-ae4f4f90681d",
+    "name": "Keyshawn Smitham",
+    "subject_rankings": {
+      "math": 2,
+      "english": 9,
+      "asl": 1
+    },
+    "sectionIds": [
+      "ec3b4975-1948-4e68-b7a2-31c88a2effed",
+      "918b31f9-f59d-4687-b09a-b682ac875b5b",
+      "76a50423-35f3-4362-8cad-406c472c9e28"
+    ]
+  },
+  {
+    "id": "d3d6d4da-50f4-48ce-8d3f-ec2186d3cfa3",
+    "name": "Erna Schmidt",
+    "subject_rankings": {
+      "math": 8,
+      "english": 5,
+      "asl": 6
+    },
+    "sectionIds": [
+      "1ac71468-1405-4c2a-84ad-3609cc88ad81",
+      "8a1f70ad-adc2-488b-90b2-d131d3ade50b",
+      "a73cf7b4-407d-47f8-a052-8d0f319f278a"
+    ]
+  },
+  {
+    "id": "11f486cd-3af7-451b-a9de-8b1f81d9a1ae",
+    "name": "Lorenza Deckow",
+    "subject_rankings": {
+      "math": 9,
+      "english": 3,
+      "asl": 5
+    },
+    "sectionIds": [
+      "f1cdc6d2-f61f-4eee-a559-d7c252ea3dc3",
+      "8a1f70ad-adc2-488b-90b2-d131d3ade50b",
+      "a73cf7b4-407d-47f8-a052-8d0f319f278a"
+    ]
+  },
+  {
+    "id": "738cedf5-81b3-41db-95a5-2920d1a6cb78",
+    "name": "Wellington Collier",
+    "subject_rankings": {
+      "math": 4,
+      "english": 3,
+      "asl": 9
+    },
+    "sectionIds": [
+      "f1cdc6d2-f61f-4eee-a559-d7c252ea3dc3",
+      "eff214d8-4d9f-44d7-b7e6-6879c99eb5b2",
+      "ab985b4d-00fb-4153-b8de-7ace6ba1491b"
+    ]
+  },
+  {
+    "id": "57a5500f-4df3-4091-b5c2-2635ca715143",
+    "name": "Derrick Glover V",
+    "subject_rankings": {
+      "math": 9,
+      "english": 8,
+      "asl": 4
+    },
+    "sectionIds": [
+      "ec3b4975-1948-4e68-b7a2-31c88a2effed",
+      "8a1f70ad-adc2-488b-90b2-d131d3ade50b",
+      "a73cf7b4-407d-47f8-a052-8d0f319f278a"
+    ]
+  },
+  {
+    "id": "bdcadb9c-c197-411f-902c-fc2d44a44458",
+    "name": "Quinton Lebsack",
+    "subject_rankings": {
+      "math": 8,
+      "english": 7,
+      "asl": 2
+    },
+    "sectionIds": [
+      "ec3b4975-1948-4e68-b7a2-31c88a2effed",
+      "8a1f70ad-adc2-488b-90b2-d131d3ade50b",
+      "76a50423-35f3-4362-8cad-406c472c9e28"
+    ]
+  },
+  {
+    "id": "44cd9adc-a4d5-484f-afee-56af3123340c",
+    "name": "Kaya Robel",
+    "subject_rankings": {
+      "math": 7,
+      "english": 1,
+      "asl": 6
+    },
+    "sectionIds": [
+      "f1cdc6d2-f61f-4eee-a559-d7c252ea3dc3",
+      "8a1f70ad-adc2-488b-90b2-d131d3ade50b",
+      "a73cf7b4-407d-47f8-a052-8d0f319f278a"
+    ]
+  }
+]

@@ -1,0 +1,49 @@
+Teacher,Class,Weight
+Nathan,ASL,-1
+Nathan,Math,1
+Nathan,English,-1
+Nathan,College Readiness,-1
+Nathan,Social Emotional Learning,-1
+Nathan,Financial Lit,0
+Nathan,Presentations,-1
+Nathan,Digital Lit,-1
+MathTeacher2,ASL,-1
+MathTeacher2,Math,1
+MathTeacher2,English,-1
+MathTeacher2,College Readiness,-1
+MathTeacher2,Social Emotional Learning,-1
+MathTeacher2,Financial Lit,0
+MathTeacher2,Presentations,-1
+MathTeacher2,Digital Lit,-1
+DigitalLitTeacher,ASL,-1
+DigitalLitTeacher,Math,-1
+DigitalLitTeacher,English,-1
+DigitalLitTeacher,College Readiness,-1
+DigitalLitTeacher,Social Emotional Learning,-1
+DigitalLitTeacher,Financial Lit,-1
+DigitalLitTeacher,Presentations,-1
+DigitalLitTeacher,Digital Lit,1
+Jeanne,ASL,-1
+Jeanne,Math,-1
+Jeanne,English,1
+Jeanne,College Readiness,0
+Jeanne,Social Emotional Learning,-1
+Jeanne,Financial Lit,0
+Jeanne,Presentations,0
+Jeanne,Digital Lit,-1
+JSarchet,ASL,-1
+JSarchet,Math,-1
+JSarchet,English,1
+JSarchet,College Readiness,0
+JSarchet,Social Emotional Learning,1
+JSarchet,Financial Lit,0
+JSarchet,Presentations,0
+JSarchet,Digital Lit,0
+Tyler,ASL,1
+Tyler,Math,-1
+Tyler,English,0
+Tyler,College Readiness,1
+Tyler,Social Emotional Learning,-1
+Tyler,Financial Lit,0
+Tyler,Presentations,0
+Tyler,Digital Lit,1
