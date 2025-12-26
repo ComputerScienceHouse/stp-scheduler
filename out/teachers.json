@@ -12,7 +12,7 @@
       "presentations": -1,
       "digital lit": 1
     },
-    "sectionsIds": [],
+    "sectionIds": [],
     "is_mentor": false
   },
   {
@@ -28,7 +28,7 @@
       "presentations": 0,
       "digital lit": 0
     },
-    "sectionsIds": [
+    "sectionIds": [
       "f1cdc6d2-f61f-4eee-a559-d7c252ea3dc3",
       "1ac71468-1405-4c2a-84ad-3609cc88ad81",
       "ec3b4975-1948-4e68-b7a2-31c88a2effed"
@@ -48,7 +48,7 @@
       "presentations": 0,
       "digital lit": -1
     },
-    "sectionsIds": [
+    "sectionIds": [
       "a2fa8d88-5b1a-4bad-976f-d07d4238ffb2",
       "27340a2c-4a89-4df9-bb48-f26e5ce6fef2"
     ],
@@ -67,7 +67,7 @@
       "presentations": -1,
       "digital lit": -1
     },
-    "sectionsIds": [
+    "sectionIds": [
       "918b31f9-f59d-4687-b09a-b682ac875b5b",
       "eff214d8-4d9f-44d7-b7e6-6879c99eb5b2",
       "8a1f70ad-adc2-488b-90b2-d131d3ade50b"
@@ -87,7 +87,7 @@
       "presentations": -1,
       "digital lit": -1
     },
-    "sectionsIds": [
+    "sectionIds": [
       "1fdef444-4c18-492a-8972-eab4f6dc6b5a",
       "decae3dd-eab8-4561-a137-2907897dee9c"
     ],
@@ -106,7 +106,7 @@
       "presentations": 0,
       "digital lit": 1
     },
-    "sectionsIds": [
+    "sectionIds": [
       "8c680514-6d2f-4667-bded-89dfc5efaa52",
       "76a50423-35f3-4362-8cad-406c472c9e28",
       "a73cf7b4-407d-47f8-a052-8d0f319f278a",
