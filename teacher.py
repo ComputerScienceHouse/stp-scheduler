@@ -46,7 +46,7 @@ class Teacher:
             "id": str(self.id),
             "name": self.name,
             "subjects": self.subjects,
-            "sectionsIds": [str(section.get_id()) for section in self.schedule],
+            "sectionIds": [str(section.get_id()) for section in self.schedule],
             "is_mentor": self.is_mentor
         }
     

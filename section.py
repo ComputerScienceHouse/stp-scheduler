@@ -94,7 +94,7 @@ class Section:
             "id": str(self.__id),
             "subject": self.__subject,
             "level": self.__level,
-            "time": TIME_BLOCKS.index(self.__time) if self.__time else None,
+            "timeBlockId": TIME_BLOCKS.index(self.__time) if self.__time else None,
             "days": self.__days,
             "teacherId": str(self.__teacher.id) if self.__teacher else None,
             "studentIds": [str(student.id) for student in self.__students]
