@@ -1,16 +1,17 @@
 from time_block import TimeBlock
-from datetime import time
+
+
 BEGINNER = 0
 INTERMEDIATE = 1
 ADVANCED = 2
 CLASS_LIMIT = 7
-BLOCK_ONE = TimeBlock(time(8, 0), time(9, 0))
-BLOCK_TWO = TimeBlock(time(9, 15), time(10, 15))
-BLOCK_THREE = TimeBlock(time(10, 45), time(11, 45))
-LUNCH_TIME = TimeBlock(time(11, 45), time(12, 45))
-BLOCK_FOUR = TimeBlock(time(12, 45), time(1, 45))
-BLOCK_FIVE = TimeBlock(time(2, 0), time(3, 0))
-BLOCK_SIX = TimeBlock(time(3, 30), time(4, 30))
+BLOCK_ONE = TimeBlock(800, 900)
+BLOCK_TWO = TimeBlock(915, 1015)
+BLOCK_THREE = TimeBlock(1045, 1145)
+LUNCH_TIME = TimeBlock(1145, 1245)
+BLOCK_FOUR = TimeBlock(1245, 1345)
+BLOCK_FIVE = TimeBlock(1400, 1500)
+BLOCK_SIX = TimeBlock(1530, 1630)
 LEVEL_DICT = {
     BEGINNER: "Beginner",
     INTERMEDIATE: "Intermediate",
@@ -18,3 +19,6 @@ LEVEL_DICT = {
 }
 
 TIME_BLOCKS = [BLOCK_ONE, BLOCK_TWO, BLOCK_THREE, BLOCK_FOUR, BLOCK_FIVE, BLOCK_SIX]
+
+def get_level(score: int):
+    return 0 if score <= 3 else 2 if score > 6 else 1

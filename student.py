@@ -1,58 +1,48 @@
-from typing import Dict, List, Tuple, Union
 from section import Section
+import uuid
 
 class Student:
- 
     def __init__(self, name, english, math, asl):
+        self.id = uuid.uuid4()
         self.name = name
-        self.english = english 
-        self.math = math
-        self.asl = asl
+        self.subject_rankings = {"math": math, "english": english, "asl": asl}
         self.schedule = []
-        self.time_blocks = []
 
     def is_full(self) -> bool:
         """
         Checks if the student's schedule is full.
         """
         return len(self.schedule) >= 6
+    
+    def get_subject_rankings(self) -> dict:
+        """Returns the student's subject rankings"""
+        return self.subject_rankings
 
     def get_english_level(self) -> int:
         """Returns the student's English level"""
-        return 0 if self.english <= 3 else 2 if self.english > 6 else 1
+        return 0 if self.subject_rankings["english"] <= 3 else 2 if self.subject_rankings["english"] > 6 else 1
     
     def get_math_level(self) -> int:
         """Returns the student's Math level"""
-        return 0 if self.math <= 3 else 2 if self.math > 6 else 1
+        return 0 if self.subject_rankings["math"] <= 3 else 2 if self.subject_rankings["math"] > 6 else 1
     
     def get_asl_level(self) -> int:
         """Returns the student's ASL level"""
-        return 0 if self.asl <= 3 else 2 if self.asl > 6 else 1
+        return 0 if self.subject_rankings["asl"] <= 3 else 2 if self.subject_rankings["asl"] > 6 else 1
     
     def add_section(self, course: Section):
         """Adds a class to the student's schedule"""
         # Check if the course is already in the schedule
-        for section in self.schedule:
-            if section == course:
-                return
-        self.schedule.append(course)
-        self.add_time_block(course.get_time())
-
-    def add_time_block(self, time_block):
-        """Adds a time block to the student's schedule"""
-        self.time_blocks.append(time_block)
+        if course not in self.schedule:
+            self.schedule.append(course)
     
-    def remove_class(self, course: Section):
+    def remove_section(self, course: Section):
         """Removes a class from the student's schedule"""
         # Check if the course is in the schedule
-        for section in self.schedule:
-            if section == course:
-                break
-            else:
-                return
-        self.schedule.remove(course)
+        if course in self.schedule:
+            self.schedule.remove(course)
     
-    def get_schedule(self) -> List[Section]:
+    def get_schedule(self) -> list[Section]:
         """Returns a list of sections that the student is enrolled in"""
         return self.schedule
     
@@ -70,3 +60,45 @@ class Student:
     def __repr__(self):
         return self.__str__()
     
+    def to_json(self) -> dict:
+        return {
+            "id": str(self.id),
+            "name": self.name,
+            "subject_rankings": self.subject_rankings,
+            "sectionIds": [str(section.get_id()) for section in self.schedule]
+        }
+    
+def load_student_csv(file_name) -> list[Student]:
+    """
+    CSV Format: 
+    Name, English, Math, ASL
+    """
+    with open(file_name, 'r') as file:
+        data = file.readlines()
+    data = [line.strip().split(',') for line in data]
+    students = []
+    
+    for i, line in enumerate(data):
+        if i == 0:
+            continue
+        if line[0] == '':
+            line[0] = 'Unknown'
+        if line[1] == '':
+            line[1] = 0
+        if line[2] == '':
+            line[2] = 0
+        if line[3] == '':
+            line[3] = 0
+        
+        name = line[0]
+        english = int(line[1])
+        math = int(line[2])
+        asl = int(line[3])
+        students.append(Student(name, english, math, asl))
+    
+    return students
+
+if __name__ == "__main__":
+    students = load_student_csv("data/students.csv")
+    for student in students:
+        print(student)

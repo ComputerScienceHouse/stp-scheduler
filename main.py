@@ -1,449 +1,200 @@
-""" Priority Scheduler: 
+from bucket import Bucket, create_buckets
+from student import Student, load_student_csv
+from section import Section, export_sections_to_csv
+from teacher import Teacher, load_teachers_csv, generate_teacher_dataframe
+import json
+from constants import * 
 
-1. Schedule each student by the lowest test score first 
-2. If not, schedule in this order:
-    - English
-    - Math
-    - ASL
-
-A score of 0 means that no test score was received. In this instance, they will default to Beginner level.
-"""
-from typing import List, Tuple, Dict, Union
-from collections import defaultdict
-from student import Student
-from buckets import Buckets
-from teacher import Teacher
-from section import Section
-from constants import *
-import math
-
-
-def load_student_csv(file_name) -> List[Student]:
+def build_conflict_graph(sections: list[Section],
+                         students: list[Student],
+                         teachers: list[Teacher]) -> dict[Section, set[Section]]:
     """
-    CSV Format: 
-    Name, English, Math, ASL
+    Build an undirected conflict graph: edges between sections that
+    cannot share the same time block (because of student/teacher).
     """
-    with open(file_name, 'r') as file:
-        data = file.readlines()
-    data = [line.strip().split(',') for line in data]
-    students = []
-    
-    for i, line in enumerate(data):
-        if i == 0:
-            continue
-        if line[0] == '':
-            line[0] = 'Unknown'
-        if line[1] == '':
-            line[1] = 0
-        if line[2] == '':
-            line[2] = 0
-        if line[3] == '':
-            line[3] = 0
-        
-        name = line[0]
-        english = int(line[1])
-        math = int(line[2])
-        asl = int(line[3])
-        students.append(Student(name, english, math, asl))
-    
-    return students
+    conflicts: dict[Section, set[Section]] = {s: set() for s in sections}
 
-def return_scores(students: List[Student]) -> List[Tuple[int, int, int]]:
-    """
-    Returns a list of test scores for each student.
-    """
-    return [(student_to_score.english, student_to_score.math, student_to_score.asl) for student_to_score in students]
-
-def make_buckets(students: List[Student]) -> Buckets:
-    bucket = Buckets()
-    bucket.sort_courses(students)
-    return bucket
-    
-def sort_students(students_to_score: List[Student]) -> List[Student]:
-    """
-    Returns a list of student names in the order they should be scheduled.
-    """
-    sorted_students = sorted(students_to_score, key=(min(return_scores(students_to_score)), return_scores(students_to_score)))
-    return sorted_students
-
-def load_instructor_csv(file_name) -> List[Teacher]:
-    """
-    CSV Format:
-    Course, Instructor, Section Count, Blank Space, Mentoring Info
-    """
-    with open(file_name, 'r') as file:
-        data = file.readlines()
-    data = [line.strip().split(',') for line in data]
-    instructors = []
-    mentors = []
-    for i, line in enumerate(data):
-        if i == 0:
-            continue
-        
-        if line[4] != '':
-            mentors.append(line[4])
-        
-        if line[0] == '':
-            continue
-        if line[1] == '':
-            line[1] = 'TBD'
-        if line[2] == '':
-            line[2] = 1
-        instructors.append(line[0: 3])
-    
-    teachers = []
-    for instructor in instructors:
-        if instructor[1] not in mentors:
-            teachers.append(Teacher(*instructor))
-        else:
-            mentors.remove(instructor[1])
-            teachers.append(Teacher(*instructor, is_mentor=True))
-    if len(mentors) > 0:
-        for mentor in mentors:
-            teachers.append(Teacher('Mentoring', mentor, 0, is_mentor=True))
-    return teachers
-
-def create_sections_easy(class_count_dict: Dict) -> List[Section]:
-    """
-    Creates sections for each class assuming there is no issue with the number of students.
-    """
-    sections = []
-    for class_name, count in class_count_dict.items():
-        if count > 0:
-            for i in range(count):
-                level = 0
-                if "beginning" in class_name:
-                    level = BEGINNER
-                elif "intermediate" in class_name:
-                    level = INTERMEDIATE
-                elif "advanced" in class_name:
-                    level = ADVANCED
-
-                days = None
-                if "English" in class_name:
-                    name = "Essential Communication"
-                    days = "MWTRF"
-                elif "Math" in class_name:
-                    name = "Technical Math"
-                    days = "MWTRF"
-                elif "ASL" in class_name:
-                    name = "ASL"
-                    days = "MWTRF"
-
-                sections.append(Section(name, None, days, CLASS_LIMIT, level, None))
-    return sections
-
-def create_sections_hard(class_count_dict: Dict, subject_availability_dict: Dict, subjects: Union[List, str]) -> Tuple[List[Section], Dict]:
-    """
-    Creates sections for each class assuming there is an issue with the number of students.
-    This function will create sections based on the availability of subjects.
-    If there are not enough sections available, it will prioritize lower level classes first, and then move higher classes to the overflow dictionary.
-    
-    IN FUTURE ITERATIONS, THIS SHOULD INSTEAD PRIORITIZE THE LARGER CLASS FIRST, THEN THE SMALLER CLASS.
-   
-    """
-    sections = []
-    overflow_dict = {}
-    class_counts = class_count_dict.items()
-
-    if isinstance(subjects, str):
-        subjects = [subjects]
-
-    # Loop through each class and add 1 sections until there are no more subjects available
-    subject_availability_dict = {key: value for key, value in subject_availability_dict.items() if key in subjects}  # Filter to only include relevant subjects
-
-    while any(subject_availability_dict.values()):  # Continue while there are available subjects
-        # print("Subject availability dict: ", subject_availability_dict)
-        for class_name, count in class_counts:
-            # print("Class name: ", class_name, "Count: ", count)
-            if count > 0:
-                # Determine the level based on the class name
-                level = 0
-                if "beginning" in class_name:
-                    level = BEGINNER
-                elif "intermediate" in class_name:
-                    level = INTERMEDIATE
-                elif "advanced" in class_name:
-                    level = ADVANCED
-
-                name = class_name
-                days = None
-                if "English" in class_name or "Communication" in class_name:
-                    name = "Essential Communication"
-                    days = "MWTRF"
-                elif "Math" in class_name:
-                    name = "Technical Math"
-                    days = "MWTRF"
-                elif "ASL" in class_name:
-                    name = "ASL"
-                    days = "MWTRF"
-                
-                # Create a section and append it to the list
-                sections.append(Section(name, None, days, CLASS_LIMIT, level, None))
-                
-                # Decrement the count in subject_availability_dict
-                subject_availability_dict[name] -= 1
-                # Decrement the count in class_count_dict
-                class_count_dict[class_name] -= 1
-                # If the count reaches zero, remove it from the dictionary
-                if subject_availability_dict[name] <= 0:
-                    del subject_availability_dict[name]
-                    break
-                
-        # print(sections)
-    
-    # Add any remaining counts to overflow_dict
-    for class_name, count in class_count_dict.items():
-        if count > 0:
-            # print("Adding to overflow dict: ", class_name, count)
-            overflow_dict[class_name] = count
-    
-    return sections, overflow_dict
-
-def assign_teachers_to_sections(sections: List[Section], instructors: List[Teacher]) -> None:
-    """
-    Assigns teachers to sections based on their availability and the subjects they teach.
-    """
-    for instructor in instructors:
-        for section in sections:
-            if section.get_subject() == instructor.subject and section.get_teacher() is None and not instructor.is_full():
-                section.set_teacher(instructor)
-                instructor.add_section(section)
-
-### TODO: Change it so that students are assigned to sections based on level before times are decided.
-def assign_times_to_sections(sections: List[Section], time_blocks: List[TimeBlock]) -> None:
-    """
-    Assign a time block to each section using the constant time blocks.
-
-    - It is preferred that the same class at different levels is offered during the same time block.
-    - Ensure that the same time block is not used more than once for each teacher.
-    - Ensure that each teacher does not have more than two sections back to back.
-    """
-    # Group sections by class name
-    class_groups = defaultdict(list)
-    for section in sections:
-        class_groups[section.get_subject()].append(section)
-
-    # Track teacher availability and consecutive sections
-    teacher_schedule = defaultdict(list)  # {teacher: [time_block1, time_block2, ...]}
-
-    for class_name, class_sections in class_groups.items():
-        time_block_index = 0
-
-        for section in class_sections:
-            teacher = section.get_teacher()
-            if not teacher:
-                continue  # Skip if no teacher is assigned
-
-            # Find the next available time block for the teacher
-            while time_block_index < len(time_blocks):
-                time_block = time_blocks[time_block_index]
-
-                # Check if the teacher already has this time block or too many consecutive sections
-                if time_block not in teacher_schedule[teacher] and not has_consecutive_sections(teacher_schedule[teacher], time_block):
-                    # Assign the time block to the section
-                    section.set_time(time_block)
-
-                    # Update the teacher's schedule
-                    teacher_schedule[teacher].append(time_block)
-                    teacher.add_time_block(time_block)
-                    break
-
-                time_block_index += 1
-
-            # Reset time_block_index if we run out of time blocks
-            if time_block_index >= len(time_blocks):
-                time_block_index = 0
-
-
-def has_consecutive_sections(schedule: List[str], new_time_block: str) -> bool:
-    """
-    Helper function to check if adding a new time block would result in more than two consecutive sections.
-    """
-    if not schedule:
-        return False
-
-    # Convert time blocks to indices for comparison
-    time_block_indices = [TIME_BLOCKS.index(tb) for tb in schedule]
-    new_time_block_index = TIME_BLOCKS.index(new_time_block)
-
-    # Check for consecutive sections
-    time_block_indices.append(new_time_block_index)
-    time_block_indices.sort()
-
-    consecutive_count = 1
-    for i in range(1, len(time_block_indices)):
-        if time_block_indices[i] == time_block_indices[i - 1] + 1:
-            consecutive_count += 1
-            if consecutive_count > 2:
-                return True
-        else:
-            consecutive_count = 1
-
-    return False
-
-def assign_students_to_sections(students: List[Student], sections: List[Section]) -> List[Student]:
-    """
-    Assigns students to sections based on their scores and the sections available.
-
-    - Students are assigned to sections for each subject (English, Math, ASL, etc.).
-    - Ensures no conflicting times for a student across different subjects.
-    - If a section is full, the student will not be assigned to that section.
-    - If a student cannot be assigned to a section for a subject, they will be added to the overflow list.
-    - A student must be assigned for each type of class (English, Math, ASL, etc.).
-    - Each student has a score for each subject, english, math, asl.
-    
-    Returns overflow students.
-    """
-    overflow_students = []
-
-    # Group sections by subject
-    subject_sections = defaultdict(list)
-    for section in sections:
-        subject_sections[section.get_subject()].append(section)
-
+    # Student-based conflicts
     for student in students:
-        assigned_subjects = set()
-        for subject, subject_section_list in subject_sections.items():
-            assigned = False
+        sched = student.get_schedule()     # list[Section] :contentReference[oaicite:4]{index=4}
+        for i in range(len(sched)):
+            for j in range(i + 1, len(sched)):
+                s1, s2 = sched[i], sched[j]
+                conflicts[s1].add(s2)
+                conflicts[s2].add(s1)
 
-            # Check the student's score for the subject
-            student_level = None
-            if subject == "Essential Communication":
-                student_level = student.get_english_level()
-            elif subject == "Technical Math":
-                student_level = student.get_math_level()
-            elif subject == "ASL":
-                student_level = student.get_asl_level()
+    # Teacher-based conflicts
+    for teacher in teachers:
+        tsched = teacher.schedule          # list[Section] :contentReference[oaicite:5]{index=5}
+        for i in range(len(tsched)):
+            for j in range(i + 1, len(tsched)):
+                s1, s2 = tsched[i], tsched[j]
+                conflicts[s1].add(s2)
+                conflicts[s2].add(s1)
 
-            # Skip if the student has no score for the subject
-            if student_level is None or student_level == 0:
-                continue
+    return conflicts
 
-            for section in subject_section_list:
-                # Check if the section matches the student's level, has capacity, and does not conflict with existing times
-                if (
-                    section.get_level() == student_level
-                    and section.get_capacity() > 0
-                    and section.get_time() not in [s.get_time() for s in student.get_schedule()]
-                ):
-                    # Assign the student to the section
-                    section.add_student(student)
-                    student.add_section(section)
-                    assigned = True
-                    assigned_subjects.add(subject)
-                    break
+def assign_time_blocks(sections: list[Section],
+                       students: list[Student],
+                       teachers: list[Teacher]) -> None:
+    conflicts = build_conflict_graph(sections, students, teachers)
 
-            if not assigned:
-                # Add the student to the overflow list if no suitable section is found for this subject
+    # Order sections by descending degree (more conflicts first)
+    ordered_sections = sorted(sections,
+                              key=lambda s: len(conflicts[s]),
+                              reverse=True)
+
+    for section in ordered_sections:
+        # Which time blocks are already used by conflicting neighbours?
+        used_blocks = {
+            neighbor.get_time()
+            for neighbor in conflicts[section]
+            if neighbor.get_time() is not None
+        }
+
+        # Pick the first available block
+        for block in TIME_BLOCKS:          # BLOCK_ONE..SIX :contentReference[oaicite:7]{index=7}
+            if block not in used_blocks:
+                section.set_time(block)    # sets a TimeBlock on Section :contentReference[oaicite:8]{index=8}
                 break
+        else:
+            # No block worked; you either need more blocks or a more advanced search
+            raise RuntimeError(f"Could not assign time to {section}")
 
-        # Add the student to overflow if they are not assigned to all three subjects
-        if len(assigned_subjects) < 3:
-            overflow_students.append(student)
+def check_for_conflicts(students: list[Student], teachers: list[Teacher]) -> None:
+    # Student conflicts
+    for student in students:
+        seen = {}
+        for sec in student.get_schedule():
+            t = sec.get_time()
+            if t is None:
+                continue
+            if t in seen:
+                print(f"[STUDENT CONFLICT] {student} has {seen[t]} and {sec} at {t}")
+            else:
+                seen[t] = sec
 
-    return overflow_students
+    # Teacher conflicts
+    for teacher in teachers:
+        seen = {}
+        for sec in teacher.schedule:
+            t = sec.get_time()
+            if t is None:
+                continue
+            if t in seen:
+                print(f"[TEACHER CONFLICT] {teacher} has {seen[t]} and {sec} at {t}")
+            else:
+                seen[t] = sec
 
 def main():
-    # Load the CSV files
-    students = load_student_csv('data/students.csv')
-
-    instructors = load_instructor_csv('data/instructors.csv')
+    # Read students csv and create Student objects
+    students = load_student_csv("data/students.csv")
+    print(f"Loaded {len(students)} students.")
     
-    # Create buckets for each subject
-    buckets = make_buckets(students)
-    buckets.set_class_count()
+    # Read teachers csv and create Teacher objects
+    teachers = load_teachers_csv("teachers.csv")
+    print(f"Loaded {len(teachers)} teachers.")
     
-    # Print the students and their buckets
-    print(len(students), "students loaded.")
-    print(buckets)
+    # Create Buckets
+    buckets, buckets_dict = create_buckets()
     
-    # Print instructors and classes
-    print(len(instructors), "instructors loaded.")
-    subject_availability_dict = {}
-    for instructor in instructors:
-        print(instructor)
-        subject_availability_dict[instructor.subject] = instructor.sections if not subject_availability_dict.get(instructor.subject) else subject_availability_dict[instructor.subject] + instructor.sections
-
-    print(subject_availability_dict)
-
-    class_count_dict = buckets.get_class_count()
-
-    for class_name, count in class_count_dict.items():
-        print(f"{class_name}: {count} sections needed")
-
-    # Generate total counts of each class (both available and required)
-
-    english_required_dict = {key: value for key, value in class_count_dict.items() if "English" in key}
-    math_required_dict = {key: value for key, value in class_count_dict.items() if "Math" in key}
-    asl_required_dict = {key: value for key, value in class_count_dict.items() if "ASL" in key}
-
-    # Create section objects
-    print("Creating sections...")
-    if sum(english_required_dict.values()) <= subject_availability_dict.get("Essential Communication", 0):
-        english_sections = create_sections_easy(english_required_dict)
-        english_overflow = {}
-    else:
-        # print("Hard english")
-        english_sections, english_overflow = create_sections_hard(english_required_dict, subject_availability_dict, "Essential Communication")
-    if sum(math_required_dict.values()) <= subject_availability_dict.get("Technical Math", 0):
-        math_sections = create_sections_easy(math_required_dict)
-        math_overflow = {}
-    else:
-        # print("Hard math")
-        math_sections, math_overflow = create_sections_hard(math_required_dict, subject_availability_dict, "Technical Math")
-    if sum(asl_required_dict.values()) <= subject_availability_dict.get("ASL", 0):
-        asl_sections = create_sections_easy(asl_required_dict)
-        asl_overflow = {}
-    else:
-        # print("Hard asl")
-        asl_sections, asl_overflow = create_sections_hard(asl_required_dict, subject_availability_dict, "ASL")
-    
-    # Combine all sections into one list
-    all_sections = english_sections + math_sections + asl_sections
-    all_overflow = {**english_overflow, **math_overflow, **asl_overflow}
-    print(all_overflow)
-    # Print the sections
-    print("Sections created:")
-    for section in all_sections:
-        print(section)
-    
-    # Assign teachers to sections
-    print("Assigning teachers to sections...")
-    assign_teachers_to_sections(all_sections, instructors)
-    
-    # Assign times to sections
-    print("Assigning times to sections...")
-    assign_times_to_sections(all_sections, TIME_BLOCKS)
-
-    # Print the sections with assigned teachers and times
-    print("Sections with assigned teachers and times:")
-    for section in all_sections:
-        print(section)
-
-    # Assign students to sections
-    print("Assigning students to sections...")
-    overflow_students = assign_students_to_sections(students, all_sections)
-    # Print the assigned students
-    print("Students assigned to sections:")
+    # Assign students to Buckets
+    sections = []
+    for bucket in buckets:
+        bucket.assign_students(students)  
+        print(bucket, bucket.get_size(), "students,", bucket.get_sections_needed(), "sections needed")
+        # Create Sections for each Bucket
+        sections_needed = bucket.get_sections_needed()
+        for i in range(sections_needed):
+            section = Section(bucket.subject, bucket.level)
+            print("  Created section:", section)
+            # Add an equal amount of students to each section
+            students_per_section = len(bucket.get_students()) // sections_needed
+            start_idx = i * students_per_section
+            end_idx = start_idx + students_per_section if i < sections_needed - 1 else len(bucket.get_students())
+            assigned_students: list[Student] = bucket.get_students()[start_idx:end_idx]
+            for student in assigned_students:
+                section.add_student(student)
+                student.add_section(section)
+            sections.append(section)
+    ### At this point, all Math, English, and ASL sections have been created and all students assigned ###
+    print(f"Created a total of {len(sections)} sections.")
+    print(sections)
     for student in students:
-        print(student)
-        print(student.get_schedule())
-    print("\nOverflow students:")
-    for student in overflow_students:
-        print(student)
-
-    # Write student schedules to CSV
-    with open('data/student_schedules.csv', 'w') as file:
-        file.write("Student Name, Class Name, Teacher Name, Start Time, End Time\n")
-        for student in set(students + overflow_students):
-            for section in student.get_schedule():
-                file.write(f"{student.name}, {LEVEL_DICT[section.get_level()]} {section.get_subject()}, {section.get_teacher().name}, {section.get_time().start} {section.get_time().end}\n")
-
+        print(f"{student} is enrolled in {len(student.get_schedule())} sections.")
     
-    
-
-
+    for section in sections:
+        print(f"{section} has {len(section.get_students())} students.")
         
+    # Assign teachers to sections
+    # This method improves upon the brute force method by considering teacher qualifications and current workloads.
+    # This version also prioritizes teachers with a score of 1 over those with a score of 0.
+    teachers_df = generate_teacher_dataframe(teachers)
+    for section in sections:
+        subject = section.get_subject().capitalize()
+        qualified_teachers = teachers_df[teachers_df[subject] == 1].copy()
+        slightly_less_qualified = teachers_df[teachers_df[subject] == 0].copy()
+        if qualified_teachers.empty:
+            qualified_teachers = slightly_less_qualified
+        if qualified_teachers.empty:
+            print(f"No qualified teachers found for {section}.")
+            continue
+        # Sort by teacher with least sections assigned
+        qualified_teachers['assigned_sections'] = qualified_teachers['Name'].apply(lambda name: len(next(t for t in teachers if t.name == name).schedule))
+        qualified_teachers = qualified_teachers.sort_values(by='assigned_sections')
+        assigned = False
+        for _, row in qualified_teachers.iterrows():
+            teacher = next(t for t in teachers if t.name == row['Name'])
+            try:
+                teacher.add_section(section)
+                section.set_teacher(teacher)
+                assigned = True
+                print(f"Assigned {teacher} to {section}.")
+                break
+            except (IndexError, ValueError) as e:
+                continue
+        if not assigned:
+            print(f"Could not assign a teacher to {section}.")
+    
+    # Now the hardest part: assigning time blocks to sections without conflicts.
+    # This is a complex scheduling problem and may require advanced algorithms to solve optimally.
+    # Here, we implement a simple greedy algorithm to assign time blocks via graph coloring.
+    assign_time_blocks(sections, students, teachers)
+    
+    # Check for conflicts
+    check_for_conflicts(students, teachers)
+    
+    print("Final Section Assignments:")
+    for section in sections:
+        print(f"{section} taught by {section.get_teacher()} with {len(section.get_students())} students.")
+    
+    print("Final Teacher Schedules:")
+    for teacher in teachers:
+        print(f"{teacher} is teaching {len(teacher.schedule)} sections:")
+        for sec in teacher.schedule:
+            print(f"  - {sec} at {sec.get_time()}")
+    
+    print("Final Student Schedules:")
+    for student in students:
+        print(f"{student} is enrolled in {len(student.get_schedule())} sections:")
+        for sec in student.get_schedule():
+            print(f"  - {sec} at {sec.get_time()}")
+    
+    # Export the final schedules to JSON files
+    sections_json = [section.to_json() for section in sections]
+    teachers_json = [teacher.to_json() for teacher in teachers]
+    students_json = [student.to_json() for student in students]
+
+    with open("sections.json", "w") as f:
+        json.dump(sections_json, f, indent=2)
+
+    with open("teachers.json", "w") as f:
+        json.dump(teachers_json, f, indent=2)
+
+    with open("students.json", "w") as f:
+        json.dump(students_json, f, indent=2)
+    
+    export_sections_to_csv(sections, "final_sections.csv")
+
 if __name__ == "__main__":
     main()

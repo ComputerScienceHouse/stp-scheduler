@@ -1,0 +1,16 @@
+Subject,Level,Time,Days,Teacher,Students
+english,0,Start: 915 End: 1015,,JSarchet,Lea Wolff | Neha O'Hara | Audie Schulist | Lorenza Deckow | Wellington Collier | Kaya Robel
+english,1,Start: 1245 End: 1345,,Jeanne,Jackie Abbott | Odell Padberg | Jadon Gleason | Frances Reynolds
+english,1,Start: 1045 End: 1145,,JSarchet,Rowena Swaniawski | Antonina Harris | Wilfred Russel | Eleanora Nikolaus | Erna Schmidt
+english,2,Start: 800 End: 900,,Jeanne,Diana Lemke | Skye Braun | Brionna Blick | Kyleigh Lebsack
+english,2,Start: 1245 End: 1345,,JSarchet,Kevon Smitham | Keyshawn Smitham | Derrick Glover V | Quinton Lebsack
+math,0,Start: 1530 End: 1630,,MathTeacher2,Jadon Gleason | Frances Reynolds | Keyshawn Smitham
+math,1,Start: 1045 End: 1145,,Nathan,Jackie Abbott | Odell Padberg | Neha O'Hara | Kyleigh Lebsack
+math,1,Start: 800 End: 900,,MathTeacher2,Rowena Swaniawski | Wilfred Russel | Kevon Smitham | Wellington Collier
+math,2,Start: 1245 End: 1345,,Nathan,Diana Lemke | Skye Braun | Lea Wolff | Brionna Blick | Antonina Harris | Eleanora Nikolaus
+math,2,Start: 1400 End: 1500,,MathTeacher2,Audie Schulist | Erna Schmidt | Lorenza Deckow | Derrick Glover V | Quinton Lebsack | Kaya Robel
+asl,0,Start: 1400 End: 1500,,Tyler,Skye Braun | Lea Wolff | Brionna Blick | Antonina Harris
+asl,0,Start: 1045 End: 1145,,Tyler,Kevon Smitham | Audie Schulist | Keyshawn Smitham | Quinton Lebsack
+asl,1,Start: 800 End: 900,,Tyler,Odell Padberg | Neha O'Hara | Eleanora Nikolaus | Erna Schmidt | Lorenza Deckow | Derrick Glover V | Kaya Robel
+asl,2,Start: 915 End: 1015,,Tyler,Jackie Abbott | Diana Lemke | Jadon Gleason | Frances Reynolds
+asl,2,Start: 1245 End: 1345,,Tyler,Kyleigh Lebsack | Rowena Swaniawski | Wilfred Russel | Wellington Collier
