@@ -1,6 +1,7 @@
 import uuid
 import pandas as pd
 from section import Section
+
 class Teacher:
     def __init__(self, subjects_rankings: dict, sections: int, name: str, is_mentor=False):
         self.id = uuid.uuid4()
