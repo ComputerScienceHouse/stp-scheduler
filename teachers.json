@@ -1,0 +1,118 @@
+[
+  {
+    "id": "1f325225-ddf1-4cb5-a698-a9466ab4fee0",
+    "name": "DigitalLitTeacher",
+    "subjects": {
+      "asl": -1,
+      "math": -1,
+      "english": -1,
+      "college readiness": -1,
+      "social emotional learning": -1,
+      "financial lit": -1,
+      "presentations": -1,
+      "digital lit": 1
+    },
+    "sectionIds": [],
+    "is_mentor": false
+  },
+  {
+    "id": "e100a957-5b63-4273-a16d-cc0107baa128",
+    "name": "JSarchet",
+    "subjects": {
+      "asl": -1,
+      "math": -1,
+      "english": 1,
+      "college readiness": 0,
+      "social emotional learning": 1,
+      "financial lit": 0,
+      "presentations": 0,
+      "digital lit": 0
+    },
+    "sectionIds": [
+      "23d0c1f7-9574-4ae6-a9d9-e50e1846e5d0",
+      "d7f62510-670a-4387-bd12-331ecfdd7e1f",
+      "e26f1f22-e529-4a7e-a918-72100c44d19a"
+    ],
+    "is_mentor": false
+  },
+  {
+    "id": "d41e690c-3f85-4b6d-8c56-60949da8d6a4",
+    "name": "Jeanne",
+    "subjects": {
+      "asl": -1,
+      "math": -1,
+      "english": 1,
+      "college readiness": 0,
+      "social emotional learning": -1,
+      "financial lit": 0,
+      "presentations": 0,
+      "digital lit": -1
+    },
+    "sectionIds": [
+      "9e61050c-4bcd-4272-bb57-f414b466d788",
+      "d05078e5-b5eb-41a8-9afd-9c2b158f2c1b"
+    ],
+    "is_mentor": false
+  },
+  {
+    "id": "928ae467-e343-469d-a7e7-ba56d86c9fc5",
+    "name": "MathTeacher2",
+    "subjects": {
+      "asl": -1,
+      "math": 1,
+      "english": -1,
+      "college readiness": -1,
+      "social emotional learning": -1,
+      "financial lit": 0,
+      "presentations": -1,
+      "digital lit": -1
+    },
+    "sectionIds": [
+      "d3ec33d4-a5eb-4fd6-8ea9-43985c87ddf4",
+      "a75e2a17-ef57-46ae-bf55-75d7c43f03af",
+      "2547bb72-464b-423a-ac6b-c7c410c8cb04"
+    ],
+    "is_mentor": false
+  },
+  {
+    "id": "b3739ed7-b028-4092-a93f-37cc0153a315",
+    "name": "Nathan",
+    "subjects": {
+      "asl": -1,
+      "math": 1,
+      "english": -1,
+      "college readiness": -1,
+      "social emotional learning": -1,
+      "financial lit": 0,
+      "presentations": -1,
+      "digital lit": -1
+    },
+    "sectionIds": [
+      "488674c7-15e0-41a5-849d-769b32e13230",
+      "6b4b5e20-3610-469b-8ccb-439793e0c406"
+    ],
+    "is_mentor": false
+  },
+  {
+    "id": "c519aabc-26af-411c-b667-d4bc449e4b5d",
+    "name": "Tyler",
+    "subjects": {
+      "asl": 1,
+      "math": -1,
+      "english": 0,
+      "college readiness": 1,
+      "social emotional learning": -1,
+      "financial lit": 0,
+      "presentations": 0,
+      "digital lit": 1
+    },
+    "sectionIds": [
+      "8545e2c3-204f-4f7c-af39-edd3ffdb3a69",
+      "d574148f-485b-4508-b33a-ee2052ff9a3e",
+      "655b5856-3fc1-40e2-8bdf-f55468dbf37c",
+      "d430f066-3911-42da-a72a-db82f508e36e",
+      "5f54c193-72cc-4960-94e8-5e7360f5892c"
+    ],
+    "is_mentor": false
+  }
+]

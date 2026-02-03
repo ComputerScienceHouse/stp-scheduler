@@ -1,0 +1,221 @@
+[
+  {
+    "id": "23d0c1f7-9574-4ae6-a9d9-e50e1846e5d0",
+    "subject": "english",
+    "level": 0,
+    "timeBlockId": 1,
+    "days": null,
+    "teacherId": "e100a957-5b63-4273-a16d-cc0107baa128",
+    "studentIds": [
+      "632363bd-ba34-4e7d-8fec-d6b5a5ffd3f0",
+      "93cfd135-eb36-4730-ae0c-6e7eeb958b6b",
+      "d20c8f3b-87b0-4a2c-90f8-326b6027953d",
+      "7eeac6a0-b9cd-45ef-9ce1-d7e753d57026",
+      "f8fd5e85-f7a3-406c-9c50-84c02f012a79",
+      "98b44ced-6c37-46bb-9fed-82fe391f133c"
+    ]
+  },
+  {
+    "id": "9e61050c-4bcd-4272-bb57-f414b466d788",
+    "subject": "english",
+    "level": 1,
+    "timeBlockId": 3,
+    "days": null,
+    "teacherId": "d41e690c-3f85-4b6d-8c56-60949da8d6a4",
+    "studentIds": [
+      "f9e4985f-683e-40ed-99c7-18149c0c48a0",
+      "7c7ecfca-ac7f-4260-bea3-7f1a8b81ae75",
+      "92da0548-7d0a-42f5-a191-2778989cc7ae",
+      "06a8102e-e51d-4b6a-8f0e-9e034aae7893"
+    ]
+  },
+  {
+    "id": "d7f62510-670a-4387-bd12-331ecfdd7e1f",
+    "subject": "english",
+    "level": 1,
+    "timeBlockId": 2,
+    "days": null,
+    "teacherId": "e100a957-5b63-4273-a16d-cc0107baa128",
+    "studentIds": [
+      "a1ab0641-b792-47b6-a19c-ce3a61f37883",
+      "26d67153-e880-4670-91be-0f59412852fc",
+      "6376e800-298a-4f3a-b33d-e64cc74eb9f4",
+      "0d9ea350-4af7-4401-8433-b50501a116c4",
+      "24d72e91-e68a-4ee4-813f-d51a10f87096"
+    ]
+  },
+  {
+    "id": "d05078e5-b5eb-41a8-9afd-9c2b158f2c1b",
+    "subject": "english",
+    "level": 2,
+    "timeBlockId": 0,
+    "days": null,
+    "teacherId": "d41e690c-3f85-4b6d-8c56-60949da8d6a4",
+    "studentIds": [
+      "3c8b0eb1-b397-46da-8204-fc515dc14620",
+      "bf45b223-bb65-47f2-9035-26af6a8e2034",
+      "37072dbc-ce18-4807-9482-0725cec8a200",
+      "bcfab4c1-5d35-47d1-96a6-7bf01d3b5f6d"
+    ]
+  },
+  {
+    "id": "e26f1f22-e529-4a7e-a918-72100c44d19a",
+    "subject": "english",
+    "level": 2,
+    "timeBlockId": 3,
+    "days": null,
+    "teacherId": "e100a957-5b63-4273-a16d-cc0107baa128",
+    "studentIds": [
+      "712e0b68-3214-4098-8269-5ee9ddbbc4ca",
+      "1eda9b81-c0e8-4be7-b3f0-085cbe846588",
+      "820784f6-d209-4b0d-8e4a-0765d43d65db",
+      "1dad1f27-b973-496c-9838-8cba61b7d56a"
+    ]
+  },
+  {
+    "id": "d3ec33d4-a5eb-4fd6-8ea9-43985c87ddf4",
+    "subject": "math",
+    "level": 0,
+    "timeBlockId": 5,
+    "days": null,
+    "teacherId": "928ae467-e343-469d-a7e7-ba56d86c9fc5",
+    "studentIds": [
+      "92da0548-7d0a-42f5-a191-2778989cc7ae",
+      "06a8102e-e51d-4b6a-8f0e-9e034aae7893",
+      "1eda9b81-c0e8-4be7-b3f0-085cbe846588"
+    ]
+  },
+  {
+    "id": "488674c7-15e0-41a5-849d-769b32e13230",
+    "subject": "math",
+    "level": 1,
+    "timeBlockId": 2,
+    "days": null,
+    "teacherId": "b3739ed7-b028-4092-a93f-37cc0153a315",
+    "studentIds": [
+      "f9e4985f-683e-40ed-99c7-18149c0c48a0",
+      "7c7ecfca-ac7f-4260-bea3-7f1a8b81ae75",
+      "93cfd135-eb36-4730-ae0c-6e7eeb958b6b",
+      "bcfab4c1-5d35-47d1-96a6-7bf01d3b5f6d"
+    ]
+  },
+  {
+    "id": "a75e2a17-ef57-46ae-bf55-75d7c43f03af",
+    "subject": "math",
+    "level": 1,
+    "timeBlockId": 0,
+    "days": null,
+    "teacherId": "928ae467-e343-469d-a7e7-ba56d86c9fc5",
+    "studentIds": [
+      "a1ab0641-b792-47b6-a19c-ce3a61f37883",
+      "6376e800-298a-4f3a-b33d-e64cc74eb9f4",
+      "712e0b68-3214-4098-8269-5ee9ddbbc4ca",
+      "f8fd5e85-f7a3-406c-9c50-84c02f012a79"
+    ]
+  },
+  {
+    "id": "6b4b5e20-3610-469b-8ccb-439793e0c406",
+    "subject": "math",
+    "level": 2,
+    "timeBlockId": 3,
+    "days": null,
+    "teacherId": "b3739ed7-b028-4092-a93f-37cc0153a315",
+    "studentIds": [
+      "3c8b0eb1-b397-46da-8204-fc515dc14620",
+      "bf45b223-bb65-47f2-9035-26af6a8e2034",
+      "632363bd-ba34-4e7d-8fec-d6b5a5ffd3f0",
+      "37072dbc-ce18-4807-9482-0725cec8a200",
+      "26d67153-e880-4670-91be-0f59412852fc",
+      "0d9ea350-4af7-4401-8433-b50501a116c4"
+    ]
+  },
+  {
+    "id": "2547bb72-464b-423a-ac6b-c7c410c8cb04",
+    "subject": "math",
+    "level": 2,
+    "timeBlockId": 4,
+    "days": null,
+    "teacherId": "928ae467-e343-469d-a7e7-ba56d86c9fc5",
+    "studentIds": [
+      "d20c8f3b-87b0-4a2c-90f8-326b6027953d",
+      "24d72e91-e68a-4ee4-813f-d51a10f87096",
+      "7eeac6a0-b9cd-45ef-9ce1-d7e753d57026",
+      "820784f6-d209-4b0d-8e4a-0765d43d65db",
+      "1dad1f27-b973-496c-9838-8cba61b7d56a",
+      "98b44ced-6c37-46bb-9fed-82fe391f133c"
+    ]
+  },
+  {
+    "id": "8545e2c3-204f-4f7c-af39-edd3ffdb3a69",
+    "subject": "asl",
+    "level": 0,
+    "timeBlockId": 4,
+    "days": null,
+    "teacherId": "c519aabc-26af-411c-b667-d4bc449e4b5d",
+    "studentIds": [
+      "bf45b223-bb65-47f2-9035-26af6a8e2034",
+      "632363bd-ba34-4e7d-8fec-d6b5a5ffd3f0",
+      "37072dbc-ce18-4807-9482-0725cec8a200",
+      "26d67153-e880-4670-91be-0f59412852fc"
+    ]
+  },
+  {
+    "id": "d574148f-485b-4508-b33a-ee2052ff9a3e",
+    "subject": "asl",
+    "level": 0,
+    "timeBlockId": 2,
+    "days": null,
+    "teacherId": "c519aabc-26af-411c-b667-d4bc449e4b5d",
+    "studentIds": [
+      "712e0b68-3214-4098-8269-5ee9ddbbc4ca",
+      "d20c8f3b-87b0-4a2c-90f8-326b6027953d",
+      "1eda9b81-c0e8-4be7-b3f0-085cbe846588",
+      "1dad1f27-b973-496c-9838-8cba61b7d56a"
+    ]
+  },
+  {
+    "id": "655b5856-3fc1-40e2-8bdf-f55468dbf37c",
+    "subject": "asl",
+    "level": 1,
+    "timeBlockId": 0,
+    "days": null,
+    "teacherId": "c519aabc-26af-411c-b667-d4bc449e4b5d",
+    "studentIds": [
+      "7c7ecfca-ac7f-4260-bea3-7f1a8b81ae75",
+      "93cfd135-eb36-4730-ae0c-6e7eeb958b6b",
+      "0d9ea350-4af7-4401-8433-b50501a116c4",
+      "24d72e91-e68a-4ee4-813f-d51a10f87096",
+      "7eeac6a0-b9cd-45ef-9ce1-d7e753d57026",
+      "820784f6-d209-4b0d-8e4a-0765d43d65db",
+      "98b44ced-6c37-46bb-9fed-82fe391f133c"
+    ]
+  },
+  {
+    "id": "d430f066-3911-42da-a72a-db82f508e36e",
+    "subject": "asl",
+    "level": 2,
+    "timeBlockId": 1,
+    "days": null,
+    "teacherId": "c519aabc-26af-411c-b667-d4bc449e4b5d",
+    "studentIds": [
+      "f9e4985f-683e-40ed-99c7-18149c0c48a0",
+      "3c8b0eb1-b397-46da-8204-fc515dc14620",
+      "92da0548-7d0a-42f5-a191-2778989cc7ae",
+      "06a8102e-e51d-4b6a-8f0e-9e034aae7893"
+    ]
+  },
+  {
+    "id": "5f54c193-72cc-4960-94e8-5e7360f5892c",
+    "subject": "asl",
+    "level": 2,
+    "timeBlockId": 3,
+    "days": null,
+    "teacherId": "c519aabc-26af-411c-b667-d4bc449e4b5d",
+    "studentIds": [
+      "bcfab4c1-5d35-47d1-96a6-7bf01d3b5f6d",
+      "a1ab0641-b792-47b6-a19c-ce3a61f37883",
+      "6376e800-298a-4f3a-b33d-e64cc74eb9f4",
+      "f8fd5e85-f7a3-406c-9c50-84c02f012a79"
+    ]
+  }
+]
