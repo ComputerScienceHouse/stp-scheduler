@@ -6,6 +6,7 @@ from student import Student, load_student_csv
 from section import Section, export_sections_to_csv
 from teacher import Teacher, load_teachers_csv, generate_teacher_dataframe
 from constants import TIME_BLOCKS
+from fastapi.middleware.cors import CORSMiddleware
 
 # -------------------------------------------------
 # In-memory application state
@@ -210,6 +211,20 @@ app = FastAPI(
     title="Class Scheduler API",
     lifespan=lifespan
 )
+
+# TODO: This is to access the front end with. This should be looked at to change for security reasons -----
+origins = [
+    "http://localhost:3000",
+    "http://localhost",
+    "http://localhost:8080",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+# -----
 
 
 # -------------------------------------------------
