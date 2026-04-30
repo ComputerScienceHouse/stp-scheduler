@@ -1,0 +1,36 @@
+{
+    "sections":[
+        {"id": 0, "subject": "Math", "level": "intermediate", "timeBlockId": 0, "days": ["M", "W", "F"], "studentIds": [0,4,5,7,6,3], "teacherId": 0},
+        {"id": 1, "subject": "ASL", "level": "intermediate", "timeBlockId": 1, "days": ["T", "R"], "studentIds": [0,4,5,7,6,3], "teacherId": 2},
+        {"id": 2, "subject": "English", "level": "intermediate", "timeBlockId": 0, "days": ["M", "W", "F"], "studentIds": [0,4,5,7,6,3], "teacherId": 1},
+        {"id": 3, "subject": "Math", "level": "intermediate", "timeBlockId": 2, "days": ["M", "W", "F"], "studentIds": [0,4,5,7,6,3], "teacherId": 0},
+        {"id": 4, "subject": "ASL", "level": "intermediate", "timeBlockId": 5, "days": ["T", "R"], "studentIds": [0,4,5,7,6,3], "teacherId": 2},
+        {"id": 5, "subject": "English", "level": "intermediate", "timeBlockId": 6, "days": ["M", "W", "F"], "studentIds": [0,4,5,7,6,3], "teacherId": 1},
+        {"id": 6, "subject": "Math", "level": "intermediate", "timeBlockId": 7, "days": ["R"], "studentIds": [0,4,5,7,6,3], "teacherId": 0},
+        {"id": 7, "subject": "ASL", "level": "intermediate", "timeBlockId": 8, "days": ["M", "W", "F"], "studentIds": [0,4,5,7,6,3], "teacherId": 2},
+        {"id": 8, "subject": "English", "level": "intermediate", "timeBlockId": 9, "days": ["M", "W", "F"], "studentIds": [0,4,5,7,6,3], "teacherId": 1}
+    ],
+    "students":[
+        {"id": 0, "name": "Bob", "subject_rankings": {"math": 2, "english": 8, "asl": 4}, "sectionIds": [0,2,1,6,3]},
+        {"id": 1, "name": "Fredrick", "subject_rankings": {"math": 9, "english": 3, "asl": 4}, "sectionIds": [4,2,9,6,3]},
+        {"id": 2, "name": "Shaw", "subject_rankings": {"math": 6, "english": 2, "asl": 9}, "sectionIds": [0,7,1,8,3]}
+    ],
+    "teachers":[
+        {"id": 0, "name": "Bartholomew", "subjects": {"math": 1, "english": -1, "writing": 0}, "sectionIds": [0,7,1,6,3], "isMentor": false},
+        {"id": 1, "name": "Stillman", "subjects": {"math": 1, "english": -1, "writing": 0, "asl": 0}, "sectionIds": [0,7,1,6,3], "isMentor": false},
+        {"id": 2, "name": "Brune", "subjects": {"reading": 1, "math": 1, "asl": -1}, "sectionIds": [0,7,1,6,3], "isMentor": true}
+    ],
+    "timeBlock":[
+        {"id": 0, "start": "08:00", "end": "09:00"},
+        {"id": 1, "start": "09:00", "end": "09:15"},
+        {"id": 2, "start": "09:15", "end": "10:15"},
+        {"id": 3, "start": "10:15", "end": "10:45"},
+        {"id": 4, "start": "10:45", "end": "11:45"},
+        {"id": 5, "start": "11:45", "end": "12:45"},
+        {"id": 6, "start": "12:45", "end": "13:45"},
+        {"id": 7, "start": "13:45", "end": "14:00"},
+        {"id": 8, "start": "14:00", "end": "15:00"},
+        {"id": 9, "start": "15:00", "end": "15:30"},
+        {"id": 10, "start": "15:30", "end": "16:30"}
+    ]
+}
