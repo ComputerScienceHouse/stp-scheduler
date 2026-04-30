@@ -20,6 +20,24 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Docker
+
+From this directory (`frontend/`):
+
+```bash
+docker build -t stp-scheduler-frontend .
+docker run -p 3000:3000 stp-scheduler-frontend
+```
+
+The app is available at http://localhost:3000
+
+If your shell is at the repository root instead, use:
+
+```bash
+docker build -f frontend/Dockerfile -t stp-scheduler-frontend frontend
+docker run -p 3000:3000 stp-scheduler-frontend
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
