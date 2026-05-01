@@ -2,9 +2,8 @@
  * Handles api calls to the backend
  * 
  * Author: Addison A
- * Last Updated: 2/20/2026
- * 
- * Edited by:
+ * Edited By: Logan E
+ * Last Updated: 4/30/2026
  * 
  */
 
