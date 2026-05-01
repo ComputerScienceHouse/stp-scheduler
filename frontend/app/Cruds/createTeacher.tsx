@@ -1,14 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
 
-interface CreateTeacherProps{
-    scheduleSections: string[];
-}
-
 var minWeight = "-1";
 var maxWeight = "1";
 
-export default function CreateTeacher({scheduleSections}: CreateTeacherProps){
+export default function CreateTeacher(){
     const [name, setName] = useState<string>("no_name");
     const [isMentor, setIsMentor] = useState<boolean>(false);
     const [mathWeight, setMathWeight] = useState<number>(0);
@@ -45,11 +41,11 @@ export default function CreateTeacher({scheduleSections}: CreateTeacherProps){
      * @param subject_weights 
      * @param is_mentor 
      */
-    function createTeacher(e: FormEvent<HTMLFormElement>, teacher_name: string = "", subject_weights: Record<string, number> = {}, is_mentor: boolean = false, section_ids: string[] = []){
+    function createTeacher(e: FormEvent<HTMLFormElement>){
         e.preventDefault(); // prevents page reload on form submission
         
-        teacher_name = name;
-        subject_weights = {
+        var teacher_name: string = name;
+        var subject_weights: Record<string, number> = {
             "math": mathWeight, 
             "english": englishWeight, 
             "asl": aslWeight, 
@@ -59,8 +55,8 @@ export default function CreateTeacher({scheduleSections}: CreateTeacherProps){
             "presentations": presentationsWeight,
             "digital lit": digitalLitWeight
         };
-        is_mentor = isMentor;
-        section_ids = sectionIds;
+        var is_mentor: boolean = isMentor;
+        var section_ids: string[] = sectionIds;
 
         console.log("Teacher Creation Initiated: ");
         console.log("teacher_name: " + teacher_name);

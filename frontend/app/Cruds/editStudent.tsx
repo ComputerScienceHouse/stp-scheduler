@@ -135,7 +135,6 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
                     <label className={"p-2 pr-4 "} >{aslScore} : ASL Ability Level</label>    
                     <br />
 
-                        {/* BUG: not working right, only updating to either the first or last section. */}
                     {/* Edit the student's sections */}
                     <label className={"p-2 pr-4"} >Sections:</label> 
                         {/* Generate list of all selectable sections */}

@@ -184,7 +184,6 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
                     <label className={"p-2 pr-4"} >Mentor Status</label> 
                     <br />
                                             
-                        {/* BUG: not working right, only updating to either the first or last section. */}
                     {/* Edit the instructor's sections */}
                     {/* Generate list of all selectable sections */}
                     <details className={"border-2 m-4 pt-4 pb-4 border-white/50"}>

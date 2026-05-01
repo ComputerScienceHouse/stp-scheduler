@@ -2,9 +2,12 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
 import { getFromBackendApi, student_data } from "../GetFromApi";
 
-export default function DeleteStudent(){
+interface DeleteStudentProps{
+    students: StudentProps[];
+}
+
+export default function DeleteStudent({students}: DeleteStudentProps){
     const [studentId, setStudentId] = useState<string>("");
-    const [students, setStudents] = useState<StudentProps[]>([])
 
     /**
      * Delete a student
@@ -22,14 +25,10 @@ export default function DeleteStudent(){
         e.currentTarget.reset(); // reset the data
         setStudentId("");
 
+        // TODO: update delete student in the API to do this because the file should not be responsible for re-updating data
         // Reload students without the deleted student
         getFromBackendApi("Students");
-        setStudents(student_data);
     }
-
-    useEffect(() => {
-        setStudents(student_data)
-    }, []);
 
     return (
         <details className="mb-2">
