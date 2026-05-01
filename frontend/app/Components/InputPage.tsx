@@ -12,6 +12,9 @@ import DeleteStudent from '../Cruds/deleteStudent';
 import DeleteTeacher from '../Cruds/deleteTeacher';
 import { Tooltip } from 'react-tooltip';
 
+import { section_data, teacher_data, student_data } from "../GetFromApi";
+
+
 /**
  * Author: Addison A
  * Last Updated: 3/27/2026
@@ -204,7 +207,7 @@ export default function InputPage({path}: InputPageProps){
 
             <CreateStudent scheduleSections={sectionIds}></CreateStudent>
             <CreateTeacher scheduleSections={sectionIds}></CreateTeacher>
-            <EditStudent scheduleSections={sectionIds}></EditStudent>
+            <EditStudent sections={section_data} students={student_data} teachers={teacher_data}></EditStudent>
             <EditTeacher scheduleSections={sectionIds}></EditTeacher>
             <DeleteStudent></DeleteStudent>
             <DeleteTeacher></DeleteTeacher>

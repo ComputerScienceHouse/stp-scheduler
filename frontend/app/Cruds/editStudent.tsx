@@ -1,10 +1,11 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
-import { section_data, student_data, teacher_data } from "../GetFromApi";
 import { getStudentById, getStudentName, getTeacherName } from "../HelperFunctions";
 
 interface EditStudentProps{
-    scheduleSections: string[];
+    sections: SectionProps[];
+    students: StudentProps[];
+    teachers: TeacherProps[];
 }
 
 /**
@@ -14,10 +15,8 @@ var selectedSections: string[] = [];
 var minRank = "0";
 var maxRank = "10";
 
-export default function EditStudent({scheduleSections}: EditStudentProps){
-    const [students, setStudents] = useState<StudentProps[]>([])
-    const [teachers, setTeachers] = useState<TeacherProps[]>([])
-
+// TODO: update to require passing in all students, teachers, and sections so this file is not responsible for retreiving the global data.
+export default function EditStudent({sections, students, teachers}: EditStudentProps){
     const [id, setId] = useState<string>("");
     const [name, setName] = useState<string>("no_name");
     const [mathScore, setMathScore] = useState<number>(5);
@@ -25,8 +24,7 @@ export default function EditStudent({scheduleSections}: EditStudentProps){
     const [aslScore, setAslScore] = useState<number>(5);
 
     const [subjectRankings, setSubjectRankings] = useState<Record<string, number>>({"math": 5, "english": 5, "asl": 5});
-    const [sections, setSections] = useState<SectionProps[]>([]);
-    const [sectionIds, setSectionIds] = useState<string[]>([]);
+    const [selectedSectionIds, setSelectedSectionIds] = useState<string[]>([]);
 
     /**
      * Calls the helper functions that updates the section lists.
@@ -35,10 +33,10 @@ export default function EditStudent({scheduleSections}: EditStudentProps){
      */
     function updateSections(e: ChangeEvent<HTMLInputElement>, value: string): void {
         if(e.target.checked){
-            setSectionIds(prev => [...prev, value]);
+            setSelectedSectionIds(prev => [...prev, value]);
         }
         else{
-            setSectionIds(prev => prev.filter(x => x !== value));
+            setSelectedSectionIds(prev => prev.filter(x => x !== value));
         }
     }
 
@@ -46,53 +44,44 @@ export default function EditStudent({scheduleSections}: EditStudentProps){
      * Edit a student
      * 
      * @param e FormEvent<HTMLFormElement>
-     * @param student_id unused
-     * @param subject_rankings unused
-     * @param section_ids unused
      */
-    function editStudent(e: FormEvent<HTMLFormElement>, student_id: string = "", student_name: string = "", subject_rankings: Record<string, number> = {}, section_ids: string[] = []){
+    function editStudent(e: FormEvent<HTMLFormElement>){
         e.preventDefault(); // prevents page reload on form submission
         
-        student_id = id;
-        student_name = name;
-        subject_rankings = {
+        var student_id: string = id;
+        var student_name: string = name;
+        var subject_rankings: Record<string, number> = {
             "math": mathScore, 
             "english": englishScore, 
             "asl": aslScore};
-        section_ids = sectionIds;
+        var selected_section_ids: string[] = selectedSectionIds;
 
         // logs for testing
         console.log("Student Creation Initiated: ");
-        console.log("student_name: " + student_name);
         console.log("student_id: " + student_id);
+        console.log("student_name: " + student_name);
         console.log("subject_abilities: " + JSON.stringify(subject_rankings));
-        console.log("section_ids: " + section_ids);
+        console.log("section_ids: " + selected_section_ids);
 
         API.editStudent({
             "id": student_id,
             "name": student_name,
             "subject_abilities": subject_rankings,
-            "section_ids": section_ids
+            "section_ids": selected_section_ids
         })
 
         e.currentTarget.reset(); // reset the data
         setId("");
         setName("no_name");
-        setSectionIds([]);
+        setSelectedSectionIds([]);
         setMathScore(5); // TODO: Update database to include subjects in such a way that the frontend does not have to know what subjects exists to improve maintainability. As of now, the code would have to be modified to add a new score.
         setEnglishScore(5);
         setAslScore(5);
     }
-    
-    useEffect(() => {
-        setStudents(student_data)
-        setTeachers(teacher_data)
-        setSections(section_data)
-    }, []);
 
     useEffect(() => {
-        console.log("sectionIds changed:", sectionIds);
-    }, [sectionIds]);
+        console.log("selectedSectionIds changed:", selectedSectionIds);
+    }, [selectedSectionIds]);
 
 
     return (
@@ -139,14 +128,21 @@ export default function EditStudent({scheduleSections}: EditStudentProps){
                         {Object.entries(sections).map(([key, section]) => {
                             // TODO: update so data is automatically filed out by students. 
                             // if(students.indexOf(getStudentById(students, id)) == ){
-
+                                // return (
+                                //     <div key={key} className="mb-2 border-b border-white/50">
+                                //         <input type="checkbox" id={section.id} value={section.id} checked={selectedSectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
+                                //         <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getTeacherName(teachers, section.teacherId)} | {section.id}</label>    
+                                //     </div>
+                                // );
                             // }
-                            return (
-                                <div key={key} className="mb-2 border-b border-white/50">
-                                    <input type="checkbox" id={section.id} value={section.id} checked={sectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
-                                    <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getTeacherName(teachers, section.teacherId)} | {section.id}</label>    
-                                </div>
-                            );
+                            // else {
+                                return (
+                                    <div key={key} className="mb-2 border-b border-white/50">
+                                        <input type="checkbox" id={section.id} value={section.id} checked={selectedSectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
+                                        <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getTeacherName(teachers, section.teacherId)} | {section.id}</label>    
+                                    </div>
+                                );
+                            // }
                         })
                         }
                     
