@@ -61,6 +61,7 @@ export default function EditStudent({scheduleSections}: EditStudentProps){
             "asl": aslScore};
         section_ids = sectionIds;
 
+        // logs for testing
         console.log("Student Creation Initiated: ");
         console.log("student_name: " + student_name);
         console.log("student_id: " + student_id);
@@ -78,7 +79,7 @@ export default function EditStudent({scheduleSections}: EditStudentProps){
         setId("");
         setName("no_name");
         setSectionIds([]);
-        setMathScore(5);
+        setMathScore(5); // TODO: Update database to include subjects in such a way that the frontend does not have to know what subjects exists to improve maintainability. As of now, the code would have to be modified to add a new score.
         setEnglishScore(5);
         setAslScore(5);
     }
