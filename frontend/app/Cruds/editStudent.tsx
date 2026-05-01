@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
-import { getStudentById, getStudentName, getTeacherName } from "../HelperFunctions";
+import { getStudentById, getStudentName, getStudentSections, getStudentSubjectRankings, getTeacherName } from "../HelperFunctions";
 
 interface EditStudentProps{
     sections: SectionProps[];
@@ -18,13 +18,22 @@ var maxRank = "10";
 // TODO: update to require passing in all students, teachers, and sections so this file is not responsible for retreiving the global data.
 export default function EditStudent({sections, students, teachers}: EditStudentProps){
     const [id, setId] = useState<string>("");
-    const [name, setName] = useState<string>("no_name");
+    const [name, setName] = useState<string>("");
     const [mathScore, setMathScore] = useState<number>(5);
     const [englishScore, setEnglishScore] = useState<number>(5);
     const [aslScore, setAslScore] = useState<number>(5);
 
     const [subjectRankings, setSubjectRankings] = useState<Record<string, number>>({"math": 5, "english": 5, "asl": 5});
     const [selectedSectionIds, setSelectedSectionIds] = useState<string[]>([]);
+
+    function selectStudent(e: ChangeEvent<HTMLSelectElement>){
+        setId(e.target.value)
+        setName(getStudentName(students, e.target.value))
+        setSelectedSectionIds(getStudentSections(students, e.target.value))
+        setMathScore(getStudentSubjectRankings(students, e.target.value).math)
+        setEnglishScore(getStudentSubjectRankings(students, e.target.value).english)
+        setAslScore(getStudentSubjectRankings(students, e.target.value).asl)
+    }
 
     /**
      * Calls the helper functions that updates the section lists.
@@ -72,7 +81,7 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
 
         e.currentTarget.reset(); // reset the data
         setId("");
-        setName("no_name");
+        setName("");
         setSelectedSectionIds([]);
         setMathScore(5); // TODO: Update database to include subjects in such a way that the frontend does not have to know what subjects exists to improve maintainability. As of now, the code would have to be modified to add a new score.
         setEnglishScore(5);
@@ -89,7 +98,8 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
             <summary className="hover:backdrop-brightness-125 p-4"> Edit Student (Click to collapse/expand)</summary>
             <div className={"border-2 p-4 m-4 ml-0 border-white/50"}>
                 <form name="editStudentForm" onSubmit={(e) => editStudent(e)}>
-                    <select className={"border-2 m-4 pt-4 pb-4 border-white/50"} onChange={(e) => {setId(e.target.value), setName(getStudentName(students, e.target.value))}}>
+                    {/* Sets the current student to be modified, providing their id */}
+                    <select className={"border-2 m-4 pt-4 pb-4 border-white/50"} onChange={(e) => {selectStudent(e)}}>
                         <option className="mb-2 border-b border-white/50 text-gray" value="">
                         ...
                         </option>
@@ -103,46 +113,38 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
                         }
                     </select>
 
-                    <input type="text" id="name" className={"ml-4 border-2 p-1 hover:backdrop-brightness-125 active:backdrop-brightness-90"} onChange={(e) => setName(e.currentTarget.value)}
+                    {/* Edit the student's name */}
+                    <input type="text" id="name" className={"ml-4 border-2 p-1 hover:backdrop-brightness-125 active:backdrop-brightness-90"} value={name} onChange={(e) => setName(e.currentTarget.value)}
                         data-tooltip-id="my-tooltip" data-tooltip-content="Enter student's updated name" />
                     <label className={"p-2 pr-4"} >Student Name</label>
                     <br />
 
-                    <input type="range" min={minRank} max={maxRank} id="mathRank" className={"border-2 p-1 ml-4"} onChange={(e) => setMathScore(Number(e.currentTarget.value))}/>
+                    {/* Edit the student's scores */}
+                    <input type="range" min={minRank} max={maxRank} id="mathRank" className={"border-2 p-1 ml-4"} value={mathScore} onChange={(e) => setMathScore(Number(e.currentTarget.value))}/>
                     <label className={"p-2 pr-4"} >{mathScore} : Math Ability Level</label>
                     <br />
-                    <input type="range" min={minRank} max={maxRank} id="englishRank" className={"border-2 p-1 ml-4"} onChange={(e) => setEnglishScore(Number(e.currentTarget.value))}/>
+                    <input type="range" min={minRank} max={maxRank} id="englishRank" className={"border-2 p-1 ml-4"} value={englishScore} onChange={(e) => setEnglishScore(Number(e.currentTarget.value))}/>
                     <label className={"p-2 pr-4"} >{englishScore} : English Ability Level</label>
                     <br />
-                    <input type="range" min={minRank} max={maxRank} id="aslRank" className={"border-2 p-1 ml-4"} onChange={(e) => setAslScore(Number(e.currentTarget.value))}/>
+                    <input type="range" min={minRank} max={maxRank} id="aslRank" className={"border-2 p-1 ml-4"} value={aslScore} onChange={(e) => setAslScore(Number(e.currentTarget.value))}/>
                     <label className={"p-2 pr-4 "} >{aslScore} : ASL Ability Level</label>    
                     <br />
 
+                        {/* BUG: not working right, only updating to either the first or last section. */}
+                    {/* Edit the student's sections */}
                     <label className={"p-2 pr-4"} >Sections:</label> 
-                    
-                    {/* Generate list of all selectable sections */}
+                        {/* Generate list of all selectable sections */}
                     <details className={"border-2 m-4 pt-4 pb-4 border-white/50"}>
                         <summary className="hover:backdrop-brightness-125 p-4"
                             data-tooltip-id="my-tooltip" data-tooltip-content="Select all sections student will be attending" 
                         >Sections (Click to collapse/expand)</summary>
                         {Object.entries(sections).map(([key, section]) => {
-                            // TODO: update so data is automatically filed out by students. 
-                            // if(students.indexOf(getStudentById(students, id)) == ){
-                                // return (
-                                //     <div key={key} className="mb-2 border-b border-white/50">
-                                //         <input type="checkbox" id={section.id} value={section.id} checked={selectedSectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
-                                //         <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getTeacherName(teachers, section.teacherId)} | {section.id}</label>    
-                                //     </div>
-                                // );
-                            // }
-                            // else {
                                 return (
                                     <div key={key} className="mb-2 border-b border-white/50">
                                         <input type="checkbox" id={section.id} value={section.id} checked={selectedSectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
                                         <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getTeacherName(teachers, section.teacherId)} | {section.id}</label>    
                                     </div>
                                 );
-                            // }
                         })
                         }
                     

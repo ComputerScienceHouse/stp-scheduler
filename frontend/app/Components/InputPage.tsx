@@ -13,7 +13,7 @@ import DeleteTeacher from '../Cruds/deleteTeacher';
 import { Tooltip } from 'react-tooltip';
 
 import { section_data, teacher_data, student_data } from "../GetFromApi";
-
+// TODO: update immediately rather than requiring page.tsx to be loaded first.
 
 /**
  * Author: Addison A

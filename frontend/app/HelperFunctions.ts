@@ -35,6 +35,39 @@ export function getStudentName(students: Array<StudentProps>, studentId: string)
 }
 
 
+/**
+ * Given an array of students and a student's id, returns the sections that student is a part of.
+ * @param students Array of Students
+ * @param studentId Id of the desired student
+ * @returns string[]
+ */
+export function getStudentSections(students: Array<StudentProps>, studentId: string): string[]{
+    const match = students.find(student => student.id === studentId); // find the matching student
+
+    if(match){
+        return match.sectionIds;
+    }
+    else{
+        return [];
+    }
+}
+
+/**
+ * Given an array of students and a student's id, returns the subject rankings for that student.
+ * @param students Array of Students
+ * @param studentId Id of the desired student
+ * @returns Record<string, number> as StudentSubjects
+ */
+export function getStudentSubjectRankings(students: Array<StudentProps>, studentId: string): StudentSubjects{
+    const match = students.find(student => student.id === studentId); // find the matching student
+
+    if(match){
+        return (match.subject_rankings) as unknown as StudentSubjects;
+    }
+    else{
+        return {} as StudentSubjects;
+    }
+}
 
 /**
  * Given an array of students and a student's id, returns the name of a specified student.
