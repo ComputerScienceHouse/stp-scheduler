@@ -27,12 +27,14 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
     const [selectedSectionIds, setSelectedSectionIds] = useState<string[]>([]);
 
     function selectStudent(e: ChangeEvent<HTMLSelectElement>){
-        setId(e.target.value)
-        setName(getStudentName(students, e.target.value))
-        setSelectedSectionIds(getStudentSections(students, e.target.value))
-        setMathScore(getStudentSubjectRankings(students, e.target.value).math)
-        setEnglishScore(getStudentSubjectRankings(students, e.target.value).english)
-        setAslScore(getStudentSubjectRankings(students, e.target.value).asl)
+        // e.target.value should be the student's id.
+        setId(e.target.value);
+        setName(getStudentName(students, e.target.value));
+        setMathScore(getStudentSubjectRankings(students, e.target.value).math);
+        setEnglishScore(getStudentSubjectRankings(students, e.target.value).english);
+        setAslScore(getStudentSubjectRankings(students, e.target.value).asl);
+
+        setSelectedSectionIds(getStudentSections(students, e.target.value));
     }
 
     /**
@@ -82,10 +84,11 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
         e.currentTarget.reset(); // reset the data
         setId("");
         setName("");
-        setSelectedSectionIds([]);
         setMathScore(5); // TODO: Update database to include subjects in such a way that the frontend does not have to know what subjects exists to improve maintainability. As of now, the code would have to be modified to add a new score.
         setEnglishScore(5);
         setAslScore(5);
+        
+        setSelectedSectionIds([]);
     }
 
     useEffect(() => {
@@ -99,7 +102,8 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
             <div className={"border-2 p-4 m-4 ml-0 border-white/50"}>
                 <form name="editStudentForm" onSubmit={(e) => editStudent(e)}>
                     {/* Sets the current student to be modified, providing their id */}
-                    <select className={"border-2 m-4 pt-4 pb-4 border-white/50"} onChange={(e) => {selectStudent(e)}}>
+                    <select className={"border-2 m-4 pt-4 pb-4 border-white/50"} onChange={(e) => {selectStudent(e)}}
+                        data-tooltip-id="my-tooltip" data-tooltip-content="Select a Student" >
                         <option className="mb-2 border-b border-white/50 text-gray" value="">
                         ...
                         </option>
@@ -114,8 +118,9 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
                     </select>
 
                     {/* Edit the student's name */}
+                    <br />
                     <input type="text" id="name" className={"ml-4 border-2 p-1 hover:backdrop-brightness-125 active:backdrop-brightness-90"} value={name} onChange={(e) => setName(e.currentTarget.value)}
-                        data-tooltip-id="my-tooltip" data-tooltip-content="Enter student's updated name" />
+                        data-tooltip-id="my-tooltip" data-tooltip-content="Edit the student's name" />
                     <label className={"p-2 pr-4"} >Student Name</label>
                     <br />
 
@@ -136,7 +141,7 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
                         {/* Generate list of all selectable sections */}
                     <details className={"border-2 m-4 pt-4 pb-4 border-white/50"}>
                         <summary className="hover:backdrop-brightness-125 p-4"
-                            data-tooltip-id="my-tooltip" data-tooltip-content="Select all sections student will be attending" 
+                            data-tooltip-id="my-tooltip" data-tooltip-content="Select all sections the student will be attending" 
                         >Sections (Click to collapse/expand)</summary>
                         {Object.entries(sections).map(([key, section]) => {
                                 return (
@@ -150,6 +155,7 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
                     
                     </details>
 
+                    {/* Submit data button */}
                     <button type="submit" className={"border-2 p-1 ml-4 w-35 hover:backdrop-brightness-125 active:backdrop-brightness-90"}>Update</button>
                 </form>
             </div>

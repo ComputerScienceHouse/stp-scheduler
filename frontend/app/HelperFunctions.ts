@@ -18,6 +18,57 @@ export function getTeacherName(teachers: Array<TeacherProps>, teacherId: string)
 }
 
 /**
+ * Given an array of teachers and a teacher's id, returns the mentor status of a specified teacher.
+ * @param teachers Array of Teachers
+ * @param teacherId Id of the desired teacher
+ * @returns boolean
+ */
+export function getTeacherMentorStatus(teachers: Array<TeacherProps>, teacherId: string): boolean{
+    const match = teachers.find(teacher => teacher.id === teacherId); // find the matching teacher
+
+    if(match){ // if not unidentified, then return the mentor status
+        return match.is_mentor;
+    }
+    else{
+        return false;
+    }
+}
+
+/**
+ * Given an array of teachers and a teacher's id, returns the name of a specified teacher.
+ * @param teachers Array of Teachers
+ * @param teacherId Id of the desired teacher
+ * @returns string[]
+ */
+export function getTeacherSections(teachers: Array<TeacherProps>, teacherId: string): string[]{
+    const match = teachers.find(teacher => teacher.id === teacherId); // find the matching teacher
+
+    if(match){ // if not unidentified, then return the sectionIds
+        return match.sectionIds;
+    }
+    else{
+        return [];
+    }
+}
+
+/**
+ * Given an array of teachers and a teacher's id, returns the subject preference weights of a specified teacher.
+ * @param teachers Array of Teachers
+ * @param teacherId Id of the desired teacher
+ * @returns Record<string, number> as Subjects
+ */
+export function getTeacherSubjectWeights(teachers: Array<TeacherProps>, teacherId: string): Subjects{
+    const match = teachers.find(teacher => teacher.id === teacherId); // find the matching teacher
+
+    if(match){ // if not unidentified, then return the subject weights
+        return match.subjects as unknown as Subjects;
+    }
+    else{
+        return {} as Subjects;
+    }
+}
+
+/**
  * Given an array of students and a student's id, returns the name of a specified student.
  * @param students Array of Students
  * @param studentId Id of the desired student
@@ -56,16 +107,16 @@ export function getStudentSections(students: Array<StudentProps>, studentId: str
  * Given an array of students and a student's id, returns the subject rankings for that student.
  * @param students Array of Students
  * @param studentId Id of the desired student
- * @returns Record<string, number> as StudentSubjects
+ * @returns Record<string, number> as Subjects
  */
-export function getStudentSubjectRankings(students: Array<StudentProps>, studentId: string): StudentSubjects{
+export function getStudentSubjectRankings(students: Array<StudentProps>, studentId: string): Subjects{
     const match = students.find(student => student.id === studentId); // find the matching student
 
     if(match){
-        return (match.subject_rankings) as unknown as StudentSubjects;
+        return (match.subject_rankings) as unknown as Subjects;
     }
     else{
-        return {} as StudentSubjects;
+        return {} as Subjects;
     }
 }
 
