@@ -1,63 +1,69 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import * as API from '../SendToApi';
-import { getFromBackendApi, teacher_data } from "../GetFromApi";
+import { FormEvent, useEffect, useState } from "react";
+import * as API from "../SendToApi";
+import { getFromBackendApi, instructor_data } from "../GetFromApi";
+import type { InstructorProps } from "../InstructorProps";
 
-// TODO: Update delete teacher to function like delete student
-export default function DeleteTeacher(){
-    const [teacherId, setTeacherId] = useState<string>("");
-    const [teachers, setTeachers] = useState<TeacherProps[]>([])
+export default function DeleteTeacher() {
+  const [instructorId, setInstructorId] = useState<string>("");
+  const [instructors, setInstructors] = useState<InstructorProps[]>([]);
 
-    /**
-     * Delete a student
-     * 
-     * @param e FormEvent<HTMLFormElement>
-     */
-    function deleteTeacher(e: FormEvent<HTMLFormElement>){
-        e.preventDefault(); // prevents page reload on form submission
+  function deleteInstructorHandler(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-        console.log("Teacher Deletion Initiated: ");
-        console.log("teacher_id: " + teacherId);
+    API.deleteInstructor(instructorId);
 
-        API.deleteTeacher(teacherId);
+    e.currentTarget.reset();
+    setInstructorId("");
 
-        e.currentTarget.reset(); // reset the data
-        setTeacherId("");
+    getFromBackendApi("Instructors");
+    setInstructors(instructor_data);
+  }
 
-        // Reload teachers without the deleted teacher
-        getFromBackendApi("Teachers");
-        setTeachers(teacher_data);
-    }
+  useEffect(() => {
+    setInstructors(instructor_data);
+  }, []);
 
-    useEffect(() => {
-        setTeachers(teacher_data)
-    }, []);
+  return (
+    <details className="mb-2">
+      <summary className="hover:backdrop-brightness-125 p-4">
+        {" "}
+        Delete Instructor (Click to collapse/expand)
+      </summary>
+      <div className={"border-2 p-4 m-4 ml-0 border-white/50"}>
+        <form name="deleteInstructorForm" onSubmit={(e) => deleteInstructorHandler(e)}>
+          <label className={"p-2 pr-4"}>Instructors:</label>
 
-    return (
-        <details className="mb-2">
-            <summary className="hover:backdrop-brightness-125 p-4"> Delete Instructor (Click to collapse/expand)</summary>
-            <div className={"border-2 p-4 m-4 ml-0 border-white/50"}>
-                <form name="createStudentForm" onSubmit={(e) => deleteTeacher(e)}>
+          <select
+            className={"border-2 m-4 pt-4 pb-4 border-white/50"}
+            onChange={(e) => {
+              setInstructorId(e.target.value);
+            }}
+          >
+            <option className="mb-2 border-b border-white/50 text-gray" value="">
+              ...
+            </option>
+            {instructors.map((inst) => (
+              <option
+                key={inst.id}
+                className="mb-2 border-b border-white/50 text-black"
+                id={inst.id}
+                value={inst.id}
+              >
+                {inst.name} | {inst.id}
+              </option>
+            ))}
+          </select>
 
-                    <label className={"p-2 pr-4"} >Instructors:</label> 
-                    
-                    {/* Generate list of all selectable sections */}
-                    <select className={"border-2 m-4 pt-4 pb-4 border-white/50"} onChange={(e) => {setTeacherId(e.target.value)}}>
-                        <option className="mb-2 border-b border-white/50 text-gray" value="">
-                        ...
-                        </option>
-                        {Object.entries(teachers).map(([key, teacher]) => {
-                            return (
-                                <option key={key} className="mb-2 border-b border-white/50 text-black" id={teacher.id} value={teacher.id}>
-                                    {teacher.name} | {teacher.id} 
-                                </option>
-                            );
-                        })
-                        }
-                    </select>
-
-                    <button type="submit" className={"border-2 p-1 ml-4 w-35 hover:backdrop-brightness-125 active:backdrop-brightness-90"}>Delete</button>
-                </form>
-            </div>
-        </details>
-    );
+          <button
+            type="submit"
+            className={
+              "border-2 p-1 ml-4 w-35 hover:backdrop-brightness-125 active:backdrop-brightness-90"
+            }
+          >
+            Delete
+          </button>
+        </form>
+      </div>
+    </details>
+  );
 }

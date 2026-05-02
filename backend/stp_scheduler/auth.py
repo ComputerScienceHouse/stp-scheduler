@@ -96,7 +96,6 @@ def _decode_access_token(token: str, settings: AuthSettings) -> dict:
 
 
 def authorization_header_valid(authorization: Optional[str]) -> bool:
-    """True if auth is off, or Authorization is a valid Bearer JWT."""
     settings = get_auth_settings()
     if settings is None:
         return True

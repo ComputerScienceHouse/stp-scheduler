@@ -64,7 +64,7 @@ export default function CreateTeacher(){
         console.log("is_mentor: " + is_mentor);
         console.log("section_ids: " + section_ids);
 
-        API.createTeacher({
+        API.createInstructor({
             "name": teacher_name,
             "subject_weights": subject_weights,
             "is_mentor": is_mentor

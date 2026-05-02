@@ -1,11 +1,14 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
-import { getStudentById, getStudentName, getStudentSections, getStudentSubjectRankings, getTeacherName } from "../HelperFunctions";
+import { getStudentById, getStudentName, getStudentSections, getStudentSubjectRankings, getInstructorName } from "../HelperFunctions";
+import type { InstructorProps } from "../InstructorProps";
+import type { SectionProps } from "../SectionProps";
+import type { StudentProps } from "../StudentProps";
 
 interface EditStudentProps{
     sections: SectionProps[];
     students: StudentProps[];
-    teachers: TeacherProps[];
+    teachers: InstructorProps[];
 }
 
 /**
@@ -142,15 +145,12 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
                         <summary className="hover:backdrop-brightness-125 p-4"
                             data-tooltip-id="my-tooltip" data-tooltip-content="Select all sections the student will be attending" 
                         >Sections (Click to collapse/expand)</summary>
-                        {Object.entries(sections).map(([key, section]) => {
-                                return (
-                                    <div key={key} className="mb-2 border-b border-white/50">
-                                        <input type="checkbox" id={section.id} value={section.id} checked={selectedSectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
-                                        <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getTeacherName(teachers, section.teacherId)} | {section.id}</label>    
-                                    </div>
-                                );
-                        })
-                        }
+                        {sections.map((section) => (
+                                <div key={section.id} className="mb-2 border-b border-white/50">
+                                    <input type="checkbox" id={section.id} value={section.id} checked={selectedSectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
+                                        <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getInstructorName(teachers, section.instructorId)} | {section.id}</label>    
+                                </div>
+                            ))}
                     
                     </details>
 

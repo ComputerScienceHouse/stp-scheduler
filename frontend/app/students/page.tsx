@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import * as GetAPI from "../GetFromApi";
+import type { StudentProps } from "../StudentProps";
 
 export default function StudentsPage(){
     const [studentData, setStudentData] = useState<StudentProps[]>([]);
