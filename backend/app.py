@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, HTTPException
 from contextlib import asynccontextmanager
 
@@ -10,6 +11,8 @@ from section import Section, export_sections_to_csv
 from teacher import Teacher, load_teachers_csv, generate_teacher_dataframe, delete_teacher
 from constants import TIME_BLOCKS, LUNCH_TIME, CORE_CLASSES
 from fastapi.middleware.cors import CORSMiddleware
+
+
 
 # -------------------------------------------------
 # In-memory application state
@@ -222,15 +225,17 @@ app = FastAPI(
 
 # TODO: BUG: This is to access the front end with. This should be looked at to change for security reasons -----
 origins = [
-    "http://localhost:3000",
-    "http://localhost",
-    "http://localhost:8080",
+    "http://localhost:3000"
 ]
+_frontend_url = os.environ.get("FRONTEND_URL", "").strip()
+if _frontend_url and _frontend_url not in origins:
+    origins.append(_frontend_url)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 # -----
 
