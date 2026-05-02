@@ -38,7 +38,7 @@ export default function Navbar(){
                         </li>
                     ))}
                     <li className="flex flex-row justify-center items-center">|</li>
-                    <NavbarAuthControls />
+                    <li className="flex flex-row justify-center items-center"><NavbarAuthControls/> |</li>
                 </ul>
             </div>
         </div>
