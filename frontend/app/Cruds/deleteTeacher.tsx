@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
 import { getFromBackendApi, teacher_data } from "../GetFromApi";
 
+// TODO: Update delete teacher to function like delete student
 export default function DeleteTeacher(){
     const [teacherId, setTeacherId] = useState<string>("");
     const [teachers, setTeachers] = useState<TeacherProps[]>([])

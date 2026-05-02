@@ -1,17 +1,16 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
 import { getStudentName, getTeacherName } from "../HelperFunctions";
-import { section_data, teacher_data } from "../GetFromApi";
 
 interface CreateStudentProps{
-    scheduleSections: string[];
+    sections: SectionProps[];
+    teachers: TeacherProps[];
 }
 
 var minRank = "0";
 var maxRank = "10";
 
-export default function CreateStudent({scheduleSections}: CreateStudentProps){
-    const [teachers, setTeachers] = useState<TeacherProps[]>([])
+export default function CreateStudent({sections, teachers}: CreateStudentProps){
 
     const [name, setName] = useState<string>("no_name");
     const [mathScore, setMathScore] = useState<number>(5);
@@ -19,9 +18,7 @@ export default function CreateStudent({scheduleSections}: CreateStudentProps){
     const [aslScore, setAslScore] = useState<number>(5);
 
     const [subjectRankings, setSubjectRankings] = useState<Record<string, number>>({"math": 5, "english": 5, "asl": 5});
-    const [sections, setSections] = useState<SectionProps[]>([]);
     const [sectionIds, setSectionIds] = useState<string[]>([]);
-
 
 
     /**
@@ -46,15 +43,15 @@ export default function CreateStudent({scheduleSections}: CreateStudentProps){
      * @param subject_rankings unused
      * @param section_ids unused
      */
-    async function createStudent(e: FormEvent<HTMLFormElement>, student_name: string = "", subject_rankings: Record<string, number> = {}, section_ids: string[] = []){
+    async function createStudent(e: FormEvent<HTMLFormElement>){
         e.preventDefault(); // prevents page reload on form submission
         
-        student_name = name;
-        subject_rankings = {
+        var student_name: string = name;
+        var subject_rankings: Record<string, number> = {
             "math": mathScore, 
             "english": englishScore, 
             "asl": aslScore};
-        section_ids = sectionIds;
+        var section_ids: string[] = sectionIds;
 
         console.log("Student Creation Initiated: ");
         console.log("student_name: " + student_name);
@@ -82,13 +79,6 @@ export default function CreateStudent({scheduleSections}: CreateStudentProps){
         console.log("sectionIds changed:", sectionIds);
     }, [sectionIds]);
 
-    useEffect(() => {
-        setSections(section_data)
-        setTeachers(teacher_data)
-    }, []);
-
-
-
     return (
         <details className="mb-2">
             <summary className="hover:backdrop-brightness-125 p-4"> Create Student (Click to collapse/expand)</summary>
@@ -109,8 +99,7 @@ export default function CreateStudent({scheduleSections}: CreateStudentProps){
                     <br />
 
                     <label className={"p-2 pr-4"} >Sections:</label> 
-                    {/* <input type="text" id="sections" className={"border-2 p-1 hover:backdrop-brightness-125 active:backdrop-brightness-90"}/> */}
-                    
+
                     {/* Generate list of all selectable sections */}
                     <details className={"border-2 m-4 pt-4 pb-4 border-white/50"}>
                         <summary className="hover:backdrop-brightness-125 p-4"
@@ -129,7 +118,6 @@ export default function CreateStudent({scheduleSections}: CreateStudentProps){
                         })
                         }
                     </details>
-                    {/* <input type="checkbox" id="sections" className={"border-2 p-1 hover:backdrop-brightness-125 active:backdrop-brightness-90"}/> */}
 
                     <button type="submit" className={"border-2 p-1 ml-4 w-35 hover:backdrop-brightness-125 active:backdrop-brightness-90"}>Create</button>
                 </form>

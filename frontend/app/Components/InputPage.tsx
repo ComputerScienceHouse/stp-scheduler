@@ -12,6 +12,9 @@ import DeleteStudent from '../Cruds/deleteStudent';
 import DeleteTeacher from '../Cruds/deleteTeacher';
 import { Tooltip } from 'react-tooltip';
 
+import { section_data, teacher_data, student_data } from "../GetFromApi";
+// TODO: update immediately rather than requiring page.tsx to be loaded first.
+
 /**
  * Author: Addison A
  * Last Updated: 3/27/2026
@@ -202,11 +205,11 @@ export default function InputPage({path}: InputPageProps){
             <p>{studentData}</p>
 
 
-            <CreateStudent scheduleSections={sectionIds}></CreateStudent>
-            <CreateTeacher scheduleSections={sectionIds}></CreateTeacher>
-            <EditStudent scheduleSections={sectionIds}></EditStudent>
-            <EditTeacher scheduleSections={sectionIds}></EditTeacher>
-            <DeleteStudent></DeleteStudent>
+            <CreateStudent sections={section_data} teachers={teacher_data}></CreateStudent>
+            <CreateTeacher></CreateTeacher>
+            <EditStudent sections={section_data} students={student_data} teachers={teacher_data}></EditStudent>
+            <EditTeacher sections={section_data} teachers={teacher_data}></EditTeacher>
+            <DeleteStudent students={student_data}></DeleteStudent>
             <DeleteTeacher></DeleteTeacher>
         </div>
     );
