@@ -1,6 +1,10 @@
 import os
-from fastapi import FastAPI, HTTPException
+import auth
 from contextlib import asynccontextmanager
+
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, status
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 
 from pydantic import BaseModel, RootModel
 from typing import Optional
@@ -187,6 +191,8 @@ def run_scheduler() -> list[str]:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    auth.init_auth(auth.load_auth_settings_from_env())
+
     students.clear()
     teachers.clear()
     sections.clear()
@@ -228,10 +234,11 @@ origins = [
     "http://localhost:3000"
 ]
 _frontend_urls = os.environ.get("FRONTEND_URLS", "").strip()
-if _frontend_urls and _frontend_urls not in origins:
+if _frontend_urls:
     for _frontend_url in _frontend_urls.split(","):
-        if _frontend_url and _frontend_url not in origins:
-            origins.append(_frontend_url)
+        _u = _frontend_url.strip()
+        if _u and _u not in origins:
+            origins.append(_u)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -242,31 +249,108 @@ app.add_middleware(
 # -----
 
 
+@app.middleware("http")
+async def protect_docs_when_authenticated(request: Request, call_next):
+    if auth.get_auth_settings() is None:
+        return await call_next(request)
+    path = request.url.path
+    if path not in ("/docs", "/redoc", "/openapi.json"):
+        return await call_next(request)
+    if auth.authorization_header_valid(request.headers.get("Authorization")):
+        return await call_next(request)
+    return JSONResponse(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        content={"detail": "Not authenticated"},
+    )
+
+
 # -------------------------------------------------
-# API endpoints
+# Request models (TODO: refactor into separate module)
+# -------------------------------------------------
+
+class TeacherModel(BaseModel):
+    id: Optional[str] = None
+    name: str
+    subject_weights: dict[str, int]
+    sections: Optional[int] = None
+    is_mentor: bool
+
+
+class StudentModel(BaseModel):
+    id: Optional[str] = None
+    name: str
+    subject_abilities: dict[str, int]
+    section_ids: Optional[list[str]] = None
+
+
+class CSV(RootModel[list[dict]]):
+    pass
+
+
+class LoginBody(BaseModel):
+    username: str
+    password: str
+
+
+protected_router = APIRouter(dependencies=[Depends(auth.require_auth)])
+
+
+# -------------------------------------------------
+# Public endpoints
 # -------------------------------------------------
 
 @app.get("/")
+def health_root():
+    return {"status": "ok"}
+
+
+@app.get("/health")
 def health():
     return {"status": "ok"}
 
 
-@app.get("/students")
+@app.get("/auth/status")
+def auth_status():
+    return {"auth_required": auth.get_auth_settings() is not None}
+
+
+@app.post("/auth/login")
+def login(body: LoginBody):
+    settings = auth.get_auth_settings()
+    if settings is None:
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST,
+            detail="Authentication is not configured",
+        )
+    if not auth.verify_login(body.username, body.password, settings):
+        raise HTTPException(
+            status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials",
+        )
+    token = auth.issue_access_token(settings)
+    return {"access_token": token, "token_type": "bearer"}
+
+
+# -------------------------------------------------
+# Protected endpoints
+# -------------------------------------------------
+
+@protected_router.get("/students")
 def get_students():
     return [s.to_json() for s in students.values()]
 
 
-@app.get("/teachers")
+@protected_router.get("/teachers")
 def get_teachers():
     return [t.to_json() for t in teachers.values()]
 
 
-@app.get("/sections")
+@protected_router.get("/sections")
 def get_sections():
     return [s.to_json() for s in sections.values()]
 
 
-@app.get("/buckets")
+@protected_router.get("/buckets")
 def get_buckets():
     buckets, _ = create_buckets()
     for b in buckets:
@@ -285,7 +369,7 @@ def get_buckets():
     ]
 
 
-@app.get("/schedule")
+@protected_router.get("/schedule")
 def schedule():
     conflicts = app.state.conflicts
     return {
@@ -293,7 +377,7 @@ def schedule():
         "conflicts": conflicts
     }
     
-@app.post("/schedule/regenerate")
+@protected_router.post("/schedule/regenerate")
 def regenerate_schedule():
     conflicts = run_scheduler()
     app.state.conflicts = conflicts
@@ -304,13 +388,13 @@ def regenerate_schedule():
 
 
 
-@app.post("/export")
+@protected_router.post("/export")
 def export():
     # TODO: connect this app to S3 so the csv is downloadable
     export_sections_to_csv(list(sections.values()), "final_sections.csv")
     return {"status": "exported"}
 
-@app.delete("/students/delete")
+@protected_router.delete("/students/delete")
 def delete_student_api(student_id: str):
     # request should include "student_id" as a string
     s = students.pop(student_id)
@@ -318,40 +402,23 @@ def delete_student_api(student_id: str):
     print(f"Student {student_id} deleted")
     return {"message": f"Student {student_id} deleted"}
 
-@app.delete("/teachers/delete")
+@protected_router.delete("/teachers/delete")
 def delete_teacher_api(teacher_id: str):
     # request should include "teacher_id" as a string
     t = teachers.pop(teacher_id)
     delete_teacher(t)
     print(f"Teacher {teacher_id} deleted")
     return {"message": f"Teacher {teacher_id} deleted"}
-    
 
-# TODO: refactor this file, split requests / responses into separate model file
-class TeacherModel(BaseModel):
-    id: Optional[str] = None
-    name: str
-    subject_weights: dict[str, int]
-    sections: Optional[int] = None
-    is_mentor: bool
 
-class StudentModel(BaseModel):
-    id: Optional[str] = None
-    name: str
-    subject_abilities: dict[str, int]
-    section_ids: Optional[list[str]] = None
-
-class CSV(RootModel[list[dict]]):
-    pass
-
-@app.post("/teachers/create")
+@protected_router.post("/teachers/create")
 def add_teacher(teacher: TeacherModel):
     print("Received:", teacher)
     t = Teacher(teacher.subject_weights, teacher.sections if teacher.sections is not None else 3, teacher.name, teacher.is_mentor)
     teachers[str(t.id)] = t
     return {"message": "Teacher added", "teacher": teacher}
 
-@app.post("/students/create")
+@protected_router.post("/students/create")
 def add_student(student: StudentModel):
     print("Received:", student)
     s = Student(student.name, **student.subject_abilities)
@@ -360,7 +427,7 @@ def add_student(student: StudentModel):
             s.add_section(sections[section_id])     
     return {"message": "Student added", "student": student}
 
-@app.put("/teachers/update")
+@protected_router.put("/teachers/update")
 def update_teacher(teacher: TeacherModel):
     # the request must include an id
     t = teachers.get(teacher.id)
@@ -371,7 +438,7 @@ def update_teacher(teacher: TeacherModel):
         t.set_sections(teacher.sections)
     return {"message": "Teacher added", "teacher": teacher}
 
-@app.put("/students/update")
+@protected_router.put("/students/update")
 def update_student(student: StudentModel):
     s = students.get(student.id)
     s.set_name(student.name)
@@ -383,8 +450,11 @@ def update_student(student: StudentModel):
         s.set_schedule(s_schedule)
     return {"message": "Student updated", "student": student}
 
-@app.post("/update/csv")
+@protected_router.post("/update/csv")
 def update_csv(csv: CSV):
     print("Received:", csv)
-    return {"message": "CSV uploaded", "csv": csv}  
+    return {"message": "CSV uploaded", "csv": csv}
+
+
+app.include_router(protected_router)
 # TODO: the frontend sends a full stringified json using csv data which can be used to update the entire schedule

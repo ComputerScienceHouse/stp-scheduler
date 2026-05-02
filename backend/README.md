@@ -24,6 +24,14 @@ fastapi run app.py
 
 This hosts the API at localhost:8000
 
+### Authentication
+
+When **`AUTH_SECRET`** is set (at least 32 characters), all API routes except `/`, `/health`, `/auth/status`, and `/auth/login` require an `Authorization: Bearer <jwt>` header.
+
+Also set **`AUTH_USERNAME`** and **`AUTH_PASSWORD`**. Optional **`ACCESS_TOKEN_EXPIRE_MINUTES`** defaults to `480`.
+
+Unset **`AUTH_SECRET`** to disable authentication (local development only).
+
 ### Docker
 
 From this directory (`backend/`):

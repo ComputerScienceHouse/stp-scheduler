@@ -7,8 +7,7 @@
  * 
  */
 
-import 'dotenv/config';
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+import { apiFetch } from "./apiClient";
 
 /**
  * TODO: Implement this
@@ -32,7 +31,7 @@ export function updateFromCSV(csvData: any){
             body: JSON.stringify(csvData)
         };
 
-        fetch(`${API_URL}/csv/update`, requestOptions)
+        apiFetch(`/csv/update`, requestOptions)
             .then(response => response.json())
             .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
 
@@ -55,7 +54,7 @@ export function regenerateSchedule(){
             headers: { 'Content-Type': 'application/json' }
         };
 
-        fetch(`${API_URL}/schedule/regenerate`, requestOptions)
+        apiFetch(`/schedule/regenerate`, requestOptions)
             .then(response => response.json())
             .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
 
@@ -79,7 +78,7 @@ export function createTeacher(teacher: TeacherModel){
         body: JSON.stringify(teacher)
     };
 
-    fetch(`${API_URL}/teachers/create`, requestOptions)
+    apiFetch(`/teachers/create`, requestOptions)
         .then(response => response.json())
         .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
 
@@ -99,7 +98,7 @@ export function editTeacher(teacher: any){
         body: JSON.stringify(teacher)
     };
 
-    fetch(`${API_URL}/teachers/update`, requestOptions)
+    apiFetch(`/teachers/update`, requestOptions)
         .then(response => response.json())
         .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
 
@@ -118,7 +117,7 @@ export function deleteTeacher(teacher_id: string){
         headers: { 'Content-Type': 'application/json' }
     };
 
-    fetch(`${API_URL}/teachers/delete?teacher_id=${encodeURIComponent(teacher_id)}`, requestOptions)
+    apiFetch(`/teachers/delete?teacher_id=${encodeURIComponent(teacher_id)}`, requestOptions)
         .then(response => response.json())
         .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
 
@@ -154,7 +153,7 @@ export function createStudent(student: StudentModel){
         body: JSON.stringify(student)
     };
 
-    fetch(`${API_URL}/students/create`, requestOptions)
+    apiFetch(`/students/create`, requestOptions)
         .then(response => response.json())
         .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
         
@@ -175,7 +174,7 @@ export function editStudent(student: any){
         body: JSON.stringify(student)
     };
 
-    fetch(`${API_URL}/students/update`, requestOptions)
+    apiFetch(`/students/update`, requestOptions)
         .then(response => response.json())
         .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
         
@@ -195,7 +194,7 @@ export function deleteStudent(student_id: string){
         headers: { 'Content-Type': 'application/json' },
     };
 
-    fetch(`${API_URL}/students/delete?student_id=${encodeURIComponent(student_id)}`, requestOptions)
+    apiFetch(`/students/delete?student_id=${encodeURIComponent(student_id)}`, requestOptions)
         .then(response => response.json())
         .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
         
@@ -218,7 +217,7 @@ export function createSection(section: string){
         body: section
     };
 
-    fetch(`${API_URL}/create/section`, requestOptions)
+    apiFetch(`/create/section`, requestOptions)
         .then(response => response.json())
         .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
     
@@ -239,7 +238,7 @@ export function createTimeblock(timeblock: string){
         body: timeblock
     };
 
-    fetch(`${API_URL}/create/timeblock`, requestOptions)
+    apiFetch(`/create/timeblock`, requestOptions)
         .then(response => response.json())
         .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
 
