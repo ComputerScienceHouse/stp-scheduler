@@ -1,246 +1,219 @@
 /**
  * Handles api calls to the backend
- * 
+ *
  * Author: Addison A
  * Edited By: Logan E
  * Last Updated: 4/30/2026
- * 
  */
 
 import { apiFetch } from "./apiClient";
 
-/**
- * TODO: Implement this
- * Generates and returns an id string
- * @returns string, "fake-id"
- */
-export function generateId(){
-    return "fake-id";
+export function generateId() {
+  return "fake-id";
 }
 
-/**
- * Sends a POST request to update the data in the backend given an entire csv file
- * @param csvData 
- */
-export function updateFromCSV(csvData: any){
-    try{
-        var result: any;
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(csvData)
-        };
-
-        apiFetch(`/csv/update`, requestOptions)
-            .then(response => response.json())
-            .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
-
-        return result;
-    } catch (error) {
-        alert("Error, database is not running, please refresh the page and try again or contact the Computer Science House");  
-    }
-}
-
-
-/**
- * Sends a POST request to have the schedule code re-run, generating a completely new schedule
- * @param csvData 
- */
-export function regenerateSchedule(){
-    try {
-        var result: any;
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        };
-
-        apiFetch(`/schedule/regenerate`, requestOptions)
-            .then(response => response.json())
-            .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
-
-        return result;
-    } catch (error) {
-        alert("Error, database is not running, please refresh the page and try again or contact the Computer Science House");  
-    }
-}
-
-
-/**
- * Sends a POST request to create a teacher in the backend
- * @param teacher 
- * @returns 
- */
-export function createTeacher(teacher: TeacherModel){
+export function updateFromCSV(csvData: any) {
+  try {
     var result: any;
     const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(teacher)
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(csvData),
     };
 
-    apiFetch(`/teachers/create`, requestOptions)
-        .then(response => response.json())
-        .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
+    apiFetch(`/csv/update`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => (result = data));
 
     return result;
+  } catch (error) {
+    alert(
+      "Error, database is not running, please refresh the page and try again or contact the Computer Science House",
+    );
+  }
 }
 
-/**
- * Sends a PUT request to edit a teacher in the backend
- * @param teacher 
- * @returns 
- */
-export function editTeacher(teacher: any){
+export function regenerateSchedule() {
+  try {
     var result: any;
     const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(teacher)
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
     };
 
-    apiFetch(`/teachers/update`, requestOptions)
-        .then(response => response.json())
-        .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
+    apiFetch(`/schedule/regenerate`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => (result = data));
 
     return result;
+  } catch (error) {
+    alert(
+      "Error, database is not running, please refresh the page and try again or contact the Computer Science House",
+    );
+  }
 }
 
-/**
- * Sends a DELETE request to delete a teacher in the backend
- * @param teacherId
- * @returns 
- */
-export function deleteTeacher(teacher_id: string){
-    var result: any;
-    const requestOptions = {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-    };
-
-    apiFetch(`/teachers/delete?teacher_id=${encodeURIComponent(teacher_id)}`, requestOptions)
-        .then(response => response.json())
-        .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
-
-    return result;
+/** Replace all students from an uploaded CSV (multipart). */
+export async function importStudentsCsv(file: File): Promise<{ imported: number }> {
+  const fd = new FormData();
+  fd.append("file", file);
+  const r = await apiFetch("/import/students", { method: "POST", body: fd });
+  if (!r.ok) {
+    const t = await r.text();
+    throw new Error(t || r.statusText);
+  }
+  return r.json();
 }
 
-interface TeacherModel{
-    id?: string,
-    name: string,
-    subject_weights: Record<string, number>,
-    sections?: number,
-    is_mentor: boolean
+/** Replace all instructors from an uploaded CSV (multipart). */
+export async function importInstructorsCsv(file: File): Promise<{ imported: number }> {
+  const fd = new FormData();
+  fd.append("file", file);
+  const r = await apiFetch("/import/instructors", { method: "POST", body: fd });
+  if (!r.ok) {
+    const t = await r.text();
+    throw new Error(t || r.statusText);
+  }
+  return r.json();
 }
 
-interface StudentModel{
-    id?: string,
-    name: string,
-    subject_abilities: Record<string, number>,
-    section_ids?: string[]
+export function createInstructor(instructor: InstructorModel) {
+  var result: any;
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(instructor),
+  };
+
+  apiFetch(`/instructors/create`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => (result = data));
+
+  return result;
 }
 
-/**
- * Sends a POST request to create a student in the backend
- * @param student
- * @returns 
- */
-export function createStudent(student: StudentModel){
-    var result: any;
+export function editInstructor(instructor: any) {
+  var result: any;
+  const requestOptions = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(instructor),
+  };
 
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(student)
-    };
+  apiFetch(`/instructors/update`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => (result = data));
 
-    apiFetch(`/students/create`, requestOptions)
-        .then(response => response.json())
-        .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
-        
-    return result;
+  return result;
 }
 
-/**
- * Sends a PUT request to edit a student in the backend
- * @param student 
- * @returns 
- */
-export function editStudent(student: any){
-    var result: any;
+export function deleteInstructor(instructor_id: string) {
+  var result: any;
+  const requestOptions = {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  };
 
-    const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(student)
-    };
+  apiFetch(
+    `/instructors/delete?instructor_id=${encodeURIComponent(instructor_id)}`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((data) => (result = data));
 
-    apiFetch(`/students/update`, requestOptions)
-        .then(response => response.json())
-        .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
-        
-    return result;
+  return result;
 }
 
-/**
- * Sends a DELETE request to delete a student in the backend
- * @param studentId
- * @returns 
- */
-export function deleteStudent(student_id: string){
-    var result: any;
-
-    const requestOptions = {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-    };
-
-    apiFetch(`/students/delete?student_id=${encodeURIComponent(student_id)}`, requestOptions)
-        .then(response => response.json())
-        .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
-        
-    return result;
+interface InstructorModel {
+  id?: string;
+  name: string;
+  subject_weights: Record<string, number>;
+  sections?: number;
+  is_mentor: boolean;
 }
 
-
-// UNUSED:
-/**
- * Sends a POST request to create a section in the backend
- * @param section 
- * @returns 
- */
-export function createSection(section: string){   
-    var result: any;
-
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: section
-    };
-
-    apiFetch(`/create/section`, requestOptions)
-        .then(response => response.json())
-        .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
-    
-    return result;
+interface StudentModel {
+  id?: string;
+  name: string;
+  subject_abilities: Record<string, number>;
+  section_ids?: string[];
 }
 
-/**
- * Sends a POST request to create a timeblock in the backend
- * @param timeblock 
- * @returns 
- */
-export function createTimeblock(timeblock: string){
-    var result: any;
+export function createStudent(student: StudentModel) {
+  var result: any;
 
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: timeblock
-    };
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(student),
+  };
 
-    apiFetch(`/create/timeblock`, requestOptions)
-        .then(response => response.json())
-        .then(data => result); // NOTE: This is the response data from the backend, idk what to do with it yet.
+  apiFetch(`/students/create`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => (result = data));
 
-    return result;
+  return result;
+}
+
+export function editStudent(student: any) {
+  var result: any;
+
+  const requestOptions = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(student),
+  };
+
+  apiFetch(`/students/update`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => (result = data));
+
+  return result;
+}
+
+export function deleteStudent(student_id: string) {
+  var result: any;
+
+  const requestOptions = {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  };
+
+  apiFetch(`/students/delete?student_id=${encodeURIComponent(student_id)}`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => (result = data));
+
+  return result;
+}
+
+export function createSection(section: string) {
+  var result: any;
+
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: section,
+  };
+
+  apiFetch(`/create/section`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => (result = data));
+
+  return result;
+}
+
+export function createTimeblock(timeblock: string) {
+  var result: any;
+
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: timeblock,
+  };
+
+  apiFetch(`/create/timeblock`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => (result = data));
+
+  return result;
 }

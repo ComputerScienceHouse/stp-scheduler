@@ -1,10 +1,12 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
-import { getStudentName, getTeacherName } from "../HelperFunctions";
+import { getStudentName, getInstructorName } from "../HelperFunctions";
+import type { InstructorProps } from "../InstructorProps";
+import type { SectionProps } from "../SectionProps";
 
 interface CreateStudentProps{
     sections: SectionProps[];
-    teachers: TeacherProps[];
+    teachers: InstructorProps[];
 }
 
 var minRank = "0";
@@ -105,18 +107,12 @@ export default function CreateStudent({sections, teachers}: CreateStudentProps){
                         <summary className="hover:backdrop-brightness-125 p-4"
                             data-tooltip-id="my-tooltip" data-tooltip-content="Select all sections student will be attending" 
                         >Sections (Click to collapse/expand)</summary>
-                        {Object.entries(sections).map(([key, section]) => {
-
-                            // incrementSectionCount();
-                            // const [day, timeBlockId] = key.split("-");
-                            return (
-                                <div key={key} className="mb-2 border-b border-white/50">
+                        {sections.map((section) => (
+                                <div key={section.id} className="mb-2 border-b border-white/50">
                                     <input type="checkbox" id={section.id} value={section.id} checked={sectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
-                                    <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getTeacherName(teachers, section.teacherId)} | {section.id}</label>    
+                                    <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getInstructorName(teachers, section.instructorId)} | {section.id}</label>    
                                 </div>
-                            );
-                        })
-                        }
+                            ))}
                     </details>
 
                     <button type="submit" className={"border-2 p-1 ml-4 w-35 hover:backdrop-brightness-125 active:backdrop-brightness-90"}>Create</button>

@@ -7,6 +7,9 @@ import Section from "./Components/sectionCard";
 import { useEffect, useRef, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { useReactToPrint } from "react-to-print";
+import type { InstructorProps } from "./InstructorProps";
+import type { SectionProps } from "./SectionProps";
+import type { StudentProps } from "./StudentProps";
 
 /**
  * Author: Addison A
@@ -25,7 +28,7 @@ var sectionCount = 0;
 // var pageTimeblockData = localData.timeBlock;
 // var pageSectionData = localData.sections;
 var pageStudentData: StudentProps[] = [];
-var pageTeacherData: TeacherProps[] = [];
+var pageInstructorData: InstructorProps[] = [];
 var pageTimeblockData = localData.timeBlock;
 var pageSectionData: SectionProps[] = [];
 
@@ -61,17 +64,17 @@ function regenerateTableSchedule() {
 function updateTableData() {
   console.log("Data being updated")
 
-  GetAPI.getFromBackendApi("Teachers");
+  GetAPI.getFromBackendApi("Instructors");
   GetAPI.getFromBackendApi("Students");
   GetAPI.getFromBackendApi("Sections");
 
   if (GetAPI.student_data != "" && (pageStudentData != GetAPI.student_data)){
     pageStudentData = GetAPI.student_data
   }
-  if (GetAPI.teacher_data != "" && (pageTeacherData != GetAPI.teacher_data)){
-    pageTeacherData = GetAPI.teacher_data
+  if (GetAPI.instructor_data != "" && (pageInstructorData != GetAPI.instructor_data)){
+    pageInstructorData = GetAPI.instructor_data
   }
-  if (GetAPI.section_data != "" && (pageSectionData != GetAPI.teacher_data)){
+  if (GetAPI.section_data != "" && (pageSectionData != GetAPI.section_data)){
     pageSectionData = GetAPI.section_data
   }
   // if (timeblock_data != "" && (pageTimeblockData != teacher_data)){
@@ -172,7 +175,7 @@ function getStartRow(timeBlockId: number){
 
 export default function Home() {
   const [studentData, setStudentData] = useState([{}]);
-  const [teacherData, setTeacherData] = useState([{}]);
+  const [instructorData, setInstructorData] = useState<InstructorProps[] | Record<string, never>[]>([{}]);
   const [sectionData, setSectionData] = useState([{
     id: "", 
     subject: "string", 
@@ -180,7 +183,7 @@ export default function Home() {
     timeBlockId: 0, 
     days: ["M", "T", "W", "R", "F"], 
     studentIds: [""], 
-    teacherId: ""
+    instructorId: ""
   }]);
   const [timeblockData, setTimeblockData] = useState([{
     id: 0, 
@@ -203,9 +206,9 @@ export default function Home() {
     showLoadingCursor(100)
     updateTableData()
 
-    if(pageSectionData != null && pageStudentData != null && pageTeacherData != null && pageTimeblockData != null){
+    if(pageSectionData != null && pageStudentData != null && pageInstructorData != null && pageTimeblockData != null){
       setStudentData(pageStudentData)
-      setTeacherData(pageTeacherData)
+      setInstructorData(pageInstructorData)
       setSectionData(pageSectionData)
       setTimeblockData(pageTimeblockData)
     }
@@ -226,7 +229,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchData(){
       await SendAPI.regenerateSchedule();
-      await GetAPI.getFromBackendApi("Teachers");
+      await GetAPI.getFromBackendApi("Instructors");
       await GetAPI.getFromBackendApi("Students");
       await GetAPI.getFromBackendApi("Sections");
 
@@ -312,7 +315,7 @@ export default function Home() {
                 }}
               >
                 {sections.map((section, index) => (
-                  <Section key={index} section={section as SectionProps} teachers={teacherData as TeacherProps[]} students={studentData as StudentProps[]}></Section>
+                  <Section key={index} section={section as SectionProps} teachers={instructorData as InstructorProps[]} students={studentData as StudentProps[]}></Section>
                 ))}
               </div>
             );
