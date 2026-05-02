@@ -7,8 +7,7 @@
  * Edited by:
  * 
  */
-import 'dotenv/config';
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+import { apiFetch } from "./apiClient";
 
 /** Global data for all teachers */
 export var teacher_data: any = [];
@@ -48,7 +47,7 @@ export function setSectionIds(ids: any){section_ids = ids}
  */
 export async function getFromBackendApi(type: string){
     try {
-        const response = await fetch(`${API_URL}/` + type.toLowerCase());
+        const response = await apiFetch(`/${type.toLowerCase()}`);
         
         if (!response.ok) { 
             throw new Error(`HTTP error! status: ${response.status}`); 

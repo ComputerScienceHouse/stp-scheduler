@@ -1,4 +1,5 @@
 import NavItem, { NavItemProps } from "./Navitem";
+import NavbarAuthControls from "./NavbarAuthControls";
 
 const navItems: NavItemProps[] = [
     {
@@ -37,6 +38,7 @@ export default function Navbar(){
                         </li>
                     ))}
                     <li className="flex flex-row justify-center items-center">|</li>
+                    <NavbarAuthControls />
                 </ul>
             </div>
         </div>

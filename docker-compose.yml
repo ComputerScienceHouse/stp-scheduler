@@ -9,6 +9,11 @@ services:
     build: ./backend
     ports:
       - "8000:8000"
+    environment:
+      # JWT signing key — replace in production (minimum 32 characters).
+      AUTH_SECRET: "local-docker-dev-secret-change-before-production-use"
+      AUTH_USERNAME: admin
+      AUTH_PASSWORD: admin
 
   frontend:
     build: ./frontend

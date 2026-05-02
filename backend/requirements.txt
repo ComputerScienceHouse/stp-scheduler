@@ -1,3 +1,5 @@
 pandas
 fastapi
 fastapi[standard]
+PyJWT>=2.8.0,<3
+bcrypt>=4.1.0,<5
