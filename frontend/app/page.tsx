@@ -267,7 +267,7 @@ export default function Home() {
       {/* <InputPage path={"../data/InputTestData.json"}></InputPage> */}
 
       <div className={"p-4 pl-16 mb-4 border-b-2 bg-[#f76902] text-white"}>
-        <button onClick={regenerateTableSchedule} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4 mr-4"}>Regenerate Schedule</button>
+        <button onClick={generateSchedule} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4 mr-4"}>Regenerate Schedule</button>
         {/* <button onClick={handlePrint} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4"}>Print Schedule</button> */}
       </div>
       
