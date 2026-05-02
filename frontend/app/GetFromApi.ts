@@ -1,15 +1,45 @@
+/**
+ * Handles retrieving data from the backend
+ * 
+ * Author: Addison A
+ * Last Updated: 4/30/2026
+ * 
+ * Edited by:
+ * 
+ */
+import 'dotenv/config';
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
-
+/** Global data for all teachers */
 export var teacher_data: any = [];
+/** Global data for all students */
 export var student_data: any = [];
+/** Global data for all sections */
 export var section_data: any = [];
-
+/** Global data for all section_ids */
+// TODO: refactor to remove section_ids
 export var section_ids: any = [];
 
+/**
+ * Set the global teacher's data to the inputted data
+ * @param data 
+ */
 export function setGlobalTeacherData(data: any){teacher_data = data}
+/**
+ * Set the global student's data to the inputted data
+ * @param data 
+ */
 export function setGlobalStudentData(data: any){student_data = data}
+/**
+ * Set the global section's data to the inputted data
+ * @param data 
+ */
 export function setGlobalSectionData(data: any){section_data = data}
 
+/**
+ * Set the global section_ids's data to the inputted data
+ * @param data 
+ */
 export function setSectionIds(ids: any){section_ids = ids}
 
 
@@ -18,8 +48,8 @@ export function setSectionIds(ids: any){section_ids = ids}
  */
 export async function getFromBackendApi(type: string){
     try {
-        const response = await fetch('http://localhost:8000/' + type.toLowerCase());
-
+        const response = await fetch(`${API_URL}/` + type.toLowerCase());
+        
         if (!response.ok) { 
             throw new Error(`HTTP error! status: ${response.status}`); 
         }
@@ -31,13 +61,11 @@ export async function getFromBackendApi(type: string){
             case "Teachers":
                 teacher_data = result;
                 // console.log("Teacher data:\n" + teacher_data.toString())
-                // setTeacherData(teacher_data);
                 return;
 
             case "Students":
                 student_data = result;
                 // console.log("Student data:\n" + student_data.toString())
-                // setStudentData(student_data);
                 return;
 
             case "Sections":
@@ -50,7 +78,7 @@ export async function getFromBackendApi(type: string){
                 
                 section_data = result;
                 
-                section_data.forEach((element: { days: string[]; }) => { // REMOVE LATER: the backend does not set days, these lines should be removed once it does.
+                section_data.forEach((element: { days: string[]; }) => { // TODO: REMOVE LATER: the backend currently does not set days, these lines should be removed once it does.
                     element.days = ["M", "T", "W", "R", "F"]; 
                 });
                 // console.log("Sections data:\n" + section_data.toString())

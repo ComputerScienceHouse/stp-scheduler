@@ -2,14 +2,12 @@
  * Handles api calls to the backend
  * 
  * Author: Addison A
- * Last Updated: 2/20/2026
- * 
- * Edited by:
+ * Edited By: Logan E
+ * Last Updated: 4/30/2026
  * 
  */
 
 import 'dotenv/config';
-import { process } from 'node:process';
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 /**
