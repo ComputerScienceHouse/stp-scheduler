@@ -227,9 +227,11 @@ app = FastAPI(
 origins = [
     "http://localhost:3000"
 ]
-_frontend_url = os.environ.get("FRONTEND_URL", "").strip()
-if _frontend_url and _frontend_url not in origins:
-    origins.append(_frontend_url)
+_frontend_urls = os.environ.get("FRONTEND_URLS", "").strip()
+if _frontend_urls and _frontend_urls not in origins:
+    for _frontend_url in _frontend_urls.split(","):
+        if _frontend_url and _frontend_url not in origins:
+            origins.append(_frontend_url)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
