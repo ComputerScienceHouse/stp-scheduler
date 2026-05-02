@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { API_URL, getToken, setToken } from "../apiClient";
+import NavItem from "./Navitem";
 
 export default function NavbarAuthControls() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -38,20 +39,18 @@ export default function NavbarAuthControls() {
   }
 
   return (
-    <li className="flex flex-row justify-center items-center list-none">
+    <div className="flex flex-row justify-center items-center underline w-44 p-1 text-center border-2 rounded ">
       {loggedIn ? (
         <button
           type="button"
           onClick={signOut}
-          className="underline ml-1 bg-transparent border-0 cursor-pointer text-inherit font-inherit"
+          className="underline ml-1 p-2 pl-4 pr-4 bg-transparent border-0 cursor-pointer text-inherit font-inherit"
         >
           Sign out
         </button>
       ) : (
-        <Link href="/login" className="underline ml-1">
-          Sign in
-        </Link>
+        <NavItem title="Sign in" route="/login" ></NavItem>
       )}
-    </li>
+    </div>
   );
 }
