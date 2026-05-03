@@ -51,7 +51,7 @@ def upgrade() -> None:
         sa.Column("days", sa.String(), nullable=True),
         sa.Column("instructor_id", sa.String(), nullable=True),
         sa.ForeignKeyConstraint(["time_block_id"], ["time_blocks.id"]),
-        sa.ForeignKeyConstraint(["instructor_id"], ["instructors.id"]),
+        sa.ForeignKeyConstraint(["instructor_id"], ["instructors.id"], ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
