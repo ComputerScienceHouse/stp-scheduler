@@ -6,7 +6,7 @@
             "level": 0,
             "timeBlockId": 1,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "eb859c01-e14e-4252-b318-6c6fbd62253b",
+            "instructorId": "eb859c01-e14e-4252-b318-6c6fbd62253b",
             "studentIds": [
             "860da037-006b-4de4-9233-9e0b060649e0",
             "6846f162-407e-46e4-b104-034433dc52a0",
@@ -22,7 +22,7 @@
             "level": 1,
             "timeBlockId": 3,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "b589b42f-252d-41f5-b539-0a42b5959e95",
+            "instructorId": "b589b42f-252d-41f5-b539-0a42b5959e95",
             "studentIds": [
             "1aeefe9d-4908-4ed5-bd63-0041a6b8cb53",
             "79081200-777a-4917-86e9-9f490de14282",
@@ -36,7 +36,7 @@
             "level": 1,
             "timeBlockId": 2,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "eb859c01-e14e-4252-b318-6c6fbd62253b",
+            "instructorId": "eb859c01-e14e-4252-b318-6c6fbd62253b",
             "studentIds": [
             "b181fba9-2a4a-4c8d-8f49-e420ac068520",
             "6feffc37-f5f7-4aa0-9f0a-5cd7ef8fa74e",
@@ -51,7 +51,7 @@
             "level": 2,
             "timeBlockId": 0,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "b589b42f-252d-41f5-b539-0a42b5959e95",
+            "instructorId": "b589b42f-252d-41f5-b539-0a42b5959e95",
             "studentIds": [
             "f9535f67-edaf-4901-b6a7-33fdc99aea14",
             "6efcf289-d8d4-4e9b-bf6d-fa9cdd1dbb8d",
@@ -65,7 +65,7 @@
             "level": 2,
             "timeBlockId": 3,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "eb859c01-e14e-4252-b318-6c6fbd62253b",
+            "instructorId": "eb859c01-e14e-4252-b318-6c6fbd62253b",
             "studentIds": [
             "258b3f18-5954-43a4-b471-dbbc0b94e6f9",
             "f04d2891-8ba3-4ec4-b81a-ae4f4f90681d",
@@ -79,7 +79,7 @@
             "level": 0,
             "timeBlockId": 5,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "deed5fbd-c0d4-4067-a9ad-771291f306af",
+            "instructorId": "deed5fbd-c0d4-4067-a9ad-771291f306af",
             "studentIds": [
             "296598f5-26cf-4c9a-bd38-ac5b8d725e5f",
             "a2ce4ee8-a332-4095-8ee8-addecb7749bc",
@@ -92,7 +92,7 @@
             "level": 1,
             "timeBlockId": 2,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "cf90e526-0f27-4a61-85bb-ce25e624e990",
+            "instructorId": "cf90e526-0f27-4a61-85bb-ce25e624e990",
             "studentIds": [
             "1aeefe9d-4908-4ed5-bd63-0041a6b8cb53",
             "79081200-777a-4917-86e9-9f490de14282",
@@ -106,7 +106,7 @@
             "level": 1,
             "timeBlockId": 0,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "deed5fbd-c0d4-4067-a9ad-771291f306af",
+            "instructorId": "deed5fbd-c0d4-4067-a9ad-771291f306af",
             "studentIds": [
             "b181fba9-2a4a-4c8d-8f49-e420ac068520",
             "760f7acc-fd43-42e6-92f4-2c3667d57f12",
@@ -120,7 +120,7 @@
             "level": 2,
             "timeBlockId": 3,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "cf90e526-0f27-4a61-85bb-ce25e624e990",
+            "instructorId": "cf90e526-0f27-4a61-85bb-ce25e624e990",
             "studentIds": [
             "f9535f67-edaf-4901-b6a7-33fdc99aea14",
             "6efcf289-d8d4-4e9b-bf6d-fa9cdd1dbb8d",
@@ -136,7 +136,7 @@
             "level": 2,
             "timeBlockId": 4,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "deed5fbd-c0d4-4067-a9ad-771291f306af",
+            "instructorId": "deed5fbd-c0d4-4067-a9ad-771291f306af",
             "studentIds": [
             "319f21e3-5a93-4b74-8cfc-cec10e64597a",
             "d3d6d4da-50f4-48ce-8d3f-ec2186d3cfa3",
@@ -152,7 +152,7 @@
             "level": 0,
             "timeBlockId": 4,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "532dd432-3cc7-482f-aef8-8df7fcd0e14c",
+            "instructorId": "532dd432-3cc7-482f-aef8-8df7fcd0e14c",
             "studentIds": [
             "6efcf289-d8d4-4e9b-bf6d-fa9cdd1dbb8d",
             "860da037-006b-4de4-9233-9e0b060649e0",
@@ -166,7 +166,7 @@
             "level": 0,
             "timeBlockId": 2,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "532dd432-3cc7-482f-aef8-8df7fcd0e14c",
+            "instructorId": "532dd432-3cc7-482f-aef8-8df7fcd0e14c",
             "studentIds": [
             "258b3f18-5954-43a4-b471-dbbc0b94e6f9",
             "319f21e3-5a93-4b74-8cfc-cec10e64597a",
@@ -180,7 +180,7 @@
             "level": 1,
             "timeBlockId": 0,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "532dd432-3cc7-482f-aef8-8df7fcd0e14c",
+            "instructorId": "532dd432-3cc7-482f-aef8-8df7fcd0e14c",
             "studentIds": [
             "79081200-777a-4917-86e9-9f490de14282",
             "6846f162-407e-46e4-b104-034433dc52a0",
@@ -197,7 +197,7 @@
             "level": 2,
             "timeBlockId": 1,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "532dd432-3cc7-482f-aef8-8df7fcd0e14c",
+            "instructorId": "532dd432-3cc7-482f-aef8-8df7fcd0e14c",
             "studentIds": [
             "1aeefe9d-4908-4ed5-bd63-0041a6b8cb53",
             "f9535f67-edaf-4901-b6a7-33fdc99aea14",
@@ -211,7 +211,7 @@
             "level": 2,
             "timeBlockId": 3,
             "days": ["M", "T", "W", "R", "F"],
-            "teacherId": "532dd432-3cc7-482f-aef8-8df7fcd0e14c",
+            "instructorId": "532dd432-3cc7-482f-aef8-8df7fcd0e14c",
             "studentIds": [
             "8f71bd3f-d24c-479e-ae9e-f8ef3c5f473d",
             "b181fba9-2a4a-4c8d-8f49-e420ac068520",

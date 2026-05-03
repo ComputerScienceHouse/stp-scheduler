@@ -1,5 +1,4 @@
-from time_block import TimeBlock
-
+from stp_scheduler.domain.time_block import TimeBlock
 
 BEGINNER = 0
 INTERMEDIATE = 1
@@ -15,12 +14,13 @@ BLOCK_SIX = TimeBlock(1530, 1630)
 LEVEL_DICT = {
     BEGINNER: "Beginner",
     INTERMEDIATE: "Intermediate",
-    ADVANCED: "Advanced"
+    ADVANCED: "Advanced",
 }
 
 TIME_BLOCKS = [BLOCK_ONE, BLOCK_TWO, BLOCK_THREE, BLOCK_FOUR, BLOCK_FIVE, BLOCK_SIX]
 
 CORE_CLASSES = ["english", "math", "asl"]
+
 
 def get_level(score: int):
     return 0 if score <= 3 else 2 if score > 6 else 1

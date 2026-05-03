@@ -1,11 +1,17 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import * as API from '../SendToApi';
-import { section_data, teacher_data } from "../GetFromApi";
-import { getTeacherMentorStatus, getTeacherName, getTeacherSections } from "../HelperFunctions";
+import * as API from "../SendToApi";
+import { section_data } from "../GetFromApi";
+import {
+  getInstructorMentorStatus,
+  getInstructorName,
+  getInstructorSections,
+} from "../HelperFunctions";
+import type { InstructorProps } from "../InstructorProps";
+import type { SectionProps } from "../SectionProps";
 
-interface EditTeacherProps{
-    sections: SectionProps[];
-    teachers: TeacherProps[];
+interface EditTeacherProps {
+  sections: SectionProps[];
+  teachers: InstructorProps[];
 }
 
 var selectedSections: string[] = [];
@@ -28,10 +34,10 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
     const [selectedSectionIds, setSelectedSectionIds] = useState<string[]>([]);
 
     function selectTeacher(e: ChangeEvent<HTMLSelectElement>){
-        // e.target.value should be the teacher's id.
+        // e.target.value should be the instructor's id.
         setId(e.target.value);
-        setName(getTeacherName(teachers, e.target.value));
-        setIsMentor(getTeacherMentorStatus(teachers, e.target.value));
+        setName(getInstructorName(teachers, e.target.value));
+        setIsMentor(getInstructorMentorStatus(teachers, e.target.value));
         // setMathWeight(getTeacherSubjectWeights(teachers, e.target.value).math);
         // setEnglishWeight(getTeacherSubjectWeights(students, e.target.value).english);
         // setAslWeight(getTeacherSubjectWeights(teachers, e.target.value).asl);
@@ -41,7 +47,7 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
         // setPresentationsWeight();
         // setDigitalLithWeight();
 
-        setSelectedSectionIds(getTeacherSections(teachers, e.target.value));
+        setSelectedSectionIds(getInstructorSections(teachers, e.target.value));
     }
 
     /**
@@ -88,7 +94,7 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
         console.log("is_mentor: " + is_mentor);
         console.log("section_ids: " + section_ids);
 
-        API.editTeacher({
+        API.editInstructor({
             "id": teacher_id,
             "name": teacher_name,
             "subject_weights": subject_weights,
@@ -128,15 +134,11 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
                         <option className="mb-2 border-b border-white/50 text-gray" value="">
                         ...
                         </option>
-                        {Object.entries(teachers).map(([key, teacher]) => {
-
-                            return (
-                                <option key={key} className="mb-2 border-b border-white/50 text-black" value={teacher.id}>
+                        {teachers.map((teacher) => (
+                                <option key={teacher.id} className="mb-2 border-b border-white/50 text-black" value={teacher.id}>
                                     {teacher.name} | {teacher.id}   
                                 </option>
-                            );
-                        })
-                        }
+                            ))}
                     </select>
 
                     {/* Edit instructor's name */}
@@ -190,15 +192,12 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
                         <summary className="hover:backdrop-brightness-125 p-4"
                             data-tooltip-id="my-tooltip" data-tooltip-content="Select all sections the instructor will be instructing" 
                         >Sections (Click to collapse/expand)</summary>
-                        {Object.entries(sections).map(([key, section]) => {
-                            return (
-                                <div key={key} className="mb-2 border-b border-white/50">
+                        {sections.map((section) => (
+                                <div key={section.id} className="mb-2 border-b border-white/50">
                                     <input type="checkbox" id={section.id} value={section.id} checked={selectedSectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
-                                    <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getTeacherName(teachers, section.teacherId)} | {section.id}</label>    
+                                    <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getInstructorName(teachers, section.instructorId)} | {section.id}</label>    
                                 </div>
-                            );
-                        })
-                        }
+                            ))}
                     </details>
                     <br />
 

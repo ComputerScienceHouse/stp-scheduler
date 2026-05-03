@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
 import { getFromBackendApi, student_data } from "../GetFromApi";
+import type { StudentProps } from "../StudentProps";
 
 interface DeleteStudentProps{
     students: StudentProps[];
