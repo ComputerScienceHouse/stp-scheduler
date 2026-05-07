@@ -1,8 +1,8 @@
 """initial schema
 
-Revision ID: 001
+Revision ID: 002
 Revises:
-Create Date: 2026-04-30
+Create Date: 2026-05-06
 
 """
 
@@ -12,8 +12,8 @@ from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
-revision: str = "001"
-down_revision: Union[str, None] = None
+revision: str = "002"
+down_revision: Union[str, None] = "001"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -51,7 +51,7 @@ def upgrade() -> None:
         sa.Column("days", sa.String(), nullable=True),
         sa.Column("instructor_id", sa.String(), nullable=True),
         sa.ForeignKeyConstraint(["time_block_id"], ["time_blocks.id"]),
-        sa.ForeignKeyConstraint(["instructor_id"], ["instructors.id"]),
+        sa.ForeignKeyConstraint(["instructor_id"], ["instructors.id"], ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
