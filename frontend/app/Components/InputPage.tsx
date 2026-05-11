@@ -140,7 +140,7 @@ export default function InputPage({ path }: InputPageProps) {
       ></EditStudent>
       <EditTeacher sections={section_data} teachers={instructor_data}></EditTeacher>
       <DeleteStudent students={student_data}></DeleteStudent>
-      <DeleteTeacher></DeleteTeacher>
+      <DeleteTeacher instructors={instructor_data}></DeleteTeacher>
     </div>
   );
 }
