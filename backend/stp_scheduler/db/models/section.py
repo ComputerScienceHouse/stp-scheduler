@@ -15,5 +15,5 @@ class SectionRow(Base):
     )
     days: Mapped[str | None] = mapped_column(String, nullable=True)
     instructor_id: Mapped[str | None] = mapped_column(
-        String, ForeignKey("instructors.id"), nullable=True
+        String, ForeignKey("instructors.id", ondelete="SET NULL"), nullable=True
     )

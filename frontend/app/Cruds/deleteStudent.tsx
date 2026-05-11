@@ -28,7 +28,7 @@ export default function DeleteStudent({students}: DeleteStudentProps){
 
         // TODO: update delete student in the API to do this because the file should not be responsible for re-updating data
         // Reload students without the deleted student
-        getFromBackendApi("Students");
+        // getFromBackendApi("Students");
     }
 
     return (

@@ -7,11 +7,17 @@
  */
 
 import { apiFetch } from "./apiClient";
+import { getFromBackendApi } from "./GetFromApi";
 
 export function generateId() {
   return "fake-id";
 }
 
+/**
+ * POST /csv/update
+ * @param csvData the data the backend will update with
+ * @returns 
+ */
 export function updateFromCSV(csvData: any) {
   try {
     var result: any;
@@ -33,6 +39,10 @@ export function updateFromCSV(csvData: any) {
   }
 }
 
+/**
+ * POST /schedule/regenerate 
+ * @returns 
+ */
 export function regenerateSchedule() {
   try {
     var result: any;
@@ -87,6 +97,7 @@ export function createInstructor(instructor: InstructorModel) {
 
   apiFetch(`/instructors/create`, requestOptions)
     .then((response) => response.json())
+    .then(() => getFromBackendApi("Instructors"))
     .then((data) => (result = data));
 
   return result;
@@ -102,6 +113,7 @@ export function editInstructor(instructor: any) {
 
   apiFetch(`/instructors/update`, requestOptions)
     .then((response) => response.json())
+    .then(() => getFromBackendApi("Instructors"))
     .then((data) => (result = data));
 
   return result;
@@ -119,6 +131,7 @@ export function deleteInstructor(instructor_id: string) {
     requestOptions,
   )
     .then((response) => response.json())
+    .then(() => getFromBackendApi("Instructors"))
     .then((data) => (result = data));
 
   return result;
@@ -150,6 +163,7 @@ export function createStudent(student: StudentModel) {
 
   apiFetch(`/students/create`, requestOptions)
     .then((response) => response.json())
+    .then(() => getFromBackendApi("Students"))
     .then((data) => (result = data));
 
   return result;
@@ -166,6 +180,7 @@ export function editStudent(student: any) {
 
   apiFetch(`/students/update`, requestOptions)
     .then((response) => response.json())
+    .then(() => getFromBackendApi("Students"))
     .then((data) => (result = data));
 
   return result;
@@ -181,6 +196,7 @@ export function deleteStudent(student_id: string) {
 
   apiFetch(`/students/delete?student_id=${encodeURIComponent(student_id)}`, requestOptions)
     .then((response) => response.json())
+    .then(() => getFromBackendApi("Students"))
     .then((data) => (result = data));
 
   return result;
@@ -197,6 +213,7 @@ export function createSection(section: string) {
 
   apiFetch(`/create/section`, requestOptions)
     .then((response) => response.json())
+    .then(() => getFromBackendApi("Sections"))
     .then((data) => (result = data));
 
   return result;
