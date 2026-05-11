@@ -13,7 +13,7 @@ import type { StudentProps } from "./StudentProps";
 
 /**
  * Author: Addison A
- * Last Updated: 1/16/2026
+ * Last Updated: 5/11/2026
  * 
  * Editors: 
  */
@@ -23,17 +23,28 @@ import type { StudentProps } from "./StudentProps";
  */
 var sectionCount = 0;
 
+// set page data to local student's data
 // var pageStudentData = localData.students;
 // var pageTeacherData = localData.teachers;
 // var pageTimeblockData = localData.timeBlock;
 // var pageSectionData = localData.sections;
+
+// set page data to empty data
 var pageStudentData: StudentProps[] = [];
 var pageInstructorData: InstructorProps[] = [];
-var pageTimeblockData = localData.timeBlock;
+var pageTimeblockData = [ // default timeblock data
+  {"id": 0, "start": "08:00", "end": "09:00"},
+  {"id": 1, "start": "09:15", "end": "10:15"},
+  {"id": 2, "start": "10:30", "end": "11:30"},
+  {"id": 3, "start": "11:45", "end": "12:45"},
+  {"id": 4, "start": "12:45", "end": "13:45"},
+  {"id": 5, "start": "13:45", "end": "14:45"},
+  {"id": 6, "start": "15:00", "end": "16:00"}
+];
 var pageSectionData: SectionProps[] = [];
 
 /**
- * Changes the cursor to a loading state for 1 second.
+ * Changes the cursor to a loading state for [duration] milliseconds.
  * 
  * @param duration int (milliseconds)
  */
@@ -59,7 +70,7 @@ function regenerateTableSchedule() {
 }
 
 /**
- * Updates the page's data to the data from the InputPage
+ * set the data on the Home page.
  */
 function updateTableData() {
   console.log("Data being updated")
@@ -114,7 +125,7 @@ function resetSectionCount(){
 }
 
 /**
- * Groups the given sections into a Record by each day's timeBlock
+ * Groups the given sections into a Record by timeBlock
  * @param sections 
  * @returns Record<string, SectionProps[]>
  */
@@ -157,7 +168,7 @@ function getStartColumn(day: string): number{
             column = 6;
             break;
         default:
-            console.log("getStartColumn in sectionCard.tsx: failed to calculate column");
+            console.log("getStartColumn in page.tsx: failed to calculate column");
             break;
     }
     return column;
@@ -263,8 +274,6 @@ export default function Home() {
 
     <section className="max-w-dvw items-center justify-center font-sans dark:bg-[var(--main-background-color)]">
       <Tooltip id="my-tooltip" />
-      {/* Inputs */}
-      {/* <InputPage path={"../data/InputTestData.json"}></InputPage> */}
 
       <div className={"p-4 pl-16 mb-4 border-b-2 bg-[#f76902] text-white"}>
         <button onClick={generateSchedule} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4 mr-4"}>Regenerate Schedule</button>
