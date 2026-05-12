@@ -10,10 +10,11 @@ import { useReactToPrint } from "react-to-print";
 import type { InstructorProps } from "./InstructorProps";
 import type { SectionProps } from "./SectionProps";
 import type { StudentProps } from "./StudentProps";
+import StudentSchedule from "./Components/StudentSchedule";
 
 /**
  * Author: Addison A
- * Last Updated: 5/11/2026
+ * Last Updated: 5/12/2026
  * 
  * Editors: 
  */
@@ -185,8 +186,8 @@ function getStartRow(timeBlockId: number){
 
 
 export default function Home() {
-  const [studentData, setStudentData] = useState([{}]);
-  const [instructorData, setInstructorData] = useState<InstructorProps[] | Record<string, never>[]>([{}]);
+  const [studentData, setStudentData] = useState<StudentProps[]>([{}] as StudentProps[]);
+  const [instructorData, setInstructorData] = useState<InstructorProps[]>([{}] as InstructorProps[]);
   const [sectionData, setSectionData] = useState([{
     id: "", 
     subject: "string", 
@@ -213,7 +214,7 @@ export default function Home() {
   /**
    * Updates the schedule's data 
    */
-  function generateSchedule(){
+  function generateVisualSchedule(){
     showLoadingCursor(100)
     updateTableData()
 
@@ -244,7 +245,7 @@ export default function Home() {
       await GetAPI.getFromBackendApi("Students");
       await GetAPI.getFromBackendApi("Sections");
 
-      generateSchedule();
+      await generateVisualSchedule();
     }
 
     fetchData();
@@ -276,7 +277,7 @@ export default function Home() {
       <Tooltip id="my-tooltip" />
 
       <div className={"p-4 pl-16 mb-4 border-b-2 bg-[#f76902] text-white"}>
-        <button onClick={generateSchedule} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4 mr-4"}>Regenerate Schedule</button>
+        <button onClick={generateVisualSchedule} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4 mr-4"}>Regenerate Schedule</button>
         {/* <button onClick={handlePrint} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4"}>Print Schedule</button> */}
       </div>
       
@@ -337,6 +338,8 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      <StudentSchedule student={studentData[0] as StudentProps} instructors={instructorData as InstructorProps[]} sections={sectionData}></StudentSchedule>
 
     </section>
   );

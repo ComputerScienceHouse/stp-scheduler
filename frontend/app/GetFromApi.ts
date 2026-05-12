@@ -83,8 +83,5 @@ export async function getFromBackendApi(type: string) {
     }
   } catch (err) {
     console.log("ERROR: The backend did not retrieve data: " + err);
-    alert(
-      "Error, database is not running, please refresh the page and try again or contact the Computer Science House",
-    );
   }
 }

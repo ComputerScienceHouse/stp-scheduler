@@ -1,4 +1,4 @@
-import { getStudentName, getInstructorName } from "../HelperFunctions";
+import { getStudentName, getInstructorName, getBackgroundColor } from "../HelperFunctions";
 import type { InstructorProps } from "../InstructorProps";
 import type { SectionProps } from "../SectionProps";
 import type { StudentProps } from "../StudentProps";
@@ -7,20 +7,6 @@ interface SectionCardProps {
   section: SectionProps;
   teachers: InstructorProps[];
   students: StudentProps[];
-}
-
-function getBackgroundColor(subject: string) {
-  switch (subject.toLowerCase()) {
-    case "math":
-      return "#ff4040ff";
-    case "english":
-      return "#4a86e8ff";
-    case "asl":
-      return "#80c362ff";
-    default:
-      console.log("Invalid subject inputted");
-      break;
-  }
 }
 
 export function getSectionLevel(level: number): string {

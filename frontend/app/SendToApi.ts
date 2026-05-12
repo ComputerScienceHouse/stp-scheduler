@@ -33,8 +33,8 @@ export function updateFromCSV(csvData: any) {
 
     return result;
   } catch (error) {
-    alert(
-      "Error, database is not running, please refresh the page and try again or contact the Computer Science House",
+    console.log(
+      "Error, database is not running, please refresh the page and try again or contact the Computer Science House"
     );
   }
 }
@@ -56,9 +56,9 @@ export function regenerateSchedule() {
       .then((data) => (result = data));
 
     return result;
-  } catch (error) {
+  } catch (err) {
     alert(
-      "Error, database is not running, please refresh the page and try again or contact the Computer Science House",
+      "ERROR: The backend did not regenerate data: " + err,
     );
   }
 }
