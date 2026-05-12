@@ -338,9 +338,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-
-      <StudentSchedule student={studentData[0] as StudentProps} instructors={instructorData as InstructorProps[]} sections={sectionData}></StudentSchedule>
-
     </section>
   );
 }

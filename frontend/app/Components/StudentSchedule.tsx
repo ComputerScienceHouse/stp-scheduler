@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { InstructorProps } from "../InstructorProps";
 import { SectionProps } from "../SectionProps";
 import { StudentProps } from "../StudentProps";
-import Section, { getSectionLevel } from "./sectionCard";
+import { getSectionLevel } from "./sectionCard";
 import { getBackgroundColor, getInstructorName } from "../HelperFunctions";
 
 interface StudentScheduleProps{
@@ -12,7 +12,6 @@ interface StudentScheduleProps{
     instructors: InstructorProps[];
     sections: SectionProps[];
 }
-
 
 /**
  * The number of sections in the grid
