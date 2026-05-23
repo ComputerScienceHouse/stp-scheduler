@@ -68,10 +68,10 @@ export default function LoginPage() {
   return (
     <main className="max-w-lg mx-auto my-[13.25vh] px-16 py-16 border-2 border-black rounded-4xl">
       <h1 className="text-xl font-semibold mb-4 text-black">Sign in</h1>
-      <p className="text-sm text-neutral-700 mb-4">
+      {/* <p className="text-sm text-neutral-700 mb-4">
         Use the username and password matching AUTH_USERNAME and AUTH_PASSWORD on
         the API server.
-      </p>
+      </p> */}
       <form onSubmit={onSubmit} className="flex flex-col gap-3">
         <label className="flex flex-col gap-1 text-black text-sm">
           Username

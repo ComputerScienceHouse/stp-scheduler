@@ -100,9 +100,9 @@ export default function InputPage({ path }: InputPageProps) {
   return (
     <div className={"p-4 pl-16 mb-4 border-b-2 bg-[#f76902] text-white"}>
       <Tooltip id="my-tooltip" />
-      <div className="mb-4 text-black bg-white/90 p-4 rounded max-w-xl">
+      <div className="mb-4 border-2 p-4 rounded max-w-xl">
         <h3 className="font-semibold mb-2 text-sm">Load roster from CSV (Postgres)</h3>
-        <p className="text-xs mb-3 text-neutral-700">
+        <p className="text-xs mb-3">
           Replaces all rows for that table. Use the same column layout as{" "}
           <code>data/students.csv</code> and <code>data/instructors.csv</code>.
         </p>
@@ -111,7 +111,7 @@ export default function InputPage({ path }: InputPageProps) {
           <input
             type="file"
             accept=".csv"
-            className="block mt-1 border p-1 w-full"
+            className="hover:backdrop-brightness-125 active:backdrop-brightness-75 block mt-1 border p-1 w-full"
             onChange={onStudentsCsvUpload}
           />
         </label>
@@ -120,16 +120,11 @@ export default function InputPage({ path }: InputPageProps) {
           <input
             type="file"
             accept=".csv"
-            className="block mt-1 border p-1 w-full"
+            className="hover:backdrop-brightness-125 active:backdrop-brightness-75 block mt-1 border p-1 w-full"
             onChange={onInstructorsCsvUpload}
           />
         </label>
       </div>
-
-      <br />
-
-      <p>{instructorDataStr}</p>
-      <p>{studentDataStr}</p>
 
       <CreateStudent sections={section_data} teachers={instructor_data}></CreateStudent>
       <CreateTeacher></CreateTeacher>
