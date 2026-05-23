@@ -3,7 +3,7 @@
 import localData from "../data/BackendData.json";
 import * as GetAPI from "./GetFromApi";
 import * as SendAPI from "./SendToApi";
-import Section from "./Components/sectionCard";
+import Section from "./Components/SectionCard";
 import { useEffect, useRef, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { useReactToPrint } from "react-to-print";

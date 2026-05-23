@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { InstructorProps } from "../InstructorProps";
 import { SectionProps } from "../SectionProps";
 import { StudentProps } from "../StudentProps";
-import { getSectionLevel } from "./sectionCard";
+import { getSectionLevel } from "./SectionCard";
 import { getBackgroundColor, getInstructorName } from "../HelperFunctions";
 
 interface StudentScheduleProps{
