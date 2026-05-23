@@ -273,7 +273,7 @@ export default function Home() {
 
   return (
 
-    <section className="max-w-dvw items-center justify-center font-sans dark:bg-[var(--main-background-color)]">
+    <section className="max-w-dvw items-center justify-center font-sans dark:bg-(--main-background-color)">
       <Tooltip id="my-tooltip" />
 
       <div className={"p-4 pl-16 mb-4 border-b-2 bg-[#f76902] text-white"}>
@@ -286,7 +286,7 @@ export default function Home() {
       <div className="m-12 mb-2 mt-0 p-4 rounded-4xl bg-gray-800" ref={scheduleRef}>
         <div 
           id="schedule"
-          className="grid grid-cols-[6rem_repeat(5,1fr)] auto-rows-min grid-flow-dense w-auto border-2 border-solid border-[var(--main-text-color)] bg-[var(--main-background-color)] bg-opacity-50 text-base rounded-4xl"
+          className="grid grid-cols-[6rem_repeat(5,1fr)] auto-rows-min grid-flow-dense w-auto border-2 border-solid border-(--main-text-color) bg-(--main-background-color) bg-opacity-50 text-base rounded-4xl"
           // grid-rows-[4rem_repeat(11,1fr)]
           style={{
             overflowY: "scroll",
@@ -296,16 +296,16 @@ export default function Home() {
         >
           
           {/* Fill in the days on top */}
-          <h4 className="flex justify-center items-center col-start-1 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] font-bold border-3 border-t-0 border-l-0 border-solid rounded-tl-4xl">Time</h4>
-          <h4 className="flex justify-center items-center col-start-2 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-t-0 border-l-0 border-r-2 border-solid">Monday</h4>
-          <h4 className="flex justify-center items-center col-start-3 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-t-0 border-l-0 border-r-2 border-solid">Tuesday</h4>
-          <h4 className="flex justify-center items-center col-start-4 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-t-0 border-l-0 border-r-2 border-solid">Wednesday</h4>
-          <h4 className="flex justify-center items-center col-start-5 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-t-0 border-l-0 border-r-2 border-solid">Thursday</h4>
-          <h4 className="flex justify-center items-center col-start-6 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-t-0 border-l-0 border-r-0 border-solid rounded-tr-4xl">Friday</h4>
+          <h4 className="flex justify-center items-center col-start-1 col-span-1 bg-(--main-background-color) text-(--main-text-color) font-bold border-3 border-t-0 border-l-0 border-solid rounded-tl-4xl">Time</h4>
+          <h4 className="flex justify-center items-center col-start-2 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-t-0 border-l-0 border-r-2 border-solid">Monday</h4>
+          <h4 className="flex justify-center items-center col-start-3 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-t-0 border-l-0 border-r-2 border-solid">Tuesday</h4>
+          <h4 className="flex justify-center items-center col-start-4 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-t-0 border-l-0 border-r-2 border-solid">Wednesday</h4>
+          <h4 className="flex justify-center items-center col-start-5 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-t-0 border-l-0 border-r-2 border-solid">Thursday</h4>
+          <h4 className="flex justify-center items-center col-start-6 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-t-0 border-l-0 border-r-0 border-solid rounded-tr-4xl">Friday</h4>
 
           {/* Fill in the time on the left */}
           {timeblockData.map(time => (
-            <div key={time.id} className="flex justify-center text-center text-sm items-center p-1 col-start-1 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-b-2 border-t-0 border-l-0 border-solid">{militaryToCivilianTime(time.start)} - {militaryToCivilianTime(time.end)}</div>
+            <div key={time.id} className="flex justify-center text-center text-sm items-center p-1 col-start-1 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-b-2 border-t-0 border-l-0 border-solid">{militaryToCivilianTime(time.start)} - {militaryToCivilianTime(time.end)}</div>
           ))}
 
 
@@ -316,7 +316,7 @@ export default function Home() {
             return (
               <div // TODO: make text size based on the window size so that it is always more legible
                 key={key}
-                className="col-span-1 row-span-1 border-2 border-t-0 border-l-0 border-solid border-[var(--main-text-color)] p-2 flex flex-col gap-2 text-center"
+                className="col-span-1 row-span-1 border-2 border-t-0 border-l-0 border-solid border-(--main-text-color) p-2 flex flex-col gap-2 text-center"
                 style={{
                   gridColumnStart: getStartColumn(day),
                   gridColumnEnd: `span 1`,
@@ -334,7 +334,7 @@ export default function Home() {
 
           {/* Fill in empty spaces */}
           {Array.from({ length: getEmptySpacesCount() }, (_, index) => (
-            <div key={index} className="col-span-1 row-span-1 border-2 border-t-0 border-l-0 border-solid border-[var(--main-text-color)] p-6 text-center"></div>
+            <div key={index} className="col-span-1 row-span-1 border-2 border-t-0 border-l-0 border-solid border-(--main-text-color) p-6 text-center"></div>
           ))}
         </div>
       </div>
