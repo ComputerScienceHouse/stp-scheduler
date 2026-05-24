@@ -14,7 +14,7 @@ export function generateId() {
 }
 
 /**
- * POST /csv/update
+ * POST /update/csv
  * @param csvData the data the backend will update with
  * @returns 
  */
@@ -27,7 +27,7 @@ export function updateFromCSV(csvData: any) {
       body: JSON.stringify(csvData),
     };
 
-    apiFetch(`/csv/update`, requestOptions)
+    apiFetch(`/update/csv`, requestOptions)
       .then((response) => response.json())
       .then((data) => (result = data));
 
