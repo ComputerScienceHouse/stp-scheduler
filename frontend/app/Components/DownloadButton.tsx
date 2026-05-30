@@ -69,9 +69,9 @@ function downloadFile(type: string){
 
     switch (type.toLowerCase()) {
         case "csv":
-            downloadCSVFile([jsonToCsv(student_data)]);
-            downloadCSVFile([jsonToCsv(instructor_data)]);
-            downloadCSVFile([jsonToCsv(section_data)]);
+            downloadCSVFile([jsonToCsv(student_data)], "stpStudentData");
+            downloadCSVFile([jsonToCsv(instructor_data)], "stpInstructorData");
+            downloadCSVFile([jsonToCsv(section_data)], "stpSectionData");
             break;
         default:
             console.log("Error, invalid filetype to download: " + type);
@@ -82,8 +82,9 @@ function downloadFile(type: string){
 /**
  * Calls the device to download schedule as a .csv file.
  * @param data 
+ * @param filename
  */
-function downloadCSVFile(data: string[]){
+function downloadCSVFile(data: string[], filename: string = "stpSchedule"){
     console.log(data);
     const blob = new Blob(data, { type: "text/csv" });
 
@@ -91,7 +92,7 @@ function downloadCSVFile(data: string[]){
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "stpSchedule.csv";
+    link.download = `${filename}.csv`;
     link.click();
 
     // Cleanup memory when done
