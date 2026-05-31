@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
 import { useEffect, useState } from "react";
 import * as XLSX from "@e965/xlsx";
-import * as API from "../SendToApi";
+import * as SendAPI from "../SendToApi";
 import CreateStudent from "../Cruds/createStudent";
 import CreateTeacher from "../Cruds/createTeacher";
 import * as GetAPI from "../GetFromApi";
@@ -25,10 +25,15 @@ function writeToJson(filePath: string, newJsonData: string) {
 }
 
 export default function InputPage({ path }: InputPageProps) {
+  const [mySections, setMySections] = useState(section_data);
+  const [myStudents, setMyStudents] = useState(student_data);
+  const [myInstructors, setMyInstructors] = useState(instructor_data);
+
   const [instructorDataStr, setInstructorDataStr] = useState<string>("");
   const [studentDataStr, setStudentDataStr] = useState<string>("");
   const [sectionIds, setSectionIds] = useState<string[]>([]);
   const [csvData, setCsvData] = useState<any>("");
+
 
   function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>, type: string) {
     const file = e.target.files?.[0];
@@ -51,7 +56,7 @@ export default function InputPage({ path }: InputPageProps) {
         writeToJson(path, JSON.stringify(json));
       } else if (type.toLowerCase() === "csv") {
         setCsvData(json);
-        API.updateFromCSV(json);
+        SendAPI.updateFromCSV(json);
       } else if (type.toLowerCase() === "student") {
         setStudentDataStr(JSON.stringify(json, null, 2));
         GetAPI.setGlobalStudentData(JSON.stringify(json, null, 2));
@@ -66,7 +71,7 @@ export default function InputPage({ path }: InputPageProps) {
     const f = e.target.files?.[0];
     if (!f) return;
     try {
-      const res = await API.importStudentsCsv(f);
+      const res = await SendAPI.importStudentsCsv(f);
       alert(`Imported ${res.imported} students from CSV.`);
       await GetAPI.getFromBackendApi("Students");
       await GetAPI.getFromBackendApi("Instructors");
@@ -80,7 +85,7 @@ export default function InputPage({ path }: InputPageProps) {
     const f = e.target.files?.[0];
     if (!f) return;
     try {
-      const res = await API.importInstructorsCsv(f);
+      const res = await SendAPI.importInstructorsCsv(f);
       alert(`Imported ${res.imported} instructors from CSV.`);
       await GetAPI.getFromBackendApi("Instructors");
     } catch (err) {
@@ -90,12 +95,38 @@ export default function InputPage({ path }: InputPageProps) {
   }
 
   useEffect(() => {
-    GetAPI.getFromBackendApi("Instructors");
-    GetAPI.getFromBackendApi("Students");
-    GetAPI.getFromBackendApi("Sections");
+    async function fetchData(){
+      await GetAPI.getFromBackendApi("Instructors");
+      await GetAPI.getFromBackendApi("Students");
+      await GetAPI.getFromBackendApi("Sections");
+      await SendAPI.regenerateSchedule();
+
+      setMySections(section_data);
+      setMyStudents(student_data);
+      setMyInstructors(instructor_data);
+    }
+  
+    fetchData();
 
     setSectionIds(GetAPI.section_ids);
   }, []);
+  
+  // Update data
+  // useEffect(() => {
+  //     setMySections(section_data);
+  //     // SendAPI.regenerateSchedule();
+  //     // GetAPI.getFromBackendApi("Sections");
+  // }, [section_data]);
+  // useEffect(() => {
+  //     setMyStudents(student_data);
+  //     // SendAPI.regenerateSchedule();
+  //     // GetAPI.getFromBackendApi("Students");
+  // }, [student_data]);
+  // useEffect(() => {
+  //     setMyInstructors(instructor_data);
+  //     // SendAPI.regenerateSchedule();
+  //     // GetAPI.getFromBackendApi("Instructors");
+  // }, [instructor_data]);
 
   return (
     <div className={"p-4 pl-16 mb-4 border-b-2 bg-[#f76902] text-white"}>
@@ -126,16 +157,16 @@ export default function InputPage({ path }: InputPageProps) {
         </label>
       </div>
 
-      <CreateStudent sections={section_data} teachers={instructor_data}></CreateStudent>
+      <CreateStudent sections={mySections} teachers={myInstructors}></CreateStudent>
       <CreateTeacher></CreateTeacher>
       <EditStudent
-        sections={section_data}
-        students={student_data}
-        teachers={instructor_data}
+        sections={mySections}
+        students={myStudents}
+        teachers={myInstructors}
       ></EditStudent>
-      <EditTeacher sections={section_data} teachers={instructor_data}></EditTeacher>
-      <DeleteStudent students={student_data}></DeleteStudent>
-      <DeleteTeacher instructors={instructor_data}></DeleteTeacher>
+      <EditTeacher sections={mySections} teachers={myInstructors}></EditTeacher>
+      <DeleteStudent students={myStudents}></DeleteStudent>
+      <DeleteTeacher instructors={myInstructors}></DeleteTeacher>
     </div>
   );
 }

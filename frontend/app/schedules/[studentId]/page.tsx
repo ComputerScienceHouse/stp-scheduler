@@ -8,27 +8,38 @@ import { getStudentById } from "../../HelperFunctions";
 import { useEffect, useState } from "react";
 import * as GetAPI from "../../GetFromApi";
 import { useParams } from "next/navigation";
+import { regenerateSchedule } from "@/app/SendToApi";
 
 export default function StudentSchedulePage(){
   const params = useParams();
 
   const [student, setStudent] = useState<StudentProps>({} as StudentProps);
-    
+  const [mySections, setMySections] = useState(section_data);
+  const [myInstructors, setMyInstructors] = useState(instructor_data);
+
   useEffect(() => {
-      GetAPI.getFromBackendApi("Instructors");
-      GetAPI.getFromBackendApi("Students");
-      GetAPI.getFromBackendApi("Sections");
+    async function fetchData(){
+      await GetAPI.getFromBackendApi("Instructors");
+      await GetAPI.getFromBackendApi("Students");
+      await GetAPI.getFromBackendApi("Sections");
+      await regenerateSchedule();
+
+      setMySections(section_data);
+      setMyInstructors(instructor_data);
       setStudent(getStudentById(student_data, params.studentId as string));
-    
-      console.log(params)
-      console.log(params.studentId)
-      console.log(student_data)
-      console.log(student);
+    }
+  
+    fetchData();
+
+    console.log(params)
+    console.log(params.studentId)
+    console.log(student_data)
+    console.log(student);
   }, []);
 
   if (student?.name == null) return <div className="text-black">Student not found.</div>;
 
   return (
-    <StudentSchedule student={student as StudentProps} instructors={instructor_data as InstructorProps[]} sections={section_data}></StudentSchedule>
+    <StudentSchedule student={student as StudentProps} instructors={myInstructors as InstructorProps[]} sections={mySections}></StudentSchedule>
   );
 }

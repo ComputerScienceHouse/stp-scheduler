@@ -3,15 +3,11 @@
  *
  * Author: Addison A
  * Edited By: Logan E
- * Last Updated: 4/30/2026
+ * Last Updated: 5/30/2026
  */
 
 import { apiFetch } from "./apiClient";
 import { getFromBackendApi } from "./GetFromApi";
-
-export function generateId() {
-  return "fake-id";
-}
 
 /**
  * POST /update/csv

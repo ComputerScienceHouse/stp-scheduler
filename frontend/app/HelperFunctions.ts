@@ -144,16 +144,16 @@ export function getStudentById(
  * @param subject string
  * @returns string
  */
-export function getBackgroundColor(subject: string) {
+export function getBackgroundColor(subject: string): string {
   switch (subject.toLowerCase()) {
     case "math":
-      return "#ff4040ff";
-    case "english":
       return "#4a86e8ff";
+    case "english":
+      return "#f1a117ff";
     case "asl":
       return "#80c362ff";
     default:
       console.log("Invalid subject for 'getBackgroundColor()'");
-      break;
+      return "";
   }
 }
