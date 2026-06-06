@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { InstructorProps } from "../InstructorProps";
 import { SectionProps } from "../SectionProps";
 import { StudentProps } from "../StudentProps";
 import { getSectionLevel } from "./SectionCard";
 import { getBackgroundColor, getInstructorName } from "../HelperFunctions";
+import { useReactToPrint } from "react-to-print";
 
 interface StudentScheduleProps{
     student: StudentProps; // The student
@@ -164,17 +165,31 @@ export default function StudentSchedule({student, instructors, sections}: Studen
         );
     }, [student, instructors, sections]);
 
+    
+      const scheduleRef = useRef<HTMLDivElement>(null);
+    
+      const print = useReactToPrint({
+        documentTitle: "Schedule"
+      });
+    
+      const handlePrint = () => {
+        print(() => scheduleRef.current);
+      };
+
     return (
         <>
+        <div className={"p-4 pl-16 mb-4 border-b-2 bg-[#f76902] text-white"}>
+            <button onClick={handlePrint} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4"}>Print Schedule</button>
+        </div>
         {/*  Schedule */}
-        <div className="m-12 mb-2 mt-0 p-4 rounded-4xl bg-gray-800">
+        <div className="m-12 mb-2 mt-0 p-4 rounded-4xl bg-gray-800" ref={scheduleRef}>
             <h1>{studentData?.name}</h1>
             <div 
                 id="schedule"
                 className="grid grid-cols-[6rem_repeat(5,1fr)] auto-rows-min grid-flow-dense w-auto border-2 border-solid border-(--main-text-color) bg-(--main-background-color) bg-opacity-50 text-base rounded-4xl"
                 // grid-rows-[4rem_repeat(11,1fr)]
                 style={{
-                overflowY: "scroll",
+                // overflowY: "scroll",
                 height: "70vh"
                 // gridTemplateRows: `4rem repeat(${timeblockData.length}, 1fr)`
                 }}
