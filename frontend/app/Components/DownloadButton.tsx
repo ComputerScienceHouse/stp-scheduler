@@ -1,9 +1,12 @@
 /**
+ * File: stp-scheduler/frontend/app/Components/DownloadButton.tsx
  * Author: Addison A (ShadowArcher289)
  * Created: 5/23/2026
  * Last Updated: 5/23/2026
  * 
- * Editors: 
+ * Editors:
+ *  
+ * Summary: User clicks this button to download 3 csv files for all students, sections, and instructors.
  */
 
 import { instructor_data, section_data, student_data } from "../GetFromApi";

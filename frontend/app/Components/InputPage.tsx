@@ -1,15 +1,26 @@
+/**
+ * File: stp-scheduler/frontend/app/Components/InputPage.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Holds all the CRUDS and gives data to them
+ */
+
 'use client'
 
 import { useEffect, useState } from "react";
 import * as XLSX from "@e965/xlsx";
 import * as SendAPI from "../SendToApi";
 import CreateStudent from "../Cruds/createStudent";
-import CreateTeacher from "../Cruds/createTeacher";
+import CreateInstructor from "../Cruds/createInstructor";
 import * as GetAPI from "../GetFromApi";
 import EditStudent from "../Cruds/editStudent";
-import EditTeacher from "../Cruds/editTeacher";
+import EditInstructor from "../Cruds/editInstructor";
 import DeleteStudent from "../Cruds/deleteStudent";
-import DeleteTeacher from "../Cruds/deleteTeacher";
+import DeleteInstructor from "../Cruds/deleteInstructor";
 import { Tooltip } from "react-tooltip";
 
 import { instructor_data, section_data, student_data } from "../GetFromApi";
@@ -157,16 +168,16 @@ export default function InputPage({ path }: InputPageProps) {
         </label>
       </div>
 
-      <CreateStudent sections={mySections} teachers={myInstructors}></CreateStudent>
-      <CreateTeacher></CreateTeacher>
+      <CreateStudent sections={mySections} instructors={myInstructors}></CreateStudent>
+      <CreateInstructor></CreateInstructor>
       <EditStudent
         sections={mySections}
         students={myStudents}
-        teachers={myInstructors}
+        instructors={myInstructors}
       ></EditStudent>
-      <EditTeacher sections={mySections} teachers={myInstructors}></EditTeacher>
+      <EditInstructor sections={mySections} instructors={myInstructors}></EditInstructor>
       <DeleteStudent students={myStudents}></DeleteStudent>
-      <DeleteTeacher instructors={myInstructors}></DeleteTeacher>
+      <DeleteInstructor instructors={myInstructors}></DeleteInstructor>
     </div>
   );
 }

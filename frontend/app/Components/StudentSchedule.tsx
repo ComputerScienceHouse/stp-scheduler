@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/Components/InputPage.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Component for an entire student schedule. (rips off of the main schedule in app/page.tsx)
+ */
+
 'use client'
 
 import { useEffect, useRef, useState } from "react";

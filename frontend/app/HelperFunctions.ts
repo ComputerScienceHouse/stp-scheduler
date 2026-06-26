@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/HelperFunctions.ts
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Contains various functions to help get data from lists of both instructors and students. Also getting the appropriate background color for sections.
+ */
+
 import type { InstructorProps } from "./InstructorProps";
 import type { StudentProps } from "./StudentProps";
 

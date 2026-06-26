@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/login/page.tsx
+ * Author: ---
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors: Addison A (ShadowArcher289)
+ *  
+ * Summary: Page for login screen
+ */
+
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";

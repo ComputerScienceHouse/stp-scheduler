@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/schedules/[studentId]/page.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: A page for a student-specific schedule. The path allows react to setup unique pages for each student's schedule based on the student's ID.
+ */
+
 'use client'
 
 import { instructor_data, section_data, student_data } from "../../GetFromApi";

@@ -1,8 +1,12 @@
 /**
- * Handles retrieving data from the backend
- *
- * Author: Addison A
- * Last Updated: 4/30/2026
+ * File: stp-scheduler/frontend/app/GetFromApi.ts
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 04/30/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Handles retrieving data from the backend
  */
 import { apiFetch } from "./apiClient";
 

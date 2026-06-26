@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/students/page.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: A page listing all students in the master schedule.
+ */
+
 "use client";
 
 import { useEffect, useState } from "react";

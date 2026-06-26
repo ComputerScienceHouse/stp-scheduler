@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/page.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 05/12/2026
+ * 
+ * Editors:
+ *  
+ * Summary: The main page of the application that displays the master schedule.
+ */
+
 'use client'
 
 import localData from "../data/BackendData.json";
@@ -13,12 +24,6 @@ import type { StudentProps } from "./StudentProps";
 import StudentSchedule from "./Components/StudentSchedule";
 import DownloadButton from "./Components/DownloadButton";
 
-/**
- * Author: Addison A
- * Last Updated: 5/12/2026
- * 
- * Editors: 
- */
 
 /**
  * The number of sections in the grid
@@ -27,7 +32,7 @@ var sectionCount = 0;
 
 // set page data to local student's data
 // var pageStudentData = localData.students;
-// var pageTeacherData = localData.teachers;
+// var pageInstructorData = localData.teachers;
 // var pageTimeblockData = localData.timeBlock;
 // var pageSectionData = localData.sections;
 
@@ -90,8 +95,8 @@ function updateTableData() {
   if (GetAPI.section_data != "" && (pageSectionData != GetAPI.section_data)){
     pageSectionData = GetAPI.section_data
   }
-  // if (timeblock_data != "" && (pageTimeblockData != teacher_data)){
-  //   pageTimeblockData = teacher_data
+  // if (timeblock_data != "" && (pageTimeblockData != instructor_data)){
+  //   pageTimeblockData = instructor_data
   // }
 
 }
@@ -327,7 +332,7 @@ export default function Home() {
                 }}
               >
                 {sections.map((section, index) => (
-                  <Section key={index} section={section as SectionProps} teachers={instructorData as InstructorProps[]} students={studentData as StudentProps[]}></Section>
+                  <Section key={index} section={section as SectionProps} instructors={instructorData as InstructorProps[]} students={studentData as StudentProps[]}></Section>
                 ))}
               </div>
             );

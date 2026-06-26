@@ -1,9 +1,12 @@
 /**
- * Handles api calls to the backend
- *
- * Author: Addison A
- * Edited By: Logan E
- * Last Updated: 5/30/2026
+ * File: stp-scheduler/frontend/app/SendToApi.ts
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 05/30/2026
+ * 
+ * Editors: Logan E,
+ *  
+ * Summary: Handles api calls to the backend
  */
 
 import { apiFetch } from "./apiClient";

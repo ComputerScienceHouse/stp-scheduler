@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/Components/Navitem.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: component for an item in the navbar that links to another page.
+ */
+
 "use client"
 
 import Link from "next/link";

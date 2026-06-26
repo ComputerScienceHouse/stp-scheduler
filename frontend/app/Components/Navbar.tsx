@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/Components/Navbar.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: The navbar
+ */
+
 import NavItem, { NavItemProps } from "./Navitem";
 import NavbarAuthControls from "./NavbarAuthControls";
 
