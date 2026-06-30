@@ -1,10 +1,13 @@
 from stp_scheduler.domain.bucket import create_buckets
-from stp_scheduler.domain.constants import CORE_CLASSES, TIME_BLOCKS
+from stp_scheduler.domain.constants import CORE_CLASSES, TIME_BLOCKS, SUBJECT_LIMIT_DICT, SUBJECT_DAYS_DICT
 from stp_scheduler.domain.instructor import Instructor, generate_instructor_dataframe
 from stp_scheduler.domain.section import Section
 from stp_scheduler.domain.student import Student
 from stp_scheduler.api import state
 
+
+def days_overlap(days1: str, days2: str) -> bool:
+    return bool(set(days1) & set(days2))
 
 def build_conflict_graph(
     sections_list: list[Section],
@@ -48,11 +51,15 @@ def assign_time_blocks(
     for section in ordered:
         if section.get_subject().lower() not in CORE_CLASSES:
             continue
-        used_blocks = {
-            neighbor.get_time()
-            for neighbor in conflicts[section]
-            if neighbor.get_time() is not None
-        }
+        
+        used_blocks = set()
+
+        for neighbor in conflicts[section]:
+            if neighbor.get_time() is None:
+                continue
+
+            if days_overlap(section.get_days(), neighbor.get_days()):
+                used_blocks.add(neighbor.get_time())
 
         for block in TIME_BLOCKS:
             if block not in used_blocks:
@@ -60,7 +67,6 @@ def assign_time_blocks(
                 break
         else:
             raise RuntimeError(f"Could not assign time block to {section}")
-        section.set_days("MTWRF")
 
 
 def check_for_conflicts(
@@ -73,17 +79,21 @@ def check_for_conflicts(
         seen = {}
         for sec in student.get_schedule():
             t = sec.get_time()
-            if t in seen:
-                issues.append(f"Student conflict: {student}")
-            seen[t] = sec
+            for other in seen.get(t, []):
+                if days_overlap(sec.get_days(), other.get_days()):
+                    issues.append(f"Student conflict: {student.name} - {sec.get_subject()} on {sec.get_days()} at {sec.get_time()}")
+                    break
+            seen.setdefault(t, []).append(sec)
 
     for instructor in instructors_list:
         seen = {}
         for sec in instructor.schedule:
             t = sec.get_time()
-            if t in seen:
-                issues.append(f"Instructor conflict: {instructor}")
-            seen[t] = sec
+            for other in seen.get(t, []):
+                if days_overlap(sec.get_days(), other.get_days()):
+                    issues.append(f"Instructor conflict: {instructor.name} - {sec.get_subject()} on {sec.get_days()} at {sec.get_time()}")
+                    break
+            seen.setdefault(t, []).append(sec)
 
     return issues
 
@@ -103,10 +113,10 @@ def run_scheduler() -> list[str]:
 
     for bucket in buckets:
         bucket.assign_students(students_list)
-        needed = bucket.get_sections_needed()
+        needed = bucket.get_sections_needed(class_limit=SUBJECT_LIMIT_DICT[bucket.subject])
 
         for i in range(needed):
-            section = Section(bucket.subject, bucket.level)
+            section = Section(bucket.subject, bucket.level, days=SUBJECT_DAYS_DICT[bucket.subject])
 
             per_section = len(bucket.get_students()) // needed
             start = i * per_section
@@ -157,3 +167,15 @@ def run_scheduler() -> list[str]:
         list(state.sections.values()), students_list, instructors_list
     )
     return check_for_conflicts(students_list, instructors_list)
+
+if __name__ == "__main__":
+    issues = run_scheduler()
+    if issues:
+        print("Issues found:")
+        for issue in issues:
+            print(issue)
+    else:
+        print("No issues found.")
+    print(state.sections)
+    print(state.students)
+    print(state.instructors)

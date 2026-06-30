@@ -20,7 +20,29 @@ LEVEL_DICT = {
 TIME_BLOCKS = [BLOCK_ONE, BLOCK_TWO, BLOCK_THREE, BLOCK_FOUR, BLOCK_FIVE, BLOCK_SIX]
 
 CORE_CLASSES = ["english", "math", "asl"]
+NON_CORE_CLASSES = ["college readiness", "social emotional learning", "financial literacy", "presentations", "digital literacy"]
 
+SUBJECT_LIMIT_DICT = {
+    "english": 8,
+    "math": 8,
+    "asl": 8,
+    "college readiness": 12,
+    "social emotional learning": 12,
+    "financial literacy": 17,
+    "presentations": 17,
+    "digital literacy": 17,
+}
+
+SUBJECT_DAYS_DICT = {
+    "english": "MWTRF",
+    "math": "MWTRF",
+    "asl": "MWTRF",
+    "college readiness": "MWF",
+    "social emotional learning": "MWF",
+    "financial literacy": "TR",
+    "presentations": "TR",
+    "digital literacy": "TR"
+}
 
 def get_level(score: int):
     return 0 if score <= 3 else 2 if score > 6 else 1

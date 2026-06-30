@@ -1,8 +1,10 @@
 """Parse uploaded instructor CSV (``Teacher``, ``Class``, ``Weight``).
 
 One row per instructor per class. ``Weight`` is scheduler qualification (-1 / 0 / 1).
-Only ASL, Math, and English rows populate ``asl`` / ``math`` / ``english`` in
-``subject_weights``. ``max_sections`` is always **6** (no column for it in this format).
+All core and non-core subjects populate ``subject_weights`` using domain-canonical
+keys from ``constants.py``. CSV abbreviations (e.g. ``Financial Lit``) are mapped
+to domain keys (e.g. ``financial literacy``). ``max_sections`` is always **6**
+(no column for it in this format).
 """
 
 import io
@@ -11,13 +13,24 @@ from dataclasses import dataclass
 
 import pandas as pd
 
-_PIVOT_CLASS_TO_CORE: dict[str, str] = {
+from stp_scheduler.domain.constants import CORE_CLASSES, NON_CORE_CLASSES
+
+_CSV_CLASS_TO_SUBJECT: dict[str, str] = {
     "asl": "asl",
     "math": "math",
     "english": "english",
+    "college readiness": "college readiness",
+    "social emotional learning": "social emotional learning",
+    "financial lit": "financial literacy",
+    "financial literacy": "financial literacy",
+    "presentations": "presentations",
+    "digital lit": "digital literacy",
+    "digital literacy": "digital literacy",
 }
 
-_DEFAULT_CORE_WEIGHTS: dict[str, int] = {"english": -1, "math": -1, "asl": -1}
+_DEFAULT_SUBJECT_WEIGHTS: dict[str, int] = {
+    subject: -1 for subject in CORE_CLASSES + NON_CORE_CLASSES
+}
 
 _MAX_SECTIONS_DEFAULT = 6
 
@@ -62,16 +75,16 @@ def parse_instructors_csv(content: bytes) -> list[ParsedInstructorRow]:
             continue
         name = str(raw_name).strip()
         if name not in merged:
-            merged[name] = dict(_DEFAULT_CORE_WEIGHTS)
+            merged[name] = dict(_DEFAULT_SUBJECT_WEIGHTS)
 
         class_raw = row[c_col]
         class_key = (
             "" if pd.isna(class_raw) else str(class_raw).strip().lower()
         )
         weight = _parse_weight(row[w_col])
-        core = _PIVOT_CLASS_TO_CORE.get(class_key)
-        if core:
-            merged[name][core] = weight
+        subject = _CSV_CLASS_TO_SUBJECT.get(class_key)
+        if subject:
+            merged[name][subject] = weight
 
     return [
         ParsedInstructorRow(
