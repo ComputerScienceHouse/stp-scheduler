@@ -1,8 +1,9 @@
 """Parse uploaded instructor CSV (``Teacher``, ``Class``, ``Weight``).
 
 One row per instructor per class. ``Weight`` is scheduler qualification (-1 / 0 / 1).
-Only ASL, Math, and English rows populate ``asl`` / ``math`` / ``english`` in
-``subject_weights``. ``max_sections`` is always **6** (no column for it in this format).
+Rows for any of the supported classes (core and non-core) populate the matching
+entry in ``subject_weights``. ``max_sections`` is always **6** (no column for it
+in this format).
 """
 
 import io
@@ -11,13 +12,17 @@ from dataclasses import dataclass
 
 import pandas as pd
 
-_PIVOT_CLASS_TO_CORE: dict[str, str] = {
-    "asl": "asl",
-    "math": "math",
-    "english": "english",
-}
+from stp_scheduler.domain.constants import ALL_CLASSES
 
-_DEFAULT_CORE_WEIGHTS: dict[str, int] = {"english": -1, "math": -1, "asl": -1}
+# Map the class label from the CSV (lower-cased/stripped) to the canonical
+# subject key used throughout the domain. The CSV uses "English" for the core
+# reading/english class.
+_PIVOT_CLASS_TO_SUBJECT: dict[str, str] = {c: c for c in ALL_CLASSES}
+_PIVOT_CLASS_TO_SUBJECT["english"] = "english"
+_PIVOT_CLASS_TO_SUBJECT["reading"] = "english"
+
+# Default weight for every supported class is -1 (not qualified).
+_DEFAULT_WEIGHTS: dict[str, int] = {c: -1 for c in ALL_CLASSES}
 
 _MAX_SECTIONS_DEFAULT = 6
 
@@ -62,16 +67,14 @@ def parse_instructors_csv(content: bytes) -> list[ParsedInstructorRow]:
             continue
         name = str(raw_name).strip()
         if name not in merged:
-            merged[name] = dict(_DEFAULT_CORE_WEIGHTS)
+            merged[name] = dict(_DEFAULT_WEIGHTS)
 
         class_raw = row[c_col]
-        class_key = (
-            "" if pd.isna(class_raw) else str(class_raw).strip().lower()
-        )
+        class_key = "" if pd.isna(class_raw) else str(class_raw).strip().lower()
         weight = _parse_weight(row[w_col])
-        core = _PIVOT_CLASS_TO_CORE.get(class_key)
-        if core:
-            merged[name][core] = weight
+        subject = _PIVOT_CLASS_TO_SUBJECT.get(class_key)
+        if subject:
+            merged[name][subject] = weight
 
     return [
         ParsedInstructorRow(
