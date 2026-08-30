@@ -1,39 +1,57 @@
+/**
+ * File: stp-scheduler/frontend/app/page.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 05/12/2026
+ * 
+ * Editors:
+ *  
+ * Summary: The main page of the application that displays the master schedule.
+ */
+
 'use client'
 
 import localData from "../data/BackendData.json";
 import * as GetAPI from "./GetFromApi";
 import * as SendAPI from "./SendToApi";
-import Section from "./Components/sectionCard";
+import Section from "./Components/SectionCard";
 import { useEffect, useRef, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { useReactToPrint } from "react-to-print";
 import type { InstructorProps } from "./InstructorProps";
 import type { SectionProps } from "./SectionProps";
 import type { StudentProps } from "./StudentProps";
+import StudentSchedule from "./Components/StudentSchedule";
+import DownloadButton from "./Components/DownloadButton";
 
-/**
- * Author: Addison A
- * Last Updated: 1/16/2026
- * 
- * Editors: 
- */
 
 /**
  * The number of sections in the grid
  */
 var sectionCount = 0;
 
+// set page data to local student's data
 // var pageStudentData = localData.students;
-// var pageTeacherData = localData.teachers;
+// var pageInstructorData = localData.teachers;
 // var pageTimeblockData = localData.timeBlock;
 // var pageSectionData = localData.sections;
+
+// set page data to empty data
 var pageStudentData: StudentProps[] = [];
 var pageInstructorData: InstructorProps[] = [];
-var pageTimeblockData = localData.timeBlock;
+var pageTimeblockData = [ // default timeblock data
+  {"id": 0, "start": "08:00", "end": "09:00"},
+  {"id": 1, "start": "09:15", "end": "10:15"},
+  {"id": 2, "start": "10:30", "end": "11:30"},
+  {"id": 3, "start": "11:45", "end": "12:45"},
+  {"id": 4, "start": "12:45", "end": "13:45"},
+  {"id": 5, "start": "13:45", "end": "14:45"},
+  {"id": 6, "start": "15:00", "end": "16:00"}
+];
 var pageSectionData: SectionProps[] = [];
 
 /**
- * Changes the cursor to a loading state for 1 second.
+ * Changes the cursor to a loading state for [duration] milliseconds.
  * 
  * @param duration int (milliseconds)
  */
@@ -59,7 +77,7 @@ function regenerateTableSchedule() {
 }
 
 /**
- * Updates the page's data to the data from the InputPage
+ * set the data on the Home page.
  */
 function updateTableData() {
   console.log("Data being updated")
@@ -77,8 +95,8 @@ function updateTableData() {
   if (GetAPI.section_data != "" && (pageSectionData != GetAPI.section_data)){
     pageSectionData = GetAPI.section_data
   }
-  // if (timeblock_data != "" && (pageTimeblockData != teacher_data)){
-  //   pageTimeblockData = teacher_data
+  // if (timeblock_data != "" && (pageTimeblockData != instructor_data)){
+  //   pageTimeblockData = instructor_data
   // }
 
 }
@@ -114,7 +132,7 @@ function resetSectionCount(){
 }
 
 /**
- * Groups the given sections into a Record by each day's timeBlock
+ * Groups the given sections into a Record by timeBlock
  * @param sections 
  * @returns Record<string, SectionProps[]>
  */
@@ -157,7 +175,7 @@ function getStartColumn(day: string): number{
             column = 6;
             break;
         default:
-            console.log("getStartColumn in sectionCard.tsx: failed to calculate column");
+            console.log("getStartColumn in page.tsx: failed to calculate column");
             break;
     }
     return column;
@@ -174,8 +192,8 @@ function getStartRow(timeBlockId: number){
 
 
 export default function Home() {
-  const [studentData, setStudentData] = useState([{}]);
-  const [instructorData, setInstructorData] = useState<InstructorProps[] | Record<string, never>[]>([{}]);
+  const [studentData, setStudentData] = useState<StudentProps[]>([{}] as StudentProps[]);
+  const [instructorData, setInstructorData] = useState<InstructorProps[]>([{}] as InstructorProps[]);
   const [sectionData, setSectionData] = useState([{
     id: "", 
     subject: "string", 
@@ -202,7 +220,7 @@ export default function Home() {
   /**
    * Updates the schedule's data 
    */
-  function generateSchedule(){
+  function generateVisualSchedule(){
     showLoadingCursor(100)
     updateTableData()
 
@@ -233,7 +251,7 @@ export default function Home() {
       await GetAPI.getFromBackendApi("Students");
       await GetAPI.getFromBackendApi("Sections");
 
-      generateSchedule();
+      await generateVisualSchedule();
     }
 
     fetchData();
@@ -261,14 +279,13 @@ export default function Home() {
 
   return (
 
-    <section className="max-w-dvw items-center justify-center font-sans dark:bg-[var(--main-background-color)]">
+    <section className="max-w-dvw items-center justify-center font-sans dark:bg-(--main-background-color)">
       <Tooltip id="my-tooltip" />
-      {/* Inputs */}
-      {/* <InputPage path={"../data/InputTestData.json"}></InputPage> */}
 
       <div className={"p-4 pl-16 mb-4 border-b-2 bg-[#f76902] text-white"}>
-        <button onClick={generateSchedule} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4 mr-4"}>Regenerate Schedule</button>
-        {/* <button onClick={handlePrint} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4"}>Print Schedule</button> */}
+        <button onClick={generateVisualSchedule} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4 mr-4"}>Regenerate Schedule</button>
+        <button onClick={handlePrint} className={"border-2 active:backdrop-brightness-90 p-2 pl-4 pr-4"}>Print Schedule</button>
+        <DownloadButton filetype="csv"></DownloadButton>
       </div>
       
 
@@ -276,7 +293,7 @@ export default function Home() {
       <div className="m-12 mb-2 mt-0 p-4 rounded-4xl bg-gray-800" ref={scheduleRef}>
         <div 
           id="schedule"
-          className="grid grid-cols-[6rem_repeat(5,1fr)] auto-rows-min grid-flow-dense w-auto border-2 border-solid border-[var(--main-text-color)] bg-[var(--main-background-color)] bg-opacity-50 text-base rounded-4xl"
+          className="grid grid-cols-[6rem_repeat(5,1fr)] auto-rows-min grid-flow-dense w-auto border-2 border-solid border-(--main-text-color) bg-(--main-background-color) bg-opacity-50 text-base rounded-4xl"
           // grid-rows-[4rem_repeat(11,1fr)]
           style={{
             overflowY: "scroll",
@@ -286,16 +303,16 @@ export default function Home() {
         >
           
           {/* Fill in the days on top */}
-          <h4 className="flex justify-center items-center col-start-1 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] font-bold border-3 border-t-0 border-l-0 border-solid rounded-tl-4xl">Time</h4>
-          <h4 className="flex justify-center items-center col-start-2 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-t-0 border-l-0 border-r-2 border-solid">Monday</h4>
-          <h4 className="flex justify-center items-center col-start-3 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-t-0 border-l-0 border-r-2 border-solid">Tuesday</h4>
-          <h4 className="flex justify-center items-center col-start-4 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-t-0 border-l-0 border-r-2 border-solid">Wednesday</h4>
-          <h4 className="flex justify-center items-center col-start-5 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-t-0 border-l-0 border-r-2 border-solid">Thursday</h4>
-          <h4 className="flex justify-center items-center col-start-6 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-t-0 border-l-0 border-r-0 border-solid rounded-tr-4xl">Friday</h4>
+          <h4 className="flex justify-center items-center col-start-1 col-span-1 bg-(--main-background-color) text-(--main-text-color) font-bold border-3 border-t-0 border-l-0 border-solid rounded-tl-4xl">Time</h4>
+          <h4 className="flex justify-center items-center col-start-2 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-t-0 border-l-0 border-r-2 border-solid">Monday</h4>
+          <h4 className="flex justify-center items-center col-start-3 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-t-0 border-l-0 border-r-2 border-solid">Tuesday</h4>
+          <h4 className="flex justify-center items-center col-start-4 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-t-0 border-l-0 border-r-2 border-solid">Wednesday</h4>
+          <h4 className="flex justify-center items-center col-start-5 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-t-0 border-l-0 border-r-2 border-solid">Thursday</h4>
+          <h4 className="flex justify-center items-center col-start-6 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-t-0 border-l-0 border-r-0 border-solid rounded-tr-4xl">Friday</h4>
 
           {/* Fill in the time on the left */}
           {timeblockData.map(time => (
-            <div key={time.id} className="flex justify-center text-center text-sm items-center p-1 col-start-1 col-span-1 bg-[var(--main-background-color)] text-[var(--main-text-color)] border-3 border-b-2 border-t-0 border-l-0 border-solid">{militaryToCivilianTime(time.start)} - {militaryToCivilianTime(time.end)}</div>
+            <div key={time.id} className="flex justify-center text-center text-sm items-center p-1 col-start-1 col-span-1 bg-(--main-background-color) text-(--main-text-color) border-3 border-b-2 border-t-0 border-l-0 border-solid">{militaryToCivilianTime(time.start)} - {militaryToCivilianTime(time.end)}</div>
           ))}
 
 
@@ -306,7 +323,7 @@ export default function Home() {
             return (
               <div // TODO: make text size based on the window size so that it is always more legible
                 key={key}
-                className="col-span-1 row-span-1 border-2 border-t-0 border-l-0 border-solid border-[var(--main-text-color)] p-2 flex flex-col gap-2 text-center"
+                className="col-span-1 row-span-1 border-2 border-t-0 border-l-0 border-solid border-(--main-text-color) p-2 flex flex-col gap-2 text-center"
                 style={{
                   gridColumnStart: getStartColumn(day),
                   gridColumnEnd: `span 1`,
@@ -315,7 +332,7 @@ export default function Home() {
                 }}
               >
                 {sections.map((section, index) => (
-                  <Section key={index} section={section as SectionProps} teachers={instructorData as InstructorProps[]} students={studentData as StudentProps[]}></Section>
+                  <Section key={index} section={section as SectionProps} instructors={instructorData as InstructorProps[]} students={studentData as StudentProps[]}></Section>
                 ))}
               </div>
             );
@@ -324,11 +341,10 @@ export default function Home() {
 
           {/* Fill in empty spaces */}
           {Array.from({ length: getEmptySpacesCount() }, (_, index) => (
-            <div key={index} className="col-span-1 row-span-1 border-2 border-t-0 border-l-0 border-solid border-[var(--main-text-color)] p-6 text-center"></div>
+            <div key={index} className="col-span-1 row-span-1 border-2 border-t-0 border-l-0 border-solid border-(--main-text-color) p-6 text-center"></div>
           ))}
         </div>
       </div>
-
     </section>
   );
 }

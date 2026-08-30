@@ -6,6 +6,9 @@ import Footer from "./Components/Footer";
 import AuthGate from "./Components/AuthGate";
 import 'dotenv/config';
 
+import * as GetAPI from "./GetFromApi";
+import * as SendAPI from "./SendToApi";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -26,6 +29,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  
+  /**
+   * calls the GetAPI to repopulate its data
+   */
+  async function fetchData(){
+    await SendAPI.regenerateSchedule();
+    await GetAPI.getFromBackendApi("Instructors");
+    await GetAPI.getFromBackendApi("Students");
+    await GetAPI.getFromBackendApi("Sections");
+  }
+
+  fetchData();
+
   return (
     <html lang="en">
       <body

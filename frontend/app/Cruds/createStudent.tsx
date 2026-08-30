@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/Cruds/createStudent.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Component providing inputs to create a new student.
+ */
+
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
 import { getStudentName, getInstructorName } from "../HelperFunctions";
@@ -6,13 +17,13 @@ import type { SectionProps } from "../SectionProps";
 
 interface CreateStudentProps{
     sections: SectionProps[];
-    teachers: InstructorProps[];
+    instructors: InstructorProps[];
 }
 
 var minRank = "0";
 var maxRank = "10";
 
-export default function CreateStudent({sections, teachers}: CreateStudentProps){
+export default function CreateStudent({sections, instructors}: CreateStudentProps){
 
     const [name, setName] = useState<string>("no_name");
     const [mathScore, setMathScore] = useState<number>(5);
@@ -110,7 +121,7 @@ export default function CreateStudent({sections, teachers}: CreateStudentProps){
                         {sections.map((section) => (
                                 <div key={section.id} className="mb-2 border-b border-white/50">
                                     <input type="checkbox" id={section.id} value={section.id} checked={sectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
-                                    <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getInstructorName(teachers, section.instructorId)} | {section.id}</label>    
+                                    <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getInstructorName(instructors, section.instructorId)} | {section.id}</label>    
                                 </div>
                             ))}
                     </details>

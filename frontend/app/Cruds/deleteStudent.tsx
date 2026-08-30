@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/Cruds/deleteStudent.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Component providing inputs to delete an existing student.
+ */
+
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
 import { getFromBackendApi, student_data } from "../GetFromApi";
@@ -28,7 +39,7 @@ export default function DeleteStudent({students}: DeleteStudentProps){
 
         // TODO: update delete student in the API to do this because the file should not be responsible for re-updating data
         // Reload students without the deleted student
-        getFromBackendApi("Students");
+        // getFromBackendApi("Students");
     }
 
     return (
