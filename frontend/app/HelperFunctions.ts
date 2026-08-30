@@ -163,8 +163,18 @@ export function getBackgroundColor(subject: string): string {
       return "#f1a117ff";
     case "asl":
       return "#80c362ff";
+    case "social emotional learning":
+      return "#b37305ff";
+    case "financial lit":
+      return "#48b305ff";
+    case "presentations":
+      return "#b8ac28ff";
+    case "college readiness":
+      return "#026ba8ff";
+    case "digital lit":
+      return "#0b6e18ff";
     default:
-      console.log("Invalid subject for 'getBackgroundColor()'");
+      console.log("Invalid subject for 'getBackgroundColor()': " + subject.toLowerCase());
       return "";
   }
 }

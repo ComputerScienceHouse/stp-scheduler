@@ -82,6 +82,8 @@ function regenerateTableSchedule() {
 function updateTableData() {
   console.log("Data being updated")
 
+SendAPI.regenerateSchedule();
+
   GetAPI.getFromBackendApi("Instructors");
   GetAPI.getFromBackendApi("Students");
   GetAPI.getFromBackendApi("Sections");
