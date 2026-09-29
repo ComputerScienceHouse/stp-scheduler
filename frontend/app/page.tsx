@@ -14,7 +14,7 @@
 import localData from "../data/BackendData.json";
 import * as GetAPI from "./GetFromApi";
 import * as SendAPI from "./SendToApi";
-import Section from "./Components/SectionCard";
+import Section from "./Components/ScheduleSectionCard";
 import { useEffect, useRef, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { useReactToPrint } from "react-to-print";
