@@ -1,5 +1,5 @@
 /**
- * File: stp-scheduler/frontend/app/Components/SectionCard.tsx
+ * File: stp-scheduler/frontend/app/Components/ScheduleSectionCard.tsx
  * Author: Addison A (ShadowArcher289)
  * Created: i need to check :(
  * Last Updated: 06/26/2026

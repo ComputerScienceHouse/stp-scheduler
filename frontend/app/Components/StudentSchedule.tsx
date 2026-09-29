@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import { InstructorProps } from "../InstructorProps";
 import { SectionProps } from "../SectionProps";
 import { StudentProps } from "../StudentProps";
-import { getSectionLevel } from "./SectionCard";
+import { getSectionLevel } from "./ScheduleSectionCard";
 import { getBackgroundColor, getInstructorName } from "../HelperFunctions";
 import { useReactToPrint } from "react-to-print";
 
