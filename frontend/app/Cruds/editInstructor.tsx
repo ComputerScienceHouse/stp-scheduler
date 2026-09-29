@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/Cruds/editInstructor.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Component providing inputs to edit an existing instructor.
+ */
+
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from "../SendToApi";
 import { section_data } from "../GetFromApi";
@@ -9,16 +20,16 @@ import {
 import type { InstructorProps } from "../InstructorProps";
 import type { SectionProps } from "../SectionProps";
 
-interface EditTeacherProps {
+interface EditInstructorProps {
   sections: SectionProps[];
-  teachers: InstructorProps[];
+  instructors: InstructorProps[];
 }
 
 var selectedSections: string[] = [];
 var minWeight = "-1";
 var maxWeight = "1";
 
-export default function EditTeacher({sections, teachers}: EditTeacherProps){
+export default function EditInstructor({sections, instructors}: EditInstructorProps){
     const [id, setId] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [isMentor, setIsMentor] = useState<boolean>(false);
@@ -33,21 +44,21 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
 
     const [selectedSectionIds, setSelectedSectionIds] = useState<string[]>([]);
 
-    function selectTeacher(e: ChangeEvent<HTMLSelectElement>){
+    function selectInstructor(e: ChangeEvent<HTMLSelectElement>){
         // e.target.value should be the instructor's id.
         setId(e.target.value);
-        setName(getInstructorName(teachers, e.target.value));
-        setIsMentor(getInstructorMentorStatus(teachers, e.target.value));
-        // setMathWeight(getTeacherSubjectWeights(teachers, e.target.value).math);
-        // setEnglishWeight(getTeacherSubjectWeights(students, e.target.value).english);
-        // setAslWeight(getTeacherSubjectWeights(teachers, e.target.value).asl);
+        setName(getInstructorName(instructors, e.target.value));
+        setIsMentor(getInstructorMentorStatus(instructors, e.target.value));
+        // setMathWeight(getInstructorSubjectWeights(instructors, e.target.value).math);
+        // setEnglishWeight(getInstructorSubjectWeights(students, e.target.value).english);
+        // setAslWeight(getInstructorSubjectWeights(instructors, e.target.value).asl);
         // setCollegeReadinessWeight(); // the following are unimplemented subjects
         // setSelWeight();
         // setFinancialLitWeight();
         // setPresentationsWeight();
         // setDigitalLithWeight();
 
-        setSelectedSectionIds(getInstructorSections(teachers, e.target.value));
+        setSelectedSectionIds(getInstructorSections(instructors, e.target.value));
     }
 
     /**
@@ -65,15 +76,15 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
     }
     
     /**
-     * Edit a teacher
+     * Edit an instructor
      * 
      * @param e FormEvent<HTMLFormElement>
      */
-    function editTeacher(e: FormEvent<HTMLFormElement>){
+    function editInstructor(e: FormEvent<HTMLFormElement>){
         e.preventDefault(); // prevents page reload on form submission
         
-        var teacher_id: string = id;
-        var teacher_name: string = name;
+        var instructor_id: string = id;
+        var instructor_name: string = name;
         var subject_weights: Record<string, number> = {
             "math": mathWeight, 
             "english": englishWeight, 
@@ -87,16 +98,16 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
         var is_mentor: boolean = isMentor;
         var section_ids: string[] = selectedSectionIds;
 
-        console.log("Teacher Creation Initiated: ");
-        console.log("teacher_id: " + teacher_id);
-        console.log("teacher_name: " + teacher_name);
+        console.log("Instructor Edit Initiated: ");
+        console.log("instructor_id: " + instructor_id);
+        console.log("instructor_name: " + instructor_name);
         console.log("subject_weights: " + JSON.stringify(subject_weights));
         console.log("is_mentor: " + is_mentor);
         console.log("section_ids: " + section_ids);
 
         API.editInstructor({
-            "id": teacher_id,
-            "name": teacher_name,
+            "id": instructor_id,
+            "name": instructor_name,
             "subject_weights": subject_weights,
             "is_mentor": is_mentor
         })
@@ -126,17 +137,17 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
         <details className="mb-2">
             <summary className="hover:backdrop-brightness-125 p-4">Edit Instructor (Click to collapse/expand)</summary>
             <div className={"border-2 p-2 m-4 border-white/50"}>
-                <form name="editTeacherForm" onSubmit={(e) => editTeacher(e)}>
+                <form name="editInstructorForm" onSubmit={(e) => editInstructor(e)}>
 
                     {/* Sets the current instructor to be modified, providing their id */}
-                    <select className={"border-2 m-4 pt-4 pb-4 border-white/50"} onChange={(e) => {selectTeacher(e)}}
+                    <select className={"border-2 m-4 pt-4 pb-4 border-white/50"} onChange={(e) => {selectInstructor(e)}}
                         data-tooltip-id="my-tooltip" data-tooltip-content="Select an instructor" >
                         <option className="mb-2 border-b border-white/50 text-gray" value="">
                         ...
                         </option>
-                        {teachers.map((teacher) => (
-                                <option key={teacher.id} className="mb-2 border-b border-white/50 text-black" value={teacher.id}>
-                                    {teacher.name} | {teacher.id}   
+                        {instructors.map((instructor) => (
+                                <option key={instructor.id} className="mb-2 border-b border-white/50 text-black" value={instructor.id}>
+                                    {instructor.name} | {instructor.id}   
                                 </option>
                             ))}
                     </select>
@@ -195,7 +206,7 @@ export default function EditTeacher({sections, teachers}: EditTeacherProps){
                         {sections.map((section) => (
                                 <div key={section.id} className="mb-2 border-b border-white/50">
                                     <input type="checkbox" id={section.id} value={section.id} checked={selectedSectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
-                                    <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getInstructorName(teachers, section.instructorId)} | {section.id}</label>    
+                                    <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getInstructorName(instructors, section.instructorId)} | {section.id}</label>    
                                 </div>
                             ))}
                     </details>

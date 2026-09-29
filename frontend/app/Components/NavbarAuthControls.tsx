@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/Cruds/createStudent.tsx
+ * Author: ---
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors: Addison A (ShadowArcher289)
+ *  
+ * Summary: the Signout button. Also checks if auth is required.
+ */
+
 "use client";
 
 import Link from "next/link";

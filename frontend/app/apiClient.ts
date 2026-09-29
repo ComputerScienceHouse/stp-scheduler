@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/apiClient.ts
+ * Author: ---
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Helper function for fetching from the backend
+ */
+
 import "dotenv/config";
 
 export const API_URL =

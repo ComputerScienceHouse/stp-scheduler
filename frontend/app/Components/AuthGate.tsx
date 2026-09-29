@@ -1,3 +1,13 @@
+/**
+ * File: stp-scheduler/frontend/app/Components/AuthGate.tsx
+ * Author: ---
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: confirms login
+ */
 "use client";
 
 import type { ReactNode } from "react";

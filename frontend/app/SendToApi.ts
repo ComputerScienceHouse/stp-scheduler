@@ -1,20 +1,19 @@
 /**
- * Handles api calls to the backend
- *
- * Author: Addison A
- * Edited By: Logan E
- * Last Updated: 4/30/2026
+ * File: stp-scheduler/frontend/app/SendToApi.ts
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 05/30/2026
+ * 
+ * Editors: Logan E,
+ *  
+ * Summary: Handles api calls to the backend
  */
 
 import { apiFetch } from "./apiClient";
 import { getFromBackendApi } from "./GetFromApi";
 
-export function generateId() {
-  return "fake-id";
-}
-
 /**
- * POST /csv/update
+ * POST /update/csv
  * @param csvData the data the backend will update with
  * @returns 
  */
@@ -27,14 +26,14 @@ export function updateFromCSV(csvData: any) {
       body: JSON.stringify(csvData),
     };
 
-    apiFetch(`/csv/update`, requestOptions)
+    apiFetch(`/update/csv`, requestOptions)
       .then((response) => response.json())
       .then((data) => (result = data));
 
     return result;
   } catch (error) {
-    alert(
-      "Error, database is not running, please refresh the page and try again or contact the Computer Science House",
+    console.log(
+      "Error, database is not running, please refresh the page and try again or contact the Computer Science House"
     );
   }
 }
@@ -56,9 +55,9 @@ export function regenerateSchedule() {
       .then((data) => (result = data));
 
     return result;
-  } catch (error) {
+  } catch (err) {
     alert(
-      "Error, database is not running, please refresh the page and try again or contact the Computer Science House",
+      "ERROR: The backend did not regenerate data: " + err,
     );
   }
 }

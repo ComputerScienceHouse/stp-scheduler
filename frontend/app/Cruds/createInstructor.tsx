@@ -1,10 +1,21 @@
+/**
+ * File: stp-scheduler/frontend/app/Cruds/createInstructor.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Component providing inputs to create a new instructor.
+ */
+
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
 
 var minWeight = "-1";
 var maxWeight = "1";
 
-export default function CreateTeacher(){
+export default function CreateInstructor(){
     const [name, setName] = useState<string>("no_name");
     const [isMentor, setIsMentor] = useState<boolean>(false);
     const [mathWeight, setMathWeight] = useState<number>(0);
@@ -34,17 +45,14 @@ export default function CreateTeacher(){
     }
 
     /**
-     * Create a teacher
+     * Create an instructor
      * 
      * @param e FormEvent<HTMLFormElement>
-     * @param teacher_name 
-     * @param subject_weights 
-     * @param is_mentor 
      */
-    function createTeacher(e: FormEvent<HTMLFormElement>){
+    function createInstructor(e: FormEvent<HTMLFormElement>){
         e.preventDefault(); // prevents page reload on form submission
         
-        var teacher_name: string = name;
+        var instructor_name: string = name;
         var subject_weights: Record<string, number> = {
             "math": mathWeight, 
             "english": englishWeight, 
@@ -58,14 +66,14 @@ export default function CreateTeacher(){
         var is_mentor: boolean = isMentor;
         var section_ids: string[] = sectionIds;
 
-        console.log("Teacher Creation Initiated: ");
-        console.log("teacher_name: " + teacher_name);
+        console.log("Instructor Creation Initiated: ");
+        console.log("instructor_name: " + instructor_name);
         console.log("subject_weights: " + JSON.stringify(subject_weights));
         console.log("is_mentor: " + is_mentor);
         console.log("section_ids: " + section_ids);
 
         API.createInstructor({
-            "name": teacher_name,
+            "name": instructor_name,
             "subject_weights": subject_weights,
             "is_mentor": is_mentor
             // "section_ids": section_ids
@@ -93,7 +101,7 @@ export default function CreateTeacher(){
         <details className="mb-2">
             <summary className="hover:backdrop-brightness-125 p-4">Create Instructor (Click to collapse/expand)</summary>
             <div className={"border-2 p-2 m-4 border-white/50"}>
-                <form name="createTeacherForm" onSubmit={(e) => createTeacher(e)}>
+                <form name="createInstructorForm" onSubmit={(e) => createInstructor(e)}>
                     <br />
                     <input type="text" id="name" className={"ml-4 border-2 p-1 hover:backdrop-brightness-125 active:backdrop-brightness-90"} onChange={(e) => setName(e.currentTarget.value)}
                         data-tooltip-id="my-tooltip" data-tooltip-content="Enter new student's name" />

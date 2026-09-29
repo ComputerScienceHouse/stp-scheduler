@@ -1,26 +1,23 @@
-import { getStudentName, getInstructorName } from "../HelperFunctions";
+/**
+ * File: stp-scheduler/frontend/app/Components/SectionCard.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Component for a section on the schedule.
+ */
+
+import { getStudentName, getInstructorName, getBackgroundColor } from "../HelperFunctions";
 import type { InstructorProps } from "../InstructorProps";
 import type { SectionProps } from "../SectionProps";
 import type { StudentProps } from "../StudentProps";
 
 interface SectionCardProps {
   section: SectionProps;
-  teachers: InstructorProps[];
+  instructors: InstructorProps[];
   students: StudentProps[];
-}
-
-function getBackgroundColor(subject: string) {
-  switch (subject.toLowerCase()) {
-    case "math":
-      return "#ff4040ff";
-    case "english":
-      return "#4a86e8ff";
-    case "asl":
-      return "#80c362ff";
-    default:
-      console.log("Invalid subject inputted");
-      break;
-  }
 }
 
 export function getSectionLevel(level: number): string {
@@ -36,7 +33,7 @@ export function getSectionLevel(level: number): string {
   }
 }
 
-export default function Section({ section, teachers, students }: SectionCardProps) {
+export default function Section({ section, instructors, students }: SectionCardProps) {
   return (
     <div
       className="flex grow col-span-1 row-span-1 p-4 pl-2 pr-2 text-lg justify-center items-center rounded-2xl flex-col"
@@ -44,7 +41,7 @@ export default function Section({ section, teachers, students }: SectionCardProp
         backgroundColor: getBackgroundColor(section.subject),
       }}
     >
-      {getInstructorName(teachers, section.instructorId)} -{" "}
+      {getInstructorName(instructors, section.instructorId)} -{" "}
       {getSectionLevel(section.level)}{" "}
       {section.subject.charAt(0).toUpperCase() + section.subject.slice(1)}
       <br />

@@ -1,3 +1,13 @@
+/**
+ * File: stp-scheduler/frontend/app/Components/Footer.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: The footer for the website
+ */
 
 export default function Footer() {
 

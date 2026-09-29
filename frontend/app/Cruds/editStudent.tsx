@@ -1,3 +1,14 @@
+/**
+ * File: stp-scheduler/frontend/app/Cruds/editStudent.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Component providing inputs to edit an existing student
+ */
+
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import * as API from '../SendToApi';
 import { getStudentById, getStudentName, getStudentSections, getStudentSubjectRankings, getInstructorName } from "../HelperFunctions";
@@ -8,7 +19,7 @@ import type { StudentProps } from "../StudentProps";
 interface EditStudentProps{
     sections: SectionProps[];
     students: StudentProps[];
-    teachers: InstructorProps[];
+    instructors: InstructorProps[];
 }
 
 /**
@@ -18,8 +29,8 @@ var selectedSections: string[] = [];
 var minRank = "0";
 var maxRank = "10";
 
-// TODO: update to require passing in all students, teachers, and sections so this file is not responsible for retreiving the global data.
-export default function EditStudent({sections, students, teachers}: EditStudentProps){
+// TODO: update to require passing in all students, instructors, and sections so this file is not responsible for retrieving the global data.
+export default function EditStudent({sections, students, instructors}: EditStudentProps){
     const [id, setId] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [mathScore, setMathScore] = useState<number>(5);
@@ -148,7 +159,7 @@ export default function EditStudent({sections, students, teachers}: EditStudentP
                         {sections.map((section) => (
                                 <div key={section.id} className="mb-2 border-b border-white/50">
                                     <input type="checkbox" id={section.id} value={section.id} checked={selectedSectionIds.includes(section.id)} className={"h-4 w-4 ml-8"} onChange={(e) => updateSections(e, e.currentTarget.value)}/>
-                                        <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getInstructorName(teachers, section.instructorId)} | {section.id}</label>    
+                                        <label className={"p-2 pr-4 pl-6"} >{section.subject} | {section.level} | {getInstructorName(instructors, section.instructorId)} | {section.id}</label>    
                                 </div>
                             ))}
                     
