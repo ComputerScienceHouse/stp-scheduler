@@ -1,8 +1,12 @@
 /**
- * Handles retrieving data from the backend
- *
- * Author: Addison A
- * Last Updated: 4/30/2026
+ * File: stp-scheduler/frontend/app/GetFromApi.ts
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 04/30/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Handles retrieving data from the backend
  */
 import { apiFetch } from "./apiClient";
 
@@ -32,6 +36,15 @@ export function setSectionIds(ids: any) {
 }
 
 /**
+ * Calls getFromBackendApi("Instructors"), getFromBackendApi("Students"), and getFromBackendApi("Sections")
+ */
+export async function getAll() {
+  getFromBackendApi("Instructors")
+  getFromBackendApi("Students")
+  getFromBackendApi("Sections")
+}
+
+/**
  * Fetches data from the backend. Use type "Instructors", "Students", or "Sections".
  */
 export async function getFromBackendApi(type: string) {
@@ -45,16 +58,16 @@ export async function getFromBackendApi(type: string) {
     const result = await response.json();
     console.log(result);
 
-    switch (type) {
-      case "Instructors":
+    switch (type.toLowerCase()) {
+      case "instructors":
         instructor_data = result;
         return;
 
-      case "Students":
+      case "students":
         student_data = result;
         return;
 
-      case "Sections":
+      case "sections":
         var ids: string[] = [];
         result.forEach((element: Record<string, any>) => {
           ids.push(element.id);
@@ -74,8 +87,5 @@ export async function getFromBackendApi(type: string) {
     }
   } catch (err) {
     console.log("ERROR: The backend did not retrieve data: " + err);
-    alert(
-      "Error, database is not running, please refresh the page and try again or contact the Computer Science House",
-    );
   }
 }

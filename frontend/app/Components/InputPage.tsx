@@ -1,15 +1,26 @@
-"use client";
+/**
+ * File: stp-scheduler/frontend/app/Components/InputPage.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Holds all the CRUDS and gives data to them
+ */
+
+'use client'
 
 import { useEffect, useState } from "react";
 import * as XLSX from "@e965/xlsx";
-import * as API from "../SendToApi";
+import * as SendAPI from "../SendToApi";
 import CreateStudent from "../Cruds/createStudent";
-import CreateTeacher from "../Cruds/createTeacher";
+import CreateInstructor from "../Cruds/createInstructor";
 import * as GetAPI from "../GetFromApi";
 import EditStudent from "../Cruds/editStudent";
-import EditTeacher from "../Cruds/editTeacher";
+import EditInstructor from "../Cruds/editInstructor";
 import DeleteStudent from "../Cruds/deleteStudent";
-import DeleteTeacher from "../Cruds/deleteTeacher";
+import DeleteInstructor from "../Cruds/deleteInstructor";
 import { Tooltip } from "react-tooltip";
 
 import { instructor_data, section_data, student_data } from "../GetFromApi";
@@ -25,10 +36,15 @@ function writeToJson(filePath: string, newJsonData: string) {
 }
 
 export default function InputPage({ path }: InputPageProps) {
+  const [mySections, setMySections] = useState(section_data);
+  const [myStudents, setMyStudents] = useState(student_data);
+  const [myInstructors, setMyInstructors] = useState(instructor_data);
+
   const [instructorDataStr, setInstructorDataStr] = useState<string>("");
   const [studentDataStr, setStudentDataStr] = useState<string>("");
   const [sectionIds, setSectionIds] = useState<string[]>([]);
   const [csvData, setCsvData] = useState<any>("");
+
 
   function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>, type: string) {
     const file = e.target.files?.[0];
@@ -51,7 +67,7 @@ export default function InputPage({ path }: InputPageProps) {
         writeToJson(path, JSON.stringify(json));
       } else if (type.toLowerCase() === "csv") {
         setCsvData(json);
-        API.updateFromCSV(json);
+        SendAPI.updateFromCSV(json);
       } else if (type.toLowerCase() === "student") {
         setStudentDataStr(JSON.stringify(json, null, 2));
         GetAPI.setGlobalStudentData(JSON.stringify(json, null, 2));
@@ -66,7 +82,7 @@ export default function InputPage({ path }: InputPageProps) {
     const f = e.target.files?.[0];
     if (!f) return;
     try {
-      const res = await API.importStudentsCsv(f);
+      const res = await SendAPI.importStudentsCsv(f);
       alert(`Imported ${res.imported} students from CSV.`);
       await GetAPI.getFromBackendApi("Students");
       await GetAPI.getFromBackendApi("Instructors");
@@ -80,7 +96,7 @@ export default function InputPage({ path }: InputPageProps) {
     const f = e.target.files?.[0];
     if (!f) return;
     try {
-      const res = await API.importInstructorsCsv(f);
+      const res = await SendAPI.importInstructorsCsv(f);
       alert(`Imported ${res.imported} instructors from CSV.`);
       await GetAPI.getFromBackendApi("Instructors");
     } catch (err) {
@@ -90,19 +106,45 @@ export default function InputPage({ path }: InputPageProps) {
   }
 
   useEffect(() => {
-    GetAPI.getFromBackendApi("Instructors");
-    GetAPI.getFromBackendApi("Students");
-    GetAPI.getFromBackendApi("Sections");
+    async function fetchData(){
+      await GetAPI.getFromBackendApi("Instructors");
+      await GetAPI.getFromBackendApi("Students");
+      await GetAPI.getFromBackendApi("Sections");
+      await SendAPI.regenerateSchedule();
+
+      setMySections(section_data);
+      setMyStudents(student_data);
+      setMyInstructors(instructor_data);
+    }
+  
+    fetchData();
 
     setSectionIds(GetAPI.section_ids);
   }, []);
+  
+  // Update data
+  // useEffect(() => {
+  //     setMySections(section_data);
+  //     // SendAPI.regenerateSchedule();
+  //     // GetAPI.getFromBackendApi("Sections");
+  // }, [section_data]);
+  // useEffect(() => {
+  //     setMyStudents(student_data);
+  //     // SendAPI.regenerateSchedule();
+  //     // GetAPI.getFromBackendApi("Students");
+  // }, [student_data]);
+  // useEffect(() => {
+  //     setMyInstructors(instructor_data);
+  //     // SendAPI.regenerateSchedule();
+  //     // GetAPI.getFromBackendApi("Instructors");
+  // }, [instructor_data]);
 
   return (
     <div className={"p-4 pl-16 mb-4 border-b-2 bg-[#f76902] text-white"}>
       <Tooltip id="my-tooltip" />
-      <div className="mb-4 text-black bg-white/90 p-4 rounded max-w-xl">
+      <div className="mb-4 border-2 p-4 rounded max-w-xl">
         <h3 className="font-semibold mb-2 text-sm">Load roster from CSV (Postgres)</h3>
-        <p className="text-xs mb-3 text-neutral-700">
+        <p className="text-xs mb-3">
           Replaces all rows for that table. Use the same column layout as{" "}
           <code>data/students.csv</code> and <code>data/instructors.csv</code>.
         </p>
@@ -111,7 +153,7 @@ export default function InputPage({ path }: InputPageProps) {
           <input
             type="file"
             accept=".csv"
-            className="block mt-1 border p-1 w-full"
+            className="hover:backdrop-brightness-125 active:backdrop-brightness-75 block mt-1 border p-1 w-full"
             onChange={onStudentsCsvUpload}
           />
         </label>
@@ -120,27 +162,22 @@ export default function InputPage({ path }: InputPageProps) {
           <input
             type="file"
             accept=".csv"
-            className="block mt-1 border p-1 w-full"
+            className="hover:backdrop-brightness-125 active:backdrop-brightness-75 block mt-1 border p-1 w-full"
             onChange={onInstructorsCsvUpload}
           />
         </label>
       </div>
 
-      <br />
-
-      <p>{instructorDataStr}</p>
-      <p>{studentDataStr}</p>
-
-      <CreateStudent sections={section_data} teachers={instructor_data}></CreateStudent>
-      <CreateTeacher></CreateTeacher>
+      <CreateStudent sections={mySections} instructors={myInstructors}></CreateStudent>
+      <CreateInstructor></CreateInstructor>
       <EditStudent
-        sections={section_data}
-        students={student_data}
-        teachers={instructor_data}
+        sections={mySections}
+        students={myStudents}
+        instructors={myInstructors}
       ></EditStudent>
-      <EditTeacher sections={section_data} teachers={instructor_data}></EditTeacher>
-      <DeleteStudent students={student_data}></DeleteStudent>
-      <DeleteTeacher></DeleteTeacher>
+      <EditInstructor sections={mySections} instructors={myInstructors}></EditInstructor>
+      <DeleteStudent students={myStudents}></DeleteStudent>
+      <DeleteInstructor instructors={myInstructors}></DeleteInstructor>
     </div>
   );
 }

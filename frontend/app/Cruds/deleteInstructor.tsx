@@ -1,12 +1,30 @@
+/**
+ * File: stp-scheduler/frontend/app/Cruds/deleteInstructor.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: Component providing inputs to delete an existing instructor.
+ */
+
 import { FormEvent, useEffect, useState } from "react";
 import * as API from "../SendToApi";
-import { getFromBackendApi, instructor_data } from "../GetFromApi";
+import { getFromBackendApi } from "../GetFromApi";
 import type { InstructorProps } from "../InstructorProps";
 
-export default function DeleteTeacher() {
+interface DeleteInstructorProps{
+    instructors: InstructorProps[];
+}
+export default function DeleteInstructor({instructors}: DeleteInstructorProps) {
   const [instructorId, setInstructorId] = useState<string>("");
-  const [instructors, setInstructors] = useState<InstructorProps[]>([]);
 
+  /**
+   * Delete an instructor
+   * 
+   * @param e FormEvent<HTMLFormElement>
+   */
   function deleteInstructorHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -15,13 +33,9 @@ export default function DeleteTeacher() {
     e.currentTarget.reset();
     setInstructorId("");
 
-    getFromBackendApi("Instructors");
-    setInstructors(instructor_data);
+    // TODO: update delete instructor in the API to do this because the file should not be responsible for re-updating data
+    // getFromBackendApi("Instructors");
   }
-
-  useEffect(() => {
-    setInstructors(instructor_data);
-  }, []);
 
   return (
     <details className="mb-2">

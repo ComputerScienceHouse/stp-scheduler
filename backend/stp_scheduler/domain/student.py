@@ -20,7 +20,12 @@ class Student:
         self.schedule: list["Section"] = []
 
     def is_full(self) -> bool:
-        return len(self.schedule) >= 6
+        # A student's schedule is full once they are enrolled in every class the
+        # scheduler produces: the three core (placement-tested) classes plus the
+        # five non-core classes, for eight sections total.
+        from stp_scheduler.domain.constants import ALL_CLASSES
+
+        return len(self.schedule) >= len(ALL_CLASSES)
 
     def get_subject_rankings(self) -> dict:
         return self.subject_rankings

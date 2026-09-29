@@ -7,3 +7,4 @@ bcrypt>=4.1.0,<5
 psycopg2-binary
 sqlalchemy>=2.0.0,<3
 alembic>=1.13.0,<2
+pytest>=7

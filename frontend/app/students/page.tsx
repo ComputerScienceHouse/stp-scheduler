@@ -1,8 +1,20 @@
+/**
+ * File: stp-scheduler/frontend/app/students/page.tsx
+ * Author: Addison A (ShadowArcher289)
+ * Created: i need to check :(
+ * Last Updated: 06/26/2026
+ * 
+ * Editors:
+ *  
+ * Summary: A page listing all students in the master schedule.
+ */
+
 "use client";
 
 import { useEffect, useState } from "react";
 import * as GetAPI from "../GetFromApi";
 import type { StudentProps } from "../StudentProps";
+import Link from "next/link";
 
 export default function StudentsPage(){
     const [studentData, setStudentData] = useState<StudentProps[]>([]);
@@ -29,6 +41,7 @@ export default function StudentsPage(){
                         {student.id}<br />
                         {student.name}<br />
                         {JSON.stringify(student.subject_rankings)}<br />
+                        <u className="text-blue-500"><Link href={`/schedules/${student.id}`}>Schedule</Link></u>
                         <br />
                     </li>
                 ))}
