@@ -6,18 +6,17 @@ entry in ``subject_weights``. ``max_sections`` is always **6** (no column for it
 in this format).
 """
 
+import csv
 import io
 import uuid
 from dataclasses import dataclass
-
-import pandas as pd
 
 from stp_scheduler.domain.constants import ALL_CLASSES
 
 # Map the class label from the CSV (lower-cased/stripped) to the canonical
 # subject key used throughout the domain. The CSV uses "English" for the core
 # reading/english class.
-_PIVOT_CLASS_TO_SUBJECT: dict[str, str] = {c: c for c in ALL_CLASSES}
+_PIVOT_CLASS_TO_SUBJECT: dict[str, str] = {c.lower(): c for c in ALL_CLASSES}
 _PIVOT_CLASS_TO_SUBJECT["english"] = "english"
 _PIVOT_CLASS_TO_SUBJECT["reading"] = "english"
 
@@ -27,16 +26,13 @@ _DEFAULT_WEIGHTS: dict[str, int] = {c: -1 for c in ALL_CLASSES}
 _MAX_SECTIONS_DEFAULT = 6
 
 
-def _norm_cols(df: pd.DataFrame) -> dict[str, str]:
-    return {str(c).strip().lower(): c for c in df.columns}
-
-
-def _parse_weight(cell) -> int:
-    if pd.isna(cell) or str(cell).strip() == "":
+def _parse_weight(cell: str | None) -> int:
+    """Safely convert weight cell content to integer qualification level."""
+    if not cell:
         return -1
     try:
-        return int(float(cell))
-    except ValueError:
+        return int(float(cell.strip()))
+    except (ValueError, TypeError):
         return -1
 
 
@@ -50,29 +46,42 @@ class ParsedInstructorRow:
 
 
 def parse_instructors_csv(content: bytes) -> list[ParsedInstructorRow]:
-    df = pd.read_csv(io.BytesIO(content))
-    colmap = _norm_cols(df)
-    if not {"teacher", "class", "weight"}.issubset(colmap.keys()):
+    """Parse uploaded instructor CSV into a list of ParsedInstructorRow objects."""
+    # utf-8-sig automatically strips any leading Byte Order Mark (BOM)
+    text_stream = io.StringIO(content.decode("utf-8-sig"))
+    reader = csv.DictReader(text_stream)
+
+    if not reader.fieldnames:
+        raise ValueError("CSV file is empty or missing headers")
+
+    # Normalize header mapping (strip whitespace and lower-case)
+    field_map = {name.strip().lower(): name for name in reader.fieldnames if name}
+
+    required_cols = {"teacher", "class", "weight"}
+    if not required_cols.issubset(field_map.keys()):
         raise ValueError("Instructors CSV must have columns: Teacher, Class, Weight")
 
-    t_col = colmap["teacher"]
-    c_col = colmap["class"]
-    w_col = colmap["weight"]
+    t_col = field_map["teacher"]
+    c_col = field_map["class"]
+    w_col = field_map["weight"]
 
     merged: dict[str, dict[str, int]] = {}
 
-    for _, row in df.iterrows():
-        raw_name = row[t_col]
-        if pd.isna(raw_name) or str(raw_name).strip() == "":
+    for row in reader:
+        raw_name = row.get(t_col)
+        if not raw_name or not raw_name.strip():
             continue
-        name = str(raw_name).strip()
+
+        name = raw_name.strip()
         if name not in merged:
             merged[name] = dict(_DEFAULT_WEIGHTS)
 
-        class_raw = row[c_col]
-        class_key = "" if pd.isna(class_raw) else str(class_raw).strip().lower()
-        weight = _parse_weight(row[w_col])
+        class_raw = row.get(c_col) or ""
+        class_key = class_raw.strip().lower()
+
+        weight = _parse_weight(row.get(w_col))
         subject = _PIVOT_CLASS_TO_SUBJECT.get(class_key)
+
         if subject:
             merged[name][subject] = weight
 

@@ -1,9 +1,8 @@
 """Parse uploaded student CSV (same shape as data/students.csv)."""
 
+import csv
 import io
 from dataclasses import dataclass
-
-import pandas as pd
 
 
 @dataclass
@@ -15,54 +14,54 @@ class ParsedStudentRow:
 
 
 def parse_students_csv(content: bytes) -> list[ParsedStudentRow]:
-    """
-    Expected headers include:
-    Student Name, Reading Ability Level, Math Ability Level, ASL Ability Level
-    """
-    df = pd.read_csv(io.BytesIO(content))
-    df.columns = [str(c).strip() for c in df.columns]
+    """Parse uploaded student CSV using Python's built-in csv module."""
+    text_stream = io.StringIO(content.decode("utf-8-sig"))  # Handles UTF-8 BOM
+    reader = csv.DictReader(text_stream)
 
-    name_col = next(
-        (c for c in df.columns if "name" in c.lower() and "student" in c.lower()),
-        None,
-    )
-    if name_col is None:
-        name_col = next((c for c in df.columns if "name" in c.lower()), None)
-    if name_col is None:
-        raise ValueError("CSV must contain a student name column")
+    if not reader.fieldnames:
+        raise ValueError("CSV file is empty or missing headers")
 
-    def col(*needles: str) -> str | None:
-        for c in df.columns:
-            low = c.lower()
-            if all(n in low for n in needles):
-                return c
+    field_map = {name.strip(): name for name in reader.fieldnames}
+    clean_fields = list(field_map.keys())
+
+    def find_col(*needles: str) -> str | None:
+        for field in clean_fields:
+            if all(n in field.lower() for n in needles):
+                return field_map[field]
         return None
 
-    eng = col("reading", "ability") or col("english")
-    math_c = col("math", "ability") or col("math")
-    asl_c = col("asl", "ability") or col("asl")
-    if not all([eng, math_c, asl_c]):
+    name_col = find_col("student", "name") or find_col("name")
+    eng_col = find_col("reading", "ability") or find_col("english")
+    math_col = find_col("math", "ability") or find_col("math")
+    asl_col = find_col("asl", "ability") or find_col("asl")
+
+    if not name_col:
+        raise ValueError("CSV must contain a student name column")
+    if not all([eng_col, math_col, asl_col]):
         raise ValueError(
             "CSV must contain reading/english, math, and ASL ability columns"
         )
 
-    out: list[ParsedStudentRow] = []
-    for _, row in df.iterrows():
-        name = str(row[name_col]).strip() if pd.notna(row[name_col]) else "Unknown"
-        if not name or name.lower() == "nan":
-            name = "Unknown"
+    def parse_int(value: str | None, default: int = 0) -> int:
+        if not value:
+            return default
+        try:
+            return int(float(value.strip()))
+        except (ValueError, TypeError):
+            return default
 
-        def to_int(v, default=0) -> int:
-            if pd.isna(v) or v == "":
-                return default
-            return int(float(v))
+    out: list[ParsedStudentRow] = []
+    for row in reader:
+        raw_name = (row.get(name_col) or "").strip()
+        name = raw_name if raw_name and raw_name.lower() != "nan" else "Unknown"
 
         out.append(
             ParsedStudentRow(
                 name=name,
-                english=to_int(row[eng]),
-                math=to_int(row[math_c]),
-                asl=to_int(row[asl_c]),
+                english=parse_int(row.get(eng_col)),
+                math=parse_int(row.get(math_col)),
+                asl=parse_int(row.get(asl_col)),
             )
         )
+
     return out
