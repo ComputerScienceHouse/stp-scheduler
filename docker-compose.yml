@@ -10,7 +10,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/stp-scheduler
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/stp-scheduler
       # JWT signing key — replace in production (minimum 32 characters).
       AUTH_SECRET: "local-docker-dev-secret-change-before-production-use"
       AUTH_USERNAME: admin
