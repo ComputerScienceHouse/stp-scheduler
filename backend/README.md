@@ -11,7 +11,7 @@ FastAPI service with PostgreSQL for instructors, students, sections, and enrollm
 
 | Variable | Purpose |
 |----------|---------|
-| `DATABASE_URL` | SQLAlchemy URL, e.g. `postgresql://postgres:postgres@localhost:5432/stp-scheduler` |
+| `DATABASE_URL` | SQLAlchemy URL, e.g. `postgresql+pscyopg://postgres:postgres@localhost:5432/stp-scheduler` |
 | `AUTH_SECRET` | JWT signing secret (≥32 chars). If unset, auth is disabled (local only). |
 | `AUTH_USERNAME` / `AUTH_PASSWORD` | Login credentials when auth is enabled |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | Optional; default `480` |
@@ -26,7 +26,7 @@ pip install -r requirements.txt
 Create the database (name must match `DATABASE_URL`), then apply migrations:
 
 ```bash
-export DATABASE_URL=postgresql://postgres:postgres@localhost:5432/stp-scheduler
+export DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/stp-scheduler
 alembic upgrade head
 ```
 
@@ -63,7 +63,7 @@ From `backend/`:
 
 ```bash
 docker build -t stp-scheduler .
-docker run -p 8000:8000 -e DATABASE_URL=postgresql://user:pass@host:5432/dbname stp-scheduler
+docker run -p 8000:8000 -e DATABASE_URL=postgresql+psycopg://user:pass@host:5432/dbname stp-scheduler
 ```
 
 From the repository root, Compose brings up Postgres, backend, and frontend; backend receives `DATABASE_URL` automatically. Wait for Postgres to be healthy before the API accepts traffic.
